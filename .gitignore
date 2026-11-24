@@ -1,0 +1,16 @@
+# local reference clones (study only)
+ref/
+
+# dependencies and build caches
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+/dist/
+/out/
+
+# local noise
+.DS_Store
+*.log
+.env
+.env.*
