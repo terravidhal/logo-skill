@@ -119,9 +119,9 @@ npm run capture
 
 The SVG build, the audit and the palette check run on Node 20+ with the standard library only.
 The capture script drives Chromium directly over the DevTools protocol, so no npm package is
-needed; it finds `CHROME_BIN`, a Playwright Chromium cache or a system Chrome. The GIF uses the
-system `ffmpeg` when present. The browser is for looking and for PNG captures; it is never used
-to generate the logo.
+needed; it finds `CHROME_BIN`, a Playwright Chromium cache or a system Chrome, and needs Node 22+
+for the built-in WebSocket client. The GIF uses the system `ffmpeg` when present. The browser is
+for looking and for PNG captures; it is never used to generate the logo.
 
 ## The example
 

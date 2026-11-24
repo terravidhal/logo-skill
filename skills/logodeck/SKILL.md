@@ -170,10 +170,10 @@ is still a limitation. Read `references/delivery.md` for the handover format.
 ```
 
 `symbolSmall` is optional: a simplified drawing with thicker negative space for the favicon.
-`altPalette` is optional: when present, build a second complete deck into `altOut` from the same
-two masters, so the client can compare two palettes without redrawing. All paths are relative to
-the manifest. The geometry values are unitless ratios; the build turns them into a composed
-`viewBox`.
+`altPalette` is optional: run the build again with `--palette altPalette --out altOut` to get a
+second complete deck from the same two masters, so the client can compare two palettes without
+redrawing. All paths are relative to the manifest. The geometry values are unitless ratios; the
+build turns them into a composed `viewBox`.
 
 ## What the deck contains
 

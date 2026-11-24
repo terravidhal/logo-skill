@@ -5,8 +5,9 @@
  *   npm run capture
  *
  * Chromium is found automatically (CHROME_BIN, the Playwright cache, or a system
- * install). No npm package is required. The demo GIF is assembled with a system
- * ffmpeg; without one the PNG captures are still written.
+ * install). No npm package is required. This file needs Node 22+ for the built-in
+ * WebSocket client; the skill build itself still runs on Node 20. The demo GIF is
+ * assembled with a system ffmpeg; without one the PNG captures are still written.
  *
  * Output:
  *   assets/readme/<slug>-1440-light.png   1440 px, light
@@ -75,6 +76,10 @@ function findFfmpeg() {
 }
 
 async function main() {
+  if (typeof WebSocket === "undefined") {
+    console.error("capture: Node 22+ is required for the built-in WebSocket client.");
+    process.exit(1);
+  }
   mkdirSync(OUT, { recursive: true });
   const browser = await launch();
   console.log(`chromium ${browser.chrome}`);
