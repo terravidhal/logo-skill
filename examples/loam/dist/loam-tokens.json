@@ -1,0 +1,62 @@
+{
+  "name": "moss-clay",
+  "label": "Moss & clay",
+  "note": "Grounded and botanical. Warm paper, deep green, terracotta accent.",
+  "light": {
+    "bg": "#F6F4EC",
+    "ink": "#16241D",
+    "brand": "#1F6F4A",
+    "accent": "#C2542D"
+  },
+  "dark": {
+    "bg": "#101A16",
+    "ink": "#EAF2EC",
+    "brand": "#64C79A",
+    "accent": "#F08A5D"
+  },
+  "contrast": [
+    {
+      "mode": "light",
+      "pair": "brand / bg",
+      "ratio": 5.56,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "pair": "ink / bg",
+      "ratio": 14.62,
+      "min": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "pair": "accent / bg",
+      "ratio": 4.15,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "brand / bg",
+      "ratio": 8.62,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "ink / bg",
+      "ratio": 15.58,
+      "min": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "accent / bg",
+      "ratio": 7.19,
+      "min": 3,
+      "pass": true
+    }
+  ],
+  "generatedBy": "logodeck"
+}

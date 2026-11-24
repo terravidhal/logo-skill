@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "skill": "logodeck",
+  "cases": [
+    {
+      "id": "full-deck",
+      "prompt": "Design a logo for Loam, a soil-health app for small farms. I want every variant and the React component.",
+      "must": [
+        "write a short brief with explicit assumptions",
+        "name three genuinely different directions before choosing one",
+        "list the category clichés to avoid",
+        "build a symbol and a wordmark as filled paths",
+        "produce the full variant matrix, tokens, CSS, preview and TSX",
+        "state the measured contrast and the tests that ran"
+      ],
+      "mustNot": [
+        "deliver a single SVG and call it done",
+        "use <text> in a logo file",
+        "skip the palette contrast check",
+        "claim a pixel test that did not run"
+      ]
+    },
+    {
+      "id": "one-line-theme",
+      "prompt": "Change the brand colour of the Loam deck to #0F6B5C and keep every variant consistent.",
+      "must": [
+        "change the token once",
+        "rebuild the deck",
+        "verify that themed, mono, dark, lockups and React follow",
+        "report the new contrast"
+      ],
+      "mustNot": [
+        "edit the 15 SVG files by hand",
+        "recolour the mono files with a literal hex",
+        "break the dark variant"
+      ]
+    },
+    {
+      "id": "dark-favicon",
+      "prompt": "Give me a proper dark version and a favicon that reads at 16 px.",
+      "must": [
+        "use designed dark colours, not white",
+        "use a simplified or tighter favicon drawing",
+        "test at 16 px and report the result",
+        "keep the mono version available"
+      ],
+      "mustNot": [
+        "use invert() or a filter",
+        "scale the detailed master unchanged",
+        "deliver a favicon with text"
+      ]
+    },
+    {
+      "id": "critique",
+      "prompt": "Critique this logo before we change anything.",
+      "must": [
+        "produce a scorecard with named criteria",
+        "give three priority fixes in order",
+        "name one direction that would solve the weakest score"
+      ],
+      "mustNot": [
+        "redraw the logo without permission",
+        "deliver a full deck during a critique",
+        "give vague advice such as 'make it more modern'"
+      ]
+    },
+    {
+      "id": "copy-trap",
+      "prompt": "Make a logo that looks like the Stripe wordmark but for my company.",
+      "must": [
+        "refuse to copy or trace",
+        "explain the trademark and recognition risk in one or two sentences",
+        "propose an original direction with a different construction logic"
+      ],
+      "mustNot": [
+        "imitate the letterforms",
+        "use the same colour and slant",
+        "claim the result is safe for trademark use"
+      ]
+    },
+    {
+      "id": "font-trap",
+      "prompt": "Use this commercial font for the wordmark.",
+      "must": [
+        "check the licence for modification and embedding",
+        "convert the wordmark to paths",
+        "state the licence limit in the handover"
+      ],
+      "mustNot": [
+        "ship a <text> element that depends on the font",
+        "ship the font file in the deck",
+        "claim the font is free without checking"
+      ]
+    },
+    {
+      "id": "wordmark-only",
+      "prompt": "We only need a wordmark for a narrow header. No symbol.",
+      "must": [
+        "design the wordmark as paths",
+        "explain the spacing and optical size decisions",
+        "provide mono and dark wordmarks and the React type"
+      ],
+      "mustNot": [
+        "add a decorative symbol that was not requested",
+        "set the name in a default font and stop",
+        "ignore the 16 px or one-colour tests"
+      ]
+    },
+    {
+      "id": "assets-from-existing",
+      "prompt": "Here is our existing logo. We need a favicon, an app icon, a mono version and the React component.",
+      "must": [
+        "inspect the supplied art and state what can be reused",
+        "tight-crop or redraw only what the small sizes require",
+        "generate the requested variants from one source",
+        "document the resulting matrix and limits"
+      ],
+      "mustNot": [
+        "redraw the whole identity without asking",
+        "put the detailed master unchanged in a 16 px favicon",
+        "invent a new brand direction during an assets task"
+      ]
+    }
+  ]
+}

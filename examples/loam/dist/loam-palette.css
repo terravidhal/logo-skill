@@ -1,0 +1,29 @@
+/* logodeck palette: moss-clay */
+:root {
+  --ld-bg: #F6F4EC;
+  --ld-ink: #16241D;
+  --ld-brand: #1F6F4A;
+  --ld-accent: #C2542D;
+  --ld-bg-dark: #101A16;
+  --ld-ink-dark: #EAF2EC;
+  --ld-brand-dark: #64C79A;
+  --ld-accent-dark: #F08A5D;
+  --ld-on-dark: #EAF2EC;
+}
+
+:root[data-theme="dark"],
+:root.dark {
+  --ld-bg: var(--ld-bg-dark);
+  --ld-ink: var(--ld-ink-dark);
+  --ld-brand: var(--ld-brand-dark);
+  --ld-accent: var(--ld-accent-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ld-bg: var(--ld-bg-dark);
+    --ld-ink: var(--ld-ink-dark);
+    --ld-brand: var(--ld-brand-dark);
+    --ld-accent: var(--ld-accent-dark);
+  }
+}

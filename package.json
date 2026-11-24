@@ -1,0 +1,26 @@
+{
+  "name": "logodeck",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Design an original logo and build the complete identity deck: SVG variants, accessible palette, preview and a typed React component.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "lint": "node scripts/check-skill.mjs",
+    "build:example": "node skills/logodeck/scripts/build.mjs examples/loam/logo.json",
+    "audit:example": "node skills/logodeck/scripts/audit.mjs examples/loam/dist",
+    "typecheck": "tsc --noEmit -p examples/typecheck/tsconfig.json",
+    "capture": "node examples/capture.mjs"
+  },
+  "keywords": [
+    "logo",
+    "identity",
+    "svg",
+    "design",
+    "agent-skill",
+    "react"
+  ]
+}

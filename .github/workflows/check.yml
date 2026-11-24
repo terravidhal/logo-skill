@@ -1,0 +1,61 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Repository checks, build and audit
+        run: npm run lint
+
+      - name: Install the React typecheck toolchain
+        run: npm install --no-package-lock --no-audit --no-fund --no-save typescript@5.6.3 react@19.0.0 react-dom@19.0.0 @types/react@19.0.0 @types/react-dom@19.0.0
+
+      - name: Typecheck the generated component
+        run: npm run typecheck
+
+      - name: Rebuild the example and prove reproducibility
+        run: npm run build:example
+
+      - name: The committed deck must not drift
+        run: git diff --exit-code -- examples/loam/dist
+
+      - name: Audit the deck
+        run: npm run audit:example
+
+  capture:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright
+        run: |
+          npm install --no-package-lock --no-audit --no-fund --no-save playwright
+          npx playwright install --with-deps chromium
+
+      - name: Build and capture
+        run: |
+          npm run build:example
+          npm run capture
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: readme-captures
+          path: assets/readme/*.png
+          if-no-files-found: error

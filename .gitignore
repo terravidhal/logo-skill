@@ -9,8 +9,14 @@ node_modules/
 /dist/
 /out/
 
+# local workflow markers
+.vague/
+
 # local noise
 .DS_Store
 *.log
 .env
 .env.*
+
+# capture scratch
+examples/.capture/
