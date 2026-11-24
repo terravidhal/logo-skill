@@ -1062,7 +1062,10 @@ export async function build(manifestFile, options = {}) {
   written.push(`${manifest.slug}-preview.html`);
 
   if (options.png || options.ico) {
-    const requested = String(options.png ?? "16,32,192,512")
+    const defaultSizes = options.ico ? "16,32,48" : "16,32,192,512";
+    const raw =
+      options.png === true ? defaultSizes : options.png ? String(options.png) : defaultSizes;
+    const requested = raw
       .split(",")
       .map((value) => Number(value.trim()))
       .filter((value) => Number.isFinite(value) && value > 0);
