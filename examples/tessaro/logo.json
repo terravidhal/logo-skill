@@ -1,0 +1,29 @@
+{
+  "name": "Tessaro",
+  "slug": "tessaro",
+  "component": "TessaroLogo",
+  "title": "Tessaro — modular architecture for tight city plots",
+  "promise": "Modular architecture for tight city plots.",
+  "sector": "Architecture · interiors",
+  "idea": "A T assembled from five tiles, with one module slipped a few millimetres out of line.",
+  "palette": "clay-cream",
+  "altPalette": "cobalt-mint",
+  "files": {
+    "symbol": "symbol.svg",
+    "wordmark": "wordmark.svg",
+    "symbolSmall": "symbol-small.svg"
+  },
+  "geometry": {
+    "symbolHeight": 1,
+    "wordmarkHeight": 0.42,
+    "gap": 0.3,
+    "padding": 0.08,
+    "stackedGap": 0.22,
+    "appIconScale": 0.62,
+    "appIconRadius": 0.225,
+    "faviconScale": 0.68,
+    "maskableScale": 0.5
+  },
+  "out": "dist",
+  "altOut": "dist-alt"
+}

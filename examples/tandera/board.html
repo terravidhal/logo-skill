@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-brand="tandera">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tandera — logodeck identity plate</title>
+<style>
+  :root {
+    --ld-bg:#F3F6FB;--ld-ink:#101B2D;--ld-brand:#1D4ED8;--ld-accent:#0F8A6E;--plate-bg:#F3F6FB;--plate-ink:#101B2D;
+    --ink-soft: color-mix(in srgb, var(--ld-ink) 64%, transparent);
+    --line: color-mix(in srgb, var(--ld-ink) 15%, transparent);
+    --surface: color-mix(in srgb, var(--ld-bg) 88%, white);
+    --shadow: 0 28px 70px rgba(10, 20, 15, .12);
+    color-scheme: light;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  html[data-theme="dark"] {
+    --ld-bg:#0A1220;--ld-ink:#E6EEF9;--ld-brand:#7EA6FF;--ld-accent:#57D3B0;--plate-bg:#0A1220;--plate-ink:#E6EEF9;
+    --ink-soft: color-mix(in srgb, var(--ld-ink) 66%, transparent);
+    --line: color-mix(in srgb, var(--ld-ink) 20%, transparent);
+    --surface: color-mix(in srgb, var(--ld-bg) 90%, white);
+    --shadow: 0 28px 70px rgba(0, 0, 0, .4);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ld-bg); color: var(--ld-ink); transition: background 170ms ease, color 170ms ease; }
+  a { color: inherit; }
+  .wrap { width: min(1240px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 72px; }
+  nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 26px; }
+  nav .crumb { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  nav .tools { display: flex; gap: 8px; flex-wrap: wrap; }
+  button, .button { font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ld-ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+  .hero { display: grid; grid-template-columns: 1.3fr .7fr; gap: 28px; align-items: stretch; padding: 24px 0 22px; }
+  .hero-main { display: flex; flex-direction: column; justify-content: space-between; gap: 30px; }
+  .eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+  h1 { font-size: clamp(56px, 8vw, 118px); line-height: .88; letter-spacing: -.045em; margin: 14px 0 18px; font-weight: 650; }
+  .promise { font-size: clamp(18px, 2.1vw, 26px); line-height: 1.35; max-width: 28ch; margin: 0; }
+  .idea { margin: 24px 0 0; font-size: 14px; line-height: 1.7; color: var(--ink-soft); max-width: 52ch; }
+  .hero-lockup { border: 1px solid var(--line); border-radius: 30px; background: var(--surface); box-shadow: var(--shadow); padding: 40px; display: grid; place-items: center; min-height: 250px; }
+  .hero-lockup svg { width: min(100%, 430px); height: auto; display: block; }
+  .dark-panel { border-radius: 30px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; box-shadow: var(--shadow); }
+  .dark-panel .eyebrow { color: color-mix(in srgb, currentColor 62%, transparent); }
+  .dark-panel svg { width: min(100%, 260px); height: auto; display: block; }
+  .section { margin-top: 52px; }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 20px; }
+  h2 { margin: 0; font-size: 15px; letter-spacing: .13em; text-transform: uppercase; font-weight: 600; }
+  .section-head p { margin: 0; color: var(--ink-soft); font-size: 13px; max-width: 52ch; }
+  .grid { display: grid; gap: 16px; }
+  .grid-5 { grid-template-columns: repeat(5, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .card { border: 1px solid var(--line); border-radius: 22px; background: var(--surface); padding: 22px; display: flex; flex-direction: column; gap: 16px; min-height: 176px; }
+  .card h3 { margin: 0; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  .card .art { flex: 1; display: grid; place-items: center; }
+  .card .art svg { display: block; max-width: 100%; height: auto; }
+  .art.symbol svg { width: 118px; height: 118px; }
+  .art.word svg { width: min(100%, 250px); height: auto; }
+  .art.lockup svg { width: min(100%, 330px); height: auto; }
+  .art.app svg { width: 92px; height: 92px; }
+  .mono { color: var(--ld-ink); }
+  .darkcard { border-color: transparent; }
+  .darkcard h3 { color: color-mix(in srgb, currentColor 62%, transparent); }
+  .darkcard .mono { color: inherit; }
+  .favicons { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; }
+  .favicons figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 7px; color: var(--ink-soft); font-size: 11px; }
+  .favicons svg, .favicons span svg { display: block; width: 100%; height: 100%; }
+  .palette-group { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 22px; }
+  .palette-group:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+  .palette-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .palette-title b { font-size: 17px; }
+  .palette-title span { color: var(--ink-soft); font-size: 13px; }
+  .plate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .plate { border-radius: 20px; padding: 18px; background: var(--plate-bg); color: var(--plate-ink); border: 1px solid color-mix(in srgb, var(--plate-ink) 14%, transparent); display: flex; flex-direction: column; gap: 13px; }
+  .plate.dark { border-color: rgba(255, 255, 255, .12); }
+  .plate-head { display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--plate-ink) 62%, transparent); }
+  .badge { border: 1px solid currentColor; border-radius: 999px; padding: 3px 8px; letter-spacing: .06em; }
+  .plate-lockup { min-height: 68px; display: flex; align-items: center; }
+  .plate-lockup svg { width: min(100%, 300px); height: auto; display: block; }
+  .swatch-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .swatch { display: flex; flex-direction: column; gap: 5px; font-size: 10px; min-width: 0; }
+  .swatch i { display: block; height: 30px; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--plate-ink) 18%, transparent); }
+  .swatch b { font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: color-mix(in srgb, var(--plate-ink) 65%, transparent); }
+  .swatch code { font: 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; opacity: .8; }
+  .plate-note { margin: 0; font-size: 11px; line-height: 1.5; color: color-mix(in srgb, var(--plate-ink) 66%, transparent); }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--ink-soft); font-weight: 600; }
+  td.pass { color: var(--ld-brand); font-weight: 600; }
+  td.fail { color: #B42318; font-weight: 600; }
+  .code { margin: 0; padding: 18px; border-radius: 18px; background: #0E1713; color: #E9F2EC; border: 1px solid rgba(255, 255, 255, .08); overflow: auto; font: 12px/1.8 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .files { border-top: 1px solid var(--line); padding: 10px 0; font-size: 12px; }
+  .files summary { cursor: pointer; color: var(--ink-soft); }
+  .files ul { columns: 2; gap: 20px; margin: 10px 0 0; padding: 0; list-style: none; }
+  .files li { break-inside: avoid; margin-bottom: 5px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  footer { margin-top: 54px; border-top: 1px solid var(--line); padding-top: 18px; display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; color: var(--ink-soft); font-size: 12px; }
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; }
+    .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3, .grid-2, .plate-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .wrap { width: calc(100% - 28px); padding-top: 16px; }
+    .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .hero-lockup { padding: 22px; }
+    .plate { padding: 14px; }
+    .swatch-row { grid-template-columns: repeat(2, 1fr); }
+    .files ul { columns: 1; }
+    h1 { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <span class="crumb"><a href="../site/index.html">logodeck</a> / identity plate / tandera</span>
+    <span class="tools">
+      <button type="button" id="theme">Toggle dark</button>
+      <a class="button" href="dist/tandera-preview.html">Open the preview</a>
+    </span>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-main">
+      <div>
+        <div class="eyebrow">Travel · cycling · fictional brand · palette cobalt-mint</div>
+        <h1>Tandera</h1>
+        <p class="promise">Quiet cycling routes for two.</p>
+        <p class="idea"><b>Idea.</b> Two wheels and one diagonal frame: a bicycle reduced to a route.</p>
+      </div>
+      <div class="hero-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.722 1.16" role="img" data-ld="tandera-lockup-horizontal">
+<title>Tandera — quiet cycling routes for two — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1" height="1" viewBox="24 24 192 192" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #1D4ED8)">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g></svg>
+  <svg x="1.38" y="0.37" width="2.262" height="0.42" viewBox="-7 -7 613.88 114" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #101B2D)">
+    <path fill-rule="evenodd" d="M0 7L55.08 7A7 7 0 0 0 55.08 -7L0 -7A7 7 0 0 1 0 7Z" />
+    <path fill-rule="evenodd" d="M20.54 0L20.54 100A7 7 0 0 0 34.54 100L34.54 0A7 7 0 0 1 20.54 0Z" />
+    <path fill-rule="evenodd" d="M94.734 102.172L127.374 2.172A7 7 0 0 0 114.066 -2.172L81.426 97.828A7 7 0 0 1 94.734 102.172ZM114.066 2.172L146.706 102.172A7 7 0 0 0 160.014 97.828L127.374 -2.172A7 7 0 0 1 114.066 2.172Z" />
+    <path fill-rule="evenodd" d="M102.36 71L139.08 71A7 7 0 0 0 139.08 57L102.36 57A7 7 0 0 1 102.36 71Z" />
+    <path fill-rule="evenodd" d="M193.36 100L193.36 0A7 7 0 0 0 179.36 0L179.36 100A7 7 0 0 1 193.36 100ZM180.335 3.564L239.495 103.564A7 7 0 0 0 251.545 96.436L192.385 -3.564A7 7 0 0 1 180.335 3.564ZM252.52 100L252.52 0A7 7 0 0 0 238.52 0L238.52 100A7 7 0 0 1 252.52 100Z" />
+    <path fill-rule="evenodd" d="M271.52 0L271.52 100A7 7 0 0 0 285.52 100L285.52 0A7 7 0 0 1 271.52 0Z" />
+    <path fill-rule="evenodd" d="M278.52 7L300.96 7A7 7 0 0 0 300.96 -7L278.52 -7A7 7 0 0 1 278.52 7ZM297.255 5.939L319.695 19.939A7 7 0 0 0 327.105 8.061L304.665 -5.939A7 7 0 0 1 297.255 5.939ZM316.862 16.501L322.982 32.501A7 7 0 0 0 336.058 27.499L329.938 11.499A7 7 0 0 1 316.862 16.501ZM322.52 30L322.52 70A7 7 0 0 0 336.52 70L336.52 30A7 7 0 0 1 322.52 30ZM322.982 67.499L316.862 83.499A7 7 0 0 0 329.938 88.501L336.058 72.501A7 7 0 0 1 322.982 67.499ZM319.695 80.061L297.255 94.061A7 7 0 0 0 304.665 105.939L327.105 91.939A7 7 0 0 1 319.695 80.061ZM300.96 93L278.52 93A7 7 0 0 0 278.52 107L300.96 107A7 7 0 0 1 300.96 93Z" />
+    <path fill-rule="evenodd" d="M359.6 0L359.6 100A7 7 0 0 0 373.6 100L373.6 0A7 7 0 0 1 359.6 0Z" />
+    <path fill-rule="evenodd" d="M366.6 7L413.52 7A7 7 0 0 0 413.52 -7L366.6 -7A7 7 0 0 1 366.6 7Z" />
+    <path fill-rule="evenodd" d="M366.6 57L403.32 57A7 7 0 0 0 403.32 43L366.6 43A7 7 0 0 1 366.6 57Z" />
+    <path fill-rule="evenodd" d="M366.6 107L413.52 107A7 7 0 0 0 413.52 93L366.6 93A7 7 0 0 1 366.6 107Z" />
+    <path fill-rule="evenodd" d="M441.56 0L441.56 100A7 7 0 0 0 455.56 100L455.56 0A7 7 0 0 1 441.56 0Z" />
+    <path fill-rule="evenodd" d="M448.56 7L473.04 7A7 7 0 0 0 473.04 -7L448.56 -7A7 7 0 0 1 448.56 7ZM469.692 6.147L488.052 16.147A7 7 0 0 0 494.748 3.853L476.388 -6.147A7 7 0 0 1 469.692 6.147ZM484.986 12.804L491.106 26.804A7 7 0 0 0 503.934 21.196L497.814 7.196A7 7 0 0 1 484.986 12.804ZM491.284 20.82L485.164 32.82A7 7 0 0 0 497.636 39.18L503.756 27.18A7 7 0 0 1 491.284 20.82ZM488.052 29.853L469.692 39.853A7 7 0 0 0 476.388 52.147L494.748 42.147A7 7 0 0 1 488.052 29.853ZM473.04 39L448.56 39A7 7 0 0 0 448.56 53L473.04 53A7 7 0 0 1 473.04 39Z" />
+    <path fill-rule="evenodd" d="M464.812 49.273L493.372 103.273A7 7 0 0 0 505.748 96.727L477.188 42.727A7 7 0 0 1 464.812 49.273Z" />
+    <path fill-rule="evenodd" d="M541.254 102.172L573.894 2.172A7 7 0 0 0 560.586 -2.172L527.946 97.828A7 7 0 0 1 541.254 102.172ZM560.586 2.172L593.226 102.172A7 7 0 0 0 606.534 97.828L573.894 -2.172A7 7 0 0 1 560.586 2.172Z" />
+    <path fill-rule="evenodd" d="M548.88 71L585.6 71A7 7 0 0 0 585.6 57L548.88 57A7 7 0 0 1 548.88 71Z" />
+  </g></svg>
+</svg>
+</div>
+    </div>
+    <aside class="dark-panel" style="background:#0A1220;color:#E6EEF9">
+      <div class="eyebrow">On dark</div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.422 1.8" role="img" data-ld="tandera-lockup-stacked-dark">
+<title>Tandera — quiet cycling routes for two — stacked lockup, dark background</title>
+<svg x="0.711" y="0.08" width="1" height="1" viewBox="24 24 192 192" preserveAspectRatio="xMidYMid meet"><g fill="#7EA6FF">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="2.262" height="0.42" viewBox="-7 -7 613.88 114" preserveAspectRatio="xMidYMid meet"><g fill="#E6EEF9">
+    <path fill-rule="evenodd" d="M0 7L55.08 7A7 7 0 0 0 55.08 -7L0 -7A7 7 0 0 1 0 7Z" />
+    <path fill-rule="evenodd" d="M20.54 0L20.54 100A7 7 0 0 0 34.54 100L34.54 0A7 7 0 0 1 20.54 0Z" />
+    <path fill-rule="evenodd" d="M94.734 102.172L127.374 2.172A7 7 0 0 0 114.066 -2.172L81.426 97.828A7 7 0 0 1 94.734 102.172ZM114.066 2.172L146.706 102.172A7 7 0 0 0 160.014 97.828L127.374 -2.172A7 7 0 0 1 114.066 2.172Z" />
+    <path fill-rule="evenodd" d="M102.36 71L139.08 71A7 7 0 0 0 139.08 57L102.36 57A7 7 0 0 1 102.36 71Z" />
+    <path fill-rule="evenodd" d="M193.36 100L193.36 0A7 7 0 0 0 179.36 0L179.36 100A7 7 0 0 1 193.36 100ZM180.335 3.564L239.495 103.564A7 7 0 0 0 251.545 96.436L192.385 -3.564A7 7 0 0 1 180.335 3.564ZM252.52 100L252.52 0A7 7 0 0 0 238.52 0L238.52 100A7 7 0 0 1 252.52 100Z" />
+    <path fill-rule="evenodd" d="M271.52 0L271.52 100A7 7 0 0 0 285.52 100L285.52 0A7 7 0 0 1 271.52 0Z" />
+    <path fill-rule="evenodd" d="M278.52 7L300.96 7A7 7 0 0 0 300.96 -7L278.52 -7A7 7 0 0 1 278.52 7ZM297.255 5.939L319.695 19.939A7 7 0 0 0 327.105 8.061L304.665 -5.939A7 7 0 0 1 297.255 5.939ZM316.862 16.501L322.982 32.501A7 7 0 0 0 336.058 27.499L329.938 11.499A7 7 0 0 1 316.862 16.501ZM322.52 30L322.52 70A7 7 0 0 0 336.52 70L336.52 30A7 7 0 0 1 322.52 30ZM322.982 67.499L316.862 83.499A7 7 0 0 0 329.938 88.501L336.058 72.501A7 7 0 0 1 322.982 67.499ZM319.695 80.061L297.255 94.061A7 7 0 0 0 304.665 105.939L327.105 91.939A7 7 0 0 1 319.695 80.061ZM300.96 93L278.52 93A7 7 0 0 0 278.52 107L300.96 107A7 7 0 0 1 300.96 93Z" />
+    <path fill-rule="evenodd" d="M359.6 0L359.6 100A7 7 0 0 0 373.6 100L373.6 0A7 7 0 0 1 359.6 0Z" />
+    <path fill-rule="evenodd" d="M366.6 7L413.52 7A7 7 0 0 0 413.52 -7L366.6 -7A7 7 0 0 1 366.6 7Z" />
+    <path fill-rule="evenodd" d="M366.6 57L403.32 57A7 7 0 0 0 403.32 43L366.6 43A7 7 0 0 1 366.6 57Z" />
+    <path fill-rule="evenodd" d="M366.6 107L413.52 107A7 7 0 0 0 413.52 93L366.6 93A7 7 0 0 1 366.6 107Z" />
+    <path fill-rule="evenodd" d="M441.56 0L441.56 100A7 7 0 0 0 455.56 100L455.56 0A7 7 0 0 1 441.56 0Z" />
+    <path fill-rule="evenodd" d="M448.56 7L473.04 7A7 7 0 0 0 473.04 -7L448.56 -7A7 7 0 0 1 448.56 7ZM469.692 6.147L488.052 16.147A7 7 0 0 0 494.748 3.853L476.388 -6.147A7 7 0 0 1 469.692 6.147ZM484.986 12.804L491.106 26.804A7 7 0 0 0 503.934 21.196L497.814 7.196A7 7 0 0 1 484.986 12.804ZM491.284 20.82L485.164 32.82A7 7 0 0 0 497.636 39.18L503.756 27.18A7 7 0 0 1 491.284 20.82ZM488.052 29.853L469.692 39.853A7 7 0 0 0 476.388 52.147L494.748 42.147A7 7 0 0 1 488.052 29.853ZM473.04 39L448.56 39A7 7 0 0 0 448.56 53L473.04 53A7 7 0 0 1 473.04 39Z" />
+    <path fill-rule="evenodd" d="M464.812 49.273L493.372 103.273A7 7 0 0 0 505.748 96.727L477.188 42.727A7 7 0 0 1 464.812 49.273Z" />
+    <path fill-rule="evenodd" d="M541.254 102.172L573.894 2.172A7 7 0 0 0 560.586 -2.172L527.946 97.828A7 7 0 0 1 541.254 102.172ZM560.586 2.172L593.226 102.172A7 7 0 0 0 606.534 97.828L573.894 -2.172A7 7 0 0 1 560.586 2.172Z" />
+    <path fill-rule="evenodd" d="M548.88 71L585.6 71A7 7 0 0 0 585.6 57L548.88 57A7 7 0 0 1 548.88 71Z" />
+  </g></svg>
+</svg>
+
+      <div class="eyebrow">3.97:1 lowest pair</div>
+    </aside>
+  </header>
+
+  <section class="section">
+    <div class="section-head"><h2>The mark</h2><p>One drawing, then the whole family: mono for one colour, a simplified favicon, a tile and a maskable icon.</p></div>
+    <div class="grid grid-5">
+      <div class="card"><h3>Symbol</h3><div class="art symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="24 24 192 192" role="img" data-ld="tandera-symbol">
+<title>Tandera — quiet cycling routes for two — symbol</title>
+<g fill="var(--ld-brand, #1D4ED8)">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Symbol mono</h3><div class="art symbol mono"><svg xmlns="http://www.w3.org/2000/svg" viewBox="24 24 192 192" role="img" data-ld="tandera-symbol-mono">
+<title>Tandera — quiet cycling routes for two — mono symbol</title>
+<g fill="currentColor">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g>
+</svg>
+</div></div>
+      <div class="card darkcard" style="background:#0A1220;color:#E6EEF9"><h3>Symbol dark</h3><div class="art symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="24 24 192 192" role="img" data-ld="tandera-symbol-dark">
+<title>Tandera — quiet cycling routes for two — symbol, dark background</title>
+<g fill="#7EA6FF">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Favicon</h3><div class="art"><div class="favicons">
+        <figure><span style="display:block;width:32px;height:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="tandera-favicon">
+<title>Tandera — quiet cycling routes for two — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#1D4ED8"/>
+<svg x="10.24" y="10.24" width="43.52" height="43.52" viewBox="20 20 200 200" preserveAspectRatio="xMidYMid meet"><g fill="#F3F6FB">
+    <path fill-rule="evenodd" d="M20 168A52 52 0 1 0 124 168A52 52 0 1 0 20 168ZM41 168A31 31 0 1 1 103 168A31 31 0 1 1 41 168Z" />
+    <path fill-rule="evenodd" d="M116 72A52 52 0 1 0 220 72A52 52 0 1 0 116 72ZM137 72A31 31 0 1 1 199 72A31 31 0 1 1 137 72Z" />
+    <path d="M84.021 180.021L180.021 84.021A17 17 0 0 0 155.979 59.979L59.979 155.979A17 17 0 0 1 84.021 180.021Z" />
+  </g></svg>
+</svg>
+</span><figcaption>32</figcaption></figure>
+        <figure><span style="display:block;width:16px;height:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="tandera-favicon">
+<title>Tandera — quiet cycling routes for two — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#1D4ED8"/>
+<svg x="10.24" y="10.24" width="43.52" height="43.52" viewBox="20 20 200 200" preserveAspectRatio="xMidYMid meet"><g fill="#F3F6FB">
+    <path fill-rule="evenodd" d="M20 168A52 52 0 1 0 124 168A52 52 0 1 0 20 168ZM41 168A31 31 0 1 1 103 168A31 31 0 1 1 41 168Z" />
+    <path fill-rule="evenodd" d="M116 72A52 52 0 1 0 220 72A52 52 0 1 0 116 72ZM137 72A31 31 0 1 1 199 72A31 31 0 1 1 137 72Z" />
+    <path d="M84.021 180.021L180.021 84.021A17 17 0 0 0 155.979 59.979L59.979 155.979A17 17 0 0 1 84.021 180.021Z" />
+  </g></svg>
+</svg>
+</span><figcaption>16</figcaption></figure>
+      </div></div></div>
+      <div class="card"><h3>App icon</h3><div class="art app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="tandera-app-icon">
+<title>Tandera — quiet cycling routes for two — app-icon</title>
+<rect width="512" height="512" rx="115.2" fill="#1D4ED8"/>
+<svg x="97.28" y="97.28" width="317.44" height="317.44" viewBox="24 24 192 192" preserveAspectRatio="xMidYMid meet"><g fill="#F3F6FB">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g></svg>
+</svg>
+</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Wordmark & lockups</h2><p>The name is drawn as paths. The lockups are composed from the same two masters, never retouched.</p></div>
+    <div class="grid grid-3">
+      <div class="card"><h3>Wordmark</h3><div class="art word"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 613.88 114" role="img" data-ld="tandera-wordmark">
+<title>Tandera — quiet cycling routes for two — wordmark</title>
+<g fill="var(--ld-ink, #101B2D)">
+    <path fill-rule="evenodd" d="M0 7L55.08 7A7 7 0 0 0 55.08 -7L0 -7A7 7 0 0 1 0 7Z" />
+    <path fill-rule="evenodd" d="M20.54 0L20.54 100A7 7 0 0 0 34.54 100L34.54 0A7 7 0 0 1 20.54 0Z" />
+    <path fill-rule="evenodd" d="M94.734 102.172L127.374 2.172A7 7 0 0 0 114.066 -2.172L81.426 97.828A7 7 0 0 1 94.734 102.172ZM114.066 2.172L146.706 102.172A7 7 0 0 0 160.014 97.828L127.374 -2.172A7 7 0 0 1 114.066 2.172Z" />
+    <path fill-rule="evenodd" d="M102.36 71L139.08 71A7 7 0 0 0 139.08 57L102.36 57A7 7 0 0 1 102.36 71Z" />
+    <path fill-rule="evenodd" d="M193.36 100L193.36 0A7 7 0 0 0 179.36 0L179.36 100A7 7 0 0 1 193.36 100ZM180.335 3.564L239.495 103.564A7 7 0 0 0 251.545 96.436L192.385 -3.564A7 7 0 0 1 180.335 3.564ZM252.52 100L252.52 0A7 7 0 0 0 238.52 0L238.52 100A7 7 0 0 1 252.52 100Z" />
+    <path fill-rule="evenodd" d="M271.52 0L271.52 100A7 7 0 0 0 285.52 100L285.52 0A7 7 0 0 1 271.52 0Z" />
+    <path fill-rule="evenodd" d="M278.52 7L300.96 7A7 7 0 0 0 300.96 -7L278.52 -7A7 7 0 0 1 278.52 7ZM297.255 5.939L319.695 19.939A7 7 0 0 0 327.105 8.061L304.665 -5.939A7 7 0 0 1 297.255 5.939ZM316.862 16.501L322.982 32.501A7 7 0 0 0 336.058 27.499L329.938 11.499A7 7 0 0 1 316.862 16.501ZM322.52 30L322.52 70A7 7 0 0 0 336.52 70L336.52 30A7 7 0 0 1 322.52 30ZM322.982 67.499L316.862 83.499A7 7 0 0 0 329.938 88.501L336.058 72.501A7 7 0 0 1 322.982 67.499ZM319.695 80.061L297.255 94.061A7 7 0 0 0 304.665 105.939L327.105 91.939A7 7 0 0 1 319.695 80.061ZM300.96 93L278.52 93A7 7 0 0 0 278.52 107L300.96 107A7 7 0 0 1 300.96 93Z" />
+    <path fill-rule="evenodd" d="M359.6 0L359.6 100A7 7 0 0 0 373.6 100L373.6 0A7 7 0 0 1 359.6 0Z" />
+    <path fill-rule="evenodd" d="M366.6 7L413.52 7A7 7 0 0 0 413.52 -7L366.6 -7A7 7 0 0 1 366.6 7Z" />
+    <path fill-rule="evenodd" d="M366.6 57L403.32 57A7 7 0 0 0 403.32 43L366.6 43A7 7 0 0 1 366.6 57Z" />
+    <path fill-rule="evenodd" d="M366.6 107L413.52 107A7 7 0 0 0 413.52 93L366.6 93A7 7 0 0 1 366.6 107Z" />
+    <path fill-rule="evenodd" d="M441.56 0L441.56 100A7 7 0 0 0 455.56 100L455.56 0A7 7 0 0 1 441.56 0Z" />
+    <path fill-rule="evenodd" d="M448.56 7L473.04 7A7 7 0 0 0 473.04 -7L448.56 -7A7 7 0 0 1 448.56 7ZM469.692 6.147L488.052 16.147A7 7 0 0 0 494.748 3.853L476.388 -6.147A7 7 0 0 1 469.692 6.147ZM484.986 12.804L491.106 26.804A7 7 0 0 0 503.934 21.196L497.814 7.196A7 7 0 0 1 484.986 12.804ZM491.284 20.82L485.164 32.82A7 7 0 0 0 497.636 39.18L503.756 27.18A7 7 0 0 1 491.284 20.82ZM488.052 29.853L469.692 39.853A7 7 0 0 0 476.388 52.147L494.748 42.147A7 7 0 0 1 488.052 29.853ZM473.04 39L448.56 39A7 7 0 0 0 448.56 53L473.04 53A7 7 0 0 1 473.04 39Z" />
+    <path fill-rule="evenodd" d="M464.812 49.273L493.372 103.273A7 7 0 0 0 505.748 96.727L477.188 42.727A7 7 0 0 1 464.812 49.273Z" />
+    <path fill-rule="evenodd" d="M541.254 102.172L573.894 2.172A7 7 0 0 0 560.586 -2.172L527.946 97.828A7 7 0 0 1 541.254 102.172ZM560.586 2.172L593.226 102.172A7 7 0 0 0 606.534 97.828L573.894 -2.172A7 7 0 0 1 560.586 2.172Z" />
+    <path fill-rule="evenodd" d="M548.88 71L585.6 71A7 7 0 0 0 585.6 57L548.88 57A7 7 0 0 1 548.88 71Z" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Horizontal</h3><div class="art lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.722 1.16" role="img" data-ld="tandera-lockup-horizontal">
+<title>Tandera — quiet cycling routes for two — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1" height="1" viewBox="24 24 192 192" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #1D4ED8)">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g></svg>
+  <svg x="1.38" y="0.37" width="2.262" height="0.42" viewBox="-7 -7 613.88 114" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #101B2D)">
+    <path fill-rule="evenodd" d="M0 7L55.08 7A7 7 0 0 0 55.08 -7L0 -7A7 7 0 0 1 0 7Z" />
+    <path fill-rule="evenodd" d="M20.54 0L20.54 100A7 7 0 0 0 34.54 100L34.54 0A7 7 0 0 1 20.54 0Z" />
+    <path fill-rule="evenodd" d="M94.734 102.172L127.374 2.172A7 7 0 0 0 114.066 -2.172L81.426 97.828A7 7 0 0 1 94.734 102.172ZM114.066 2.172L146.706 102.172A7 7 0 0 0 160.014 97.828L127.374 -2.172A7 7 0 0 1 114.066 2.172Z" />
+    <path fill-rule="evenodd" d="M102.36 71L139.08 71A7 7 0 0 0 139.08 57L102.36 57A7 7 0 0 1 102.36 71Z" />
+    <path fill-rule="evenodd" d="M193.36 100L193.36 0A7 7 0 0 0 179.36 0L179.36 100A7 7 0 0 1 193.36 100ZM180.335 3.564L239.495 103.564A7 7 0 0 0 251.545 96.436L192.385 -3.564A7 7 0 0 1 180.335 3.564ZM252.52 100L252.52 0A7 7 0 0 0 238.52 0L238.52 100A7 7 0 0 1 252.52 100Z" />
+    <path fill-rule="evenodd" d="M271.52 0L271.52 100A7 7 0 0 0 285.52 100L285.52 0A7 7 0 0 1 271.52 0Z" />
+    <path fill-rule="evenodd" d="M278.52 7L300.96 7A7 7 0 0 0 300.96 -7L278.52 -7A7 7 0 0 1 278.52 7ZM297.255 5.939L319.695 19.939A7 7 0 0 0 327.105 8.061L304.665 -5.939A7 7 0 0 1 297.255 5.939ZM316.862 16.501L322.982 32.501A7 7 0 0 0 336.058 27.499L329.938 11.499A7 7 0 0 1 316.862 16.501ZM322.52 30L322.52 70A7 7 0 0 0 336.52 70L336.52 30A7 7 0 0 1 322.52 30ZM322.982 67.499L316.862 83.499A7 7 0 0 0 329.938 88.501L336.058 72.501A7 7 0 0 1 322.982 67.499ZM319.695 80.061L297.255 94.061A7 7 0 0 0 304.665 105.939L327.105 91.939A7 7 0 0 1 319.695 80.061ZM300.96 93L278.52 93A7 7 0 0 0 278.52 107L300.96 107A7 7 0 0 1 300.96 93Z" />
+    <path fill-rule="evenodd" d="M359.6 0L359.6 100A7 7 0 0 0 373.6 100L373.6 0A7 7 0 0 1 359.6 0Z" />
+    <path fill-rule="evenodd" d="M366.6 7L413.52 7A7 7 0 0 0 413.52 -7L366.6 -7A7 7 0 0 1 366.6 7Z" />
+    <path fill-rule="evenodd" d="M366.6 57L403.32 57A7 7 0 0 0 403.32 43L366.6 43A7 7 0 0 1 366.6 57Z" />
+    <path fill-rule="evenodd" d="M366.6 107L413.52 107A7 7 0 0 0 413.52 93L366.6 93A7 7 0 0 1 366.6 107Z" />
+    <path fill-rule="evenodd" d="M441.56 0L441.56 100A7 7 0 0 0 455.56 100L455.56 0A7 7 0 0 1 441.56 0Z" />
+    <path fill-rule="evenodd" d="M448.56 7L473.04 7A7 7 0 0 0 473.04 -7L448.56 -7A7 7 0 0 1 448.56 7ZM469.692 6.147L488.052 16.147A7 7 0 0 0 494.748 3.853L476.388 -6.147A7 7 0 0 1 469.692 6.147ZM484.986 12.804L491.106 26.804A7 7 0 0 0 503.934 21.196L497.814 7.196A7 7 0 0 1 484.986 12.804ZM491.284 20.82L485.164 32.82A7 7 0 0 0 497.636 39.18L503.756 27.18A7 7 0 0 1 491.284 20.82ZM488.052 29.853L469.692 39.853A7 7 0 0 0 476.388 52.147L494.748 42.147A7 7 0 0 1 488.052 29.853ZM473.04 39L448.56 39A7 7 0 0 0 448.56 53L473.04 53A7 7 0 0 1 473.04 39Z" />
+    <path fill-rule="evenodd" d="M464.812 49.273L493.372 103.273A7 7 0 0 0 505.748 96.727L477.188 42.727A7 7 0 0 1 464.812 49.273Z" />
+    <path fill-rule="evenodd" d="M541.254 102.172L573.894 2.172A7 7 0 0 0 560.586 -2.172L527.946 97.828A7 7 0 0 1 541.254 102.172ZM560.586 2.172L593.226 102.172A7 7 0 0 0 606.534 97.828L573.894 -2.172A7 7 0 0 1 560.586 2.172Z" />
+    <path fill-rule="evenodd" d="M548.88 71L585.6 71A7 7 0 0 0 585.6 57L548.88 57A7 7 0 0 1 548.88 71Z" />
+  </g></svg>
+</svg>
+</div></div>
+      <div class="card darkcard" style="background:#0A1220;color:#E6EEF9"><h3>Stacked dark</h3><div class="art lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.422 1.8" role="img" data-ld="tandera-lockup-stacked-dark">
+<title>Tandera — quiet cycling routes for two — stacked lockup, dark background</title>
+<svg x="0.711" y="0.08" width="1" height="1" viewBox="24 24 192 192" preserveAspectRatio="xMidYMid meet"><g fill="#7EA6FF">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="2.262" height="0.42" viewBox="-7 -7 613.88 114" preserveAspectRatio="xMidYMid meet"><g fill="#E6EEF9">
+    <path fill-rule="evenodd" d="M0 7L55.08 7A7 7 0 0 0 55.08 -7L0 -7A7 7 0 0 1 0 7Z" />
+    <path fill-rule="evenodd" d="M20.54 0L20.54 100A7 7 0 0 0 34.54 100L34.54 0A7 7 0 0 1 20.54 0Z" />
+    <path fill-rule="evenodd" d="M94.734 102.172L127.374 2.172A7 7 0 0 0 114.066 -2.172L81.426 97.828A7 7 0 0 1 94.734 102.172ZM114.066 2.172L146.706 102.172A7 7 0 0 0 160.014 97.828L127.374 -2.172A7 7 0 0 1 114.066 2.172Z" />
+    <path fill-rule="evenodd" d="M102.36 71L139.08 71A7 7 0 0 0 139.08 57L102.36 57A7 7 0 0 1 102.36 71Z" />
+    <path fill-rule="evenodd" d="M193.36 100L193.36 0A7 7 0 0 0 179.36 0L179.36 100A7 7 0 0 1 193.36 100ZM180.335 3.564L239.495 103.564A7 7 0 0 0 251.545 96.436L192.385 -3.564A7 7 0 0 1 180.335 3.564ZM252.52 100L252.52 0A7 7 0 0 0 238.52 0L238.52 100A7 7 0 0 1 252.52 100Z" />
+    <path fill-rule="evenodd" d="M271.52 0L271.52 100A7 7 0 0 0 285.52 100L285.52 0A7 7 0 0 1 271.52 0Z" />
+    <path fill-rule="evenodd" d="M278.52 7L300.96 7A7 7 0 0 0 300.96 -7L278.52 -7A7 7 0 0 1 278.52 7ZM297.255 5.939L319.695 19.939A7 7 0 0 0 327.105 8.061L304.665 -5.939A7 7 0 0 1 297.255 5.939ZM316.862 16.501L322.982 32.501A7 7 0 0 0 336.058 27.499L329.938 11.499A7 7 0 0 1 316.862 16.501ZM322.52 30L322.52 70A7 7 0 0 0 336.52 70L336.52 30A7 7 0 0 1 322.52 30ZM322.982 67.499L316.862 83.499A7 7 0 0 0 329.938 88.501L336.058 72.501A7 7 0 0 1 322.982 67.499ZM319.695 80.061L297.255 94.061A7 7 0 0 0 304.665 105.939L327.105 91.939A7 7 0 0 1 319.695 80.061ZM300.96 93L278.52 93A7 7 0 0 0 278.52 107L300.96 107A7 7 0 0 1 300.96 93Z" />
+    <path fill-rule="evenodd" d="M359.6 0L359.6 100A7 7 0 0 0 373.6 100L373.6 0A7 7 0 0 1 359.6 0Z" />
+    <path fill-rule="evenodd" d="M366.6 7L413.52 7A7 7 0 0 0 413.52 -7L366.6 -7A7 7 0 0 1 366.6 7Z" />
+    <path fill-rule="evenodd" d="M366.6 57L403.32 57A7 7 0 0 0 403.32 43L366.6 43A7 7 0 0 1 366.6 57Z" />
+    <path fill-rule="evenodd" d="M366.6 107L413.52 107A7 7 0 0 0 413.52 93L366.6 93A7 7 0 0 1 366.6 107Z" />
+    <path fill-rule="evenodd" d="M441.56 0L441.56 100A7 7 0 0 0 455.56 100L455.56 0A7 7 0 0 1 441.56 0Z" />
+    <path fill-rule="evenodd" d="M448.56 7L473.04 7A7 7 0 0 0 473.04 -7L448.56 -7A7 7 0 0 1 448.56 7ZM469.692 6.147L488.052 16.147A7 7 0 0 0 494.748 3.853L476.388 -6.147A7 7 0 0 1 469.692 6.147ZM484.986 12.804L491.106 26.804A7 7 0 0 0 503.934 21.196L497.814 7.196A7 7 0 0 1 484.986 12.804ZM491.284 20.82L485.164 32.82A7 7 0 0 0 497.636 39.18L503.756 27.18A7 7 0 0 1 491.284 20.82ZM488.052 29.853L469.692 39.853A7 7 0 0 0 476.388 52.147L494.748 42.147A7 7 0 0 1 488.052 29.853ZM473.04 39L448.56 39A7 7 0 0 0 448.56 53L473.04 53A7 7 0 0 1 473.04 39Z" />
+    <path fill-rule="evenodd" d="M464.812 49.273L493.372 103.273A7 7 0 0 0 505.748 96.727L477.188 42.727A7 7 0 0 1 464.812 49.273Z" />
+    <path fill-rule="evenodd" d="M541.254 102.172L573.894 2.172A7 7 0 0 0 560.586 -2.172L527.946 97.828A7 7 0 0 1 541.254 102.172ZM560.586 2.172L593.226 102.172A7 7 0 0 0 606.534 97.828L573.894 -2.172A7 7 0 0 1 560.586 2.172Z" />
+    <path fill-rule="evenodd" d="M548.88 71L585.6 71A7 7 0 0 0 585.6 57L548.88 57A7 7 0 0 1 548.88 71Z" />
+  </g></svg>
+</svg>
+</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Two palettes</h2><p>Every pair is measured in light and dark. The drawing never changes; only the tokens do.</p></div>
+    <div class="palette-group">
+      <div class="palette-title"><b>Cobalt &amp; mint</b><span>Clear and technical without falling back to default blue-on-white. · primary</span></div>
+      <div class="plate-grid">
+        <article class="plate light" style="--ld-bg:#F3F6FB;--ld-ink:#101B2D;--ld-brand:#1D4ED8;--ld-accent:#0F8A6E;--plate-bg:#F3F6FB;--plate-ink:#101B2D">
+    <div class="plate-head"><span>Primary</span><span class="badge">light</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.722 1.16" role="img" data-ld="tandera-lockup-horizontal">
+<title>Tandera — quiet cycling routes for two — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1" height="1" viewBox="24 24 192 192" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #1D4ED8)">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g></svg>
+  <svg x="1.38" y="0.37" width="2.262" height="0.42" viewBox="-7 -7 613.88 114" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #101B2D)">
+    <path fill-rule="evenodd" d="M0 7L55.08 7A7 7 0 0 0 55.08 -7L0 -7A7 7 0 0 1 0 7Z" />
+    <path fill-rule="evenodd" d="M20.54 0L20.54 100A7 7 0 0 0 34.54 100L34.54 0A7 7 0 0 1 20.54 0Z" />
+    <path fill-rule="evenodd" d="M94.734 102.172L127.374 2.172A7 7 0 0 0 114.066 -2.172L81.426 97.828A7 7 0 0 1 94.734 102.172ZM114.066 2.172L146.706 102.172A7 7 0 0 0 160.014 97.828L127.374 -2.172A7 7 0 0 1 114.066 2.172Z" />
+    <path fill-rule="evenodd" d="M102.36 71L139.08 71A7 7 0 0 0 139.08 57L102.36 57A7 7 0 0 1 102.36 71Z" />
+    <path fill-rule="evenodd" d="M193.36 100L193.36 0A7 7 0 0 0 179.36 0L179.36 100A7 7 0 0 1 193.36 100ZM180.335 3.564L239.495 103.564A7 7 0 0 0 251.545 96.436L192.385 -3.564A7 7 0 0 1 180.335 3.564ZM252.52 100L252.52 0A7 7 0 0 0 238.52 0L238.52 100A7 7 0 0 1 252.52 100Z" />
+    <path fill-rule="evenodd" d="M271.52 0L271.52 100A7 7 0 0 0 285.52 100L285.52 0A7 7 0 0 1 271.52 0Z" />
+    <path fill-rule="evenodd" d="M278.52 7L300.96 7A7 7 0 0 0 300.96 -7L278.52 -7A7 7 0 0 1 278.52 7ZM297.255 5.939L319.695 19.939A7 7 0 0 0 327.105 8.061L304.665 -5.939A7 7 0 0 1 297.255 5.939ZM316.862 16.501L322.982 32.501A7 7 0 0 0 336.058 27.499L329.938 11.499A7 7 0 0 1 316.862 16.501ZM322.52 30L322.52 70A7 7 0 0 0 336.52 70L336.52 30A7 7 0 0 1 322.52 30ZM322.982 67.499L316.862 83.499A7 7 0 0 0 329.938 88.501L336.058 72.501A7 7 0 0 1 322.982 67.499ZM319.695 80.061L297.255 94.061A7 7 0 0 0 304.665 105.939L327.105 91.939A7 7 0 0 1 319.695 80.061ZM300.96 93L278.52 93A7 7 0 0 0 278.52 107L300.96 107A7 7 0 0 1 300.96 93Z" />
+    <path fill-rule="evenodd" d="M359.6 0L359.6 100A7 7 0 0 0 373.6 100L373.6 0A7 7 0 0 1 359.6 0Z" />
+    <path fill-rule="evenodd" d="M366.6 7L413.52 7A7 7 0 0 0 413.52 -7L366.6 -7A7 7 0 0 1 366.6 7Z" />
+    <path fill-rule="evenodd" d="M366.6 57L403.32 57A7 7 0 0 0 403.32 43L366.6 43A7 7 0 0 1 366.6 57Z" />
+    <path fill-rule="evenodd" d="M366.6 107L413.52 107A7 7 0 0 0 413.52 93L366.6 93A7 7 0 0 1 366.6 107Z" />
+    <path fill-rule="evenodd" d="M441.56 0L441.56 100A7 7 0 0 0 455.56 100L455.56 0A7 7 0 0 1 441.56 0Z" />
+    <path fill-rule="evenodd" d="M448.56 7L473.04 7A7 7 0 0 0 473.04 -7L448.56 -7A7 7 0 0 1 448.56 7ZM469.692 6.147L488.052 16.147A7 7 0 0 0 494.748 3.853L476.388 -6.147A7 7 0 0 1 469.692 6.147ZM484.986 12.804L491.106 26.804A7 7 0 0 0 503.934 21.196L497.814 7.196A7 7 0 0 1 484.986 12.804ZM491.284 20.82L485.164 32.82A7 7 0 0 0 497.636 39.18L503.756 27.18A7 7 0 0 1 491.284 20.82ZM488.052 29.853L469.692 39.853A7 7 0 0 0 476.388 52.147L494.748 42.147A7 7 0 0 1 488.052 29.853ZM473.04 39L448.56 39A7 7 0 0 0 448.56 53L473.04 53A7 7 0 0 1 473.04 39Z" />
+    <path fill-rule="evenodd" d="M464.812 49.273L493.372 103.273A7 7 0 0 0 505.748 96.727L477.188 42.727A7 7 0 0 1 464.812 49.273Z" />
+    <path fill-rule="evenodd" d="M541.254 102.172L573.894 2.172A7 7 0 0 0 560.586 -2.172L527.946 97.828A7 7 0 0 1 541.254 102.172ZM560.586 2.172L593.226 102.172A7 7 0 0 0 606.534 97.828L573.894 -2.172A7 7 0 0 1 560.586 2.172Z" />
+    <path fill-rule="evenodd" d="M548.88 71L585.6 71A7 7 0 0 0 585.6 57L548.88 57A7 7 0 0 1 548.88 71Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#F3F6FB"></i><b>bg</b><code>#F3F6FB</code></span><span class="swatch"><i style="background:#101B2D"></i><b>ink</b><code>#101B2D</code></span><span class="swatch"><i style="background:#1D4ED8"></i><b>brand</b><code>#1D4ED8</code></span><span class="swatch"><i style="background:#0F8A6E"></i><b>accent</b><code>#0F8A6E</code></span></div>
+    <p class="plate-note">Lowest pair <b>3.97:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+        <article class="plate dark" style="--ld-bg:#0A1220;--ld-ink:#E6EEF9;--ld-brand:#7EA6FF;--ld-accent:#57D3B0;--plate-bg:#0A1220;--plate-ink:#E6EEF9">
+    <div class="plate-head"><span>Primary</span><span class="badge">dark</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.722 1.16" role="img" data-ld="tandera-lockup-horizontal-dark">
+<title>Tandera — quiet cycling routes for two — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="1" height="1" viewBox="24 24 192 192" preserveAspectRatio="xMidYMid meet"><g fill="#7EA6FF">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g></svg>
+  <svg x="1.38" y="0.37" width="2.262" height="0.42" viewBox="-7 -7 613.88 114" preserveAspectRatio="xMidYMid meet"><g fill="#E6EEF9">
+    <path fill-rule="evenodd" d="M0 7L55.08 7A7 7 0 0 0 55.08 -7L0 -7A7 7 0 0 1 0 7Z" />
+    <path fill-rule="evenodd" d="M20.54 0L20.54 100A7 7 0 0 0 34.54 100L34.54 0A7 7 0 0 1 20.54 0Z" />
+    <path fill-rule="evenodd" d="M94.734 102.172L127.374 2.172A7 7 0 0 0 114.066 -2.172L81.426 97.828A7 7 0 0 1 94.734 102.172ZM114.066 2.172L146.706 102.172A7 7 0 0 0 160.014 97.828L127.374 -2.172A7 7 0 0 1 114.066 2.172Z" />
+    <path fill-rule="evenodd" d="M102.36 71L139.08 71A7 7 0 0 0 139.08 57L102.36 57A7 7 0 0 1 102.36 71Z" />
+    <path fill-rule="evenodd" d="M193.36 100L193.36 0A7 7 0 0 0 179.36 0L179.36 100A7 7 0 0 1 193.36 100ZM180.335 3.564L239.495 103.564A7 7 0 0 0 251.545 96.436L192.385 -3.564A7 7 0 0 1 180.335 3.564ZM252.52 100L252.52 0A7 7 0 0 0 238.52 0L238.52 100A7 7 0 0 1 252.52 100Z" />
+    <path fill-rule="evenodd" d="M271.52 0L271.52 100A7 7 0 0 0 285.52 100L285.52 0A7 7 0 0 1 271.52 0Z" />
+    <path fill-rule="evenodd" d="M278.52 7L300.96 7A7 7 0 0 0 300.96 -7L278.52 -7A7 7 0 0 1 278.52 7ZM297.255 5.939L319.695 19.939A7 7 0 0 0 327.105 8.061L304.665 -5.939A7 7 0 0 1 297.255 5.939ZM316.862 16.501L322.982 32.501A7 7 0 0 0 336.058 27.499L329.938 11.499A7 7 0 0 1 316.862 16.501ZM322.52 30L322.52 70A7 7 0 0 0 336.52 70L336.52 30A7 7 0 0 1 322.52 30ZM322.982 67.499L316.862 83.499A7 7 0 0 0 329.938 88.501L336.058 72.501A7 7 0 0 1 322.982 67.499ZM319.695 80.061L297.255 94.061A7 7 0 0 0 304.665 105.939L327.105 91.939A7 7 0 0 1 319.695 80.061ZM300.96 93L278.52 93A7 7 0 0 0 278.52 107L300.96 107A7 7 0 0 1 300.96 93Z" />
+    <path fill-rule="evenodd" d="M359.6 0L359.6 100A7 7 0 0 0 373.6 100L373.6 0A7 7 0 0 1 359.6 0Z" />
+    <path fill-rule="evenodd" d="M366.6 7L413.52 7A7 7 0 0 0 413.52 -7L366.6 -7A7 7 0 0 1 366.6 7Z" />
+    <path fill-rule="evenodd" d="M366.6 57L403.32 57A7 7 0 0 0 403.32 43L366.6 43A7 7 0 0 1 366.6 57Z" />
+    <path fill-rule="evenodd" d="M366.6 107L413.52 107A7 7 0 0 0 413.52 93L366.6 93A7 7 0 0 1 366.6 107Z" />
+    <path fill-rule="evenodd" d="M441.56 0L441.56 100A7 7 0 0 0 455.56 100L455.56 0A7 7 0 0 1 441.56 0Z" />
+    <path fill-rule="evenodd" d="M448.56 7L473.04 7A7 7 0 0 0 473.04 -7L448.56 -7A7 7 0 0 1 448.56 7ZM469.692 6.147L488.052 16.147A7 7 0 0 0 494.748 3.853L476.388 -6.147A7 7 0 0 1 469.692 6.147ZM484.986 12.804L491.106 26.804A7 7 0 0 0 503.934 21.196L497.814 7.196A7 7 0 0 1 484.986 12.804ZM491.284 20.82L485.164 32.82A7 7 0 0 0 497.636 39.18L503.756 27.18A7 7 0 0 1 491.284 20.82ZM488.052 29.853L469.692 39.853A7 7 0 0 0 476.388 52.147L494.748 42.147A7 7 0 0 1 488.052 29.853ZM473.04 39L448.56 39A7 7 0 0 0 448.56 53L473.04 53A7 7 0 0 1 473.04 39Z" />
+    <path fill-rule="evenodd" d="M464.812 49.273L493.372 103.273A7 7 0 0 0 505.748 96.727L477.188 42.727A7 7 0 0 1 464.812 49.273Z" />
+    <path fill-rule="evenodd" d="M541.254 102.172L573.894 2.172A7 7 0 0 0 560.586 -2.172L527.946 97.828A7 7 0 0 1 541.254 102.172ZM560.586 2.172L593.226 102.172A7 7 0 0 0 606.534 97.828L573.894 -2.172A7 7 0 0 1 560.586 2.172Z" />
+    <path fill-rule="evenodd" d="M548.88 71L585.6 71A7 7 0 0 0 585.6 57L548.88 57A7 7 0 0 1 548.88 71Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#0A1220"></i><b>bg</b><code>#0A1220</code></span><span class="swatch"><i style="background:#E6EEF9"></i><b>ink</b><code>#E6EEF9</code></span><span class="swatch"><i style="background:#7EA6FF"></i><b>brand</b><code>#7EA6FF</code></span><span class="swatch"><i style="background:#57D3B0"></i><b>accent</b><code>#57D3B0</code></span></div>
+    <p class="plate-note">Lowest pair <b>3.97:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+      </div>
+    </div>
+    <div class="palette-group">
+      <div class="palette-title"><b>Spruce &amp; coral</b><span>Cool forest green with a warm signal accent. Good for climate and care products. · alternate</span></div>
+      <div class="plate-grid">
+        <article class="plate light" style="--ld-bg:#F4F7F5;--ld-ink:#14211F;--ld-brand:#0E5C4A;--ld-accent:#D9503F;--plate-bg:#F4F7F5;--plate-ink:#14211F">
+    <div class="plate-head"><span>Alternate</span><span class="badge">light</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.722 1.16" role="img" data-ld="tandera-lockup-horizontal">
+<title>Tandera — quiet cycling routes for two — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1" height="1" viewBox="24 24 192 192" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #0E5C4A)">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g></svg>
+  <svg x="1.38" y="0.37" width="2.262" height="0.42" viewBox="-7 -7 613.88 114" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #14211F)">
+    <path fill-rule="evenodd" d="M0 7L55.08 7A7 7 0 0 0 55.08 -7L0 -7A7 7 0 0 1 0 7Z" />
+    <path fill-rule="evenodd" d="M20.54 0L20.54 100A7 7 0 0 0 34.54 100L34.54 0A7 7 0 0 1 20.54 0Z" />
+    <path fill-rule="evenodd" d="M94.734 102.172L127.374 2.172A7 7 0 0 0 114.066 -2.172L81.426 97.828A7 7 0 0 1 94.734 102.172ZM114.066 2.172L146.706 102.172A7 7 0 0 0 160.014 97.828L127.374 -2.172A7 7 0 0 1 114.066 2.172Z" />
+    <path fill-rule="evenodd" d="M102.36 71L139.08 71A7 7 0 0 0 139.08 57L102.36 57A7 7 0 0 1 102.36 71Z" />
+    <path fill-rule="evenodd" d="M193.36 100L193.36 0A7 7 0 0 0 179.36 0L179.36 100A7 7 0 0 1 193.36 100ZM180.335 3.564L239.495 103.564A7 7 0 0 0 251.545 96.436L192.385 -3.564A7 7 0 0 1 180.335 3.564ZM252.52 100L252.52 0A7 7 0 0 0 238.52 0L238.52 100A7 7 0 0 1 252.52 100Z" />
+    <path fill-rule="evenodd" d="M271.52 0L271.52 100A7 7 0 0 0 285.52 100L285.52 0A7 7 0 0 1 271.52 0Z" />
+    <path fill-rule="evenodd" d="M278.52 7L300.96 7A7 7 0 0 0 300.96 -7L278.52 -7A7 7 0 0 1 278.52 7ZM297.255 5.939L319.695 19.939A7 7 0 0 0 327.105 8.061L304.665 -5.939A7 7 0 0 1 297.255 5.939ZM316.862 16.501L322.982 32.501A7 7 0 0 0 336.058 27.499L329.938 11.499A7 7 0 0 1 316.862 16.501ZM322.52 30L322.52 70A7 7 0 0 0 336.52 70L336.52 30A7 7 0 0 1 322.52 30ZM322.982 67.499L316.862 83.499A7 7 0 0 0 329.938 88.501L336.058 72.501A7 7 0 0 1 322.982 67.499ZM319.695 80.061L297.255 94.061A7 7 0 0 0 304.665 105.939L327.105 91.939A7 7 0 0 1 319.695 80.061ZM300.96 93L278.52 93A7 7 0 0 0 278.52 107L300.96 107A7 7 0 0 1 300.96 93Z" />
+    <path fill-rule="evenodd" d="M359.6 0L359.6 100A7 7 0 0 0 373.6 100L373.6 0A7 7 0 0 1 359.6 0Z" />
+    <path fill-rule="evenodd" d="M366.6 7L413.52 7A7 7 0 0 0 413.52 -7L366.6 -7A7 7 0 0 1 366.6 7Z" />
+    <path fill-rule="evenodd" d="M366.6 57L403.32 57A7 7 0 0 0 403.32 43L366.6 43A7 7 0 0 1 366.6 57Z" />
+    <path fill-rule="evenodd" d="M366.6 107L413.52 107A7 7 0 0 0 413.52 93L366.6 93A7 7 0 0 1 366.6 107Z" />
+    <path fill-rule="evenodd" d="M441.56 0L441.56 100A7 7 0 0 0 455.56 100L455.56 0A7 7 0 0 1 441.56 0Z" />
+    <path fill-rule="evenodd" d="M448.56 7L473.04 7A7 7 0 0 0 473.04 -7L448.56 -7A7 7 0 0 1 448.56 7ZM469.692 6.147L488.052 16.147A7 7 0 0 0 494.748 3.853L476.388 -6.147A7 7 0 0 1 469.692 6.147ZM484.986 12.804L491.106 26.804A7 7 0 0 0 503.934 21.196L497.814 7.196A7 7 0 0 1 484.986 12.804ZM491.284 20.82L485.164 32.82A7 7 0 0 0 497.636 39.18L503.756 27.18A7 7 0 0 1 491.284 20.82ZM488.052 29.853L469.692 39.853A7 7 0 0 0 476.388 52.147L494.748 42.147A7 7 0 0 1 488.052 29.853ZM473.04 39L448.56 39A7 7 0 0 0 448.56 53L473.04 53A7 7 0 0 1 473.04 39Z" />
+    <path fill-rule="evenodd" d="M464.812 49.273L493.372 103.273A7 7 0 0 0 505.748 96.727L477.188 42.727A7 7 0 0 1 464.812 49.273Z" />
+    <path fill-rule="evenodd" d="M541.254 102.172L573.894 2.172A7 7 0 0 0 560.586 -2.172L527.946 97.828A7 7 0 0 1 541.254 102.172ZM560.586 2.172L593.226 102.172A7 7 0 0 0 606.534 97.828L573.894 -2.172A7 7 0 0 1 560.586 2.172Z" />
+    <path fill-rule="evenodd" d="M548.88 71L585.6 71A7 7 0 0 0 585.6 57L548.88 57A7 7 0 0 1 548.88 71Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#F4F7F5"></i><b>bg</b><code>#F4F7F5</code></span><span class="swatch"><i style="background:#14211F"></i><b>ink</b><code>#14211F</code></span><span class="swatch"><i style="background:#0E5C4A"></i><b>brand</b><code>#0E5C4A</code></span><span class="swatch"><i style="background:#D9503F"></i><b>accent</b><code>#D9503F</code></span></div>
+    <p class="plate-note">Lowest pair <b>3.77:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+        <article class="plate dark" style="--ld-bg:#0C1614;--ld-ink:#E8F2EF;--ld-brand:#5BD0B0;--ld-accent:#FF8A73;--plate-bg:#0C1614;--plate-ink:#E8F2EF">
+    <div class="plate-head"><span>Alternate</span><span class="badge">dark</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.722 1.16" role="img" data-ld="tandera-lockup-horizontal-dark">
+<title>Tandera — quiet cycling routes for two — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="1" height="1" viewBox="24 24 192 192" preserveAspectRatio="xMidYMid meet"><g fill="#5BD0B0">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g></svg>
+  <svg x="1.38" y="0.37" width="2.262" height="0.42" viewBox="-7 -7 613.88 114" preserveAspectRatio="xMidYMid meet"><g fill="#E8F2EF">
+    <path fill-rule="evenodd" d="M0 7L55.08 7A7 7 0 0 0 55.08 -7L0 -7A7 7 0 0 1 0 7Z" />
+    <path fill-rule="evenodd" d="M20.54 0L20.54 100A7 7 0 0 0 34.54 100L34.54 0A7 7 0 0 1 20.54 0Z" />
+    <path fill-rule="evenodd" d="M94.734 102.172L127.374 2.172A7 7 0 0 0 114.066 -2.172L81.426 97.828A7 7 0 0 1 94.734 102.172ZM114.066 2.172L146.706 102.172A7 7 0 0 0 160.014 97.828L127.374 -2.172A7 7 0 0 1 114.066 2.172Z" />
+    <path fill-rule="evenodd" d="M102.36 71L139.08 71A7 7 0 0 0 139.08 57L102.36 57A7 7 0 0 1 102.36 71Z" />
+    <path fill-rule="evenodd" d="M193.36 100L193.36 0A7 7 0 0 0 179.36 0L179.36 100A7 7 0 0 1 193.36 100ZM180.335 3.564L239.495 103.564A7 7 0 0 0 251.545 96.436L192.385 -3.564A7 7 0 0 1 180.335 3.564ZM252.52 100L252.52 0A7 7 0 0 0 238.52 0L238.52 100A7 7 0 0 1 252.52 100Z" />
+    <path fill-rule="evenodd" d="M271.52 0L271.52 100A7 7 0 0 0 285.52 100L285.52 0A7 7 0 0 1 271.52 0Z" />
+    <path fill-rule="evenodd" d="M278.52 7L300.96 7A7 7 0 0 0 300.96 -7L278.52 -7A7 7 0 0 1 278.52 7ZM297.255 5.939L319.695 19.939A7 7 0 0 0 327.105 8.061L304.665 -5.939A7 7 0 0 1 297.255 5.939ZM316.862 16.501L322.982 32.501A7 7 0 0 0 336.058 27.499L329.938 11.499A7 7 0 0 1 316.862 16.501ZM322.52 30L322.52 70A7 7 0 0 0 336.52 70L336.52 30A7 7 0 0 1 322.52 30ZM322.982 67.499L316.862 83.499A7 7 0 0 0 329.938 88.501L336.058 72.501A7 7 0 0 1 322.982 67.499ZM319.695 80.061L297.255 94.061A7 7 0 0 0 304.665 105.939L327.105 91.939A7 7 0 0 1 319.695 80.061ZM300.96 93L278.52 93A7 7 0 0 0 278.52 107L300.96 107A7 7 0 0 1 300.96 93Z" />
+    <path fill-rule="evenodd" d="M359.6 0L359.6 100A7 7 0 0 0 373.6 100L373.6 0A7 7 0 0 1 359.6 0Z" />
+    <path fill-rule="evenodd" d="M366.6 7L413.52 7A7 7 0 0 0 413.52 -7L366.6 -7A7 7 0 0 1 366.6 7Z" />
+    <path fill-rule="evenodd" d="M366.6 57L403.32 57A7 7 0 0 0 403.32 43L366.6 43A7 7 0 0 1 366.6 57Z" />
+    <path fill-rule="evenodd" d="M366.6 107L413.52 107A7 7 0 0 0 413.52 93L366.6 93A7 7 0 0 1 366.6 107Z" />
+    <path fill-rule="evenodd" d="M441.56 0L441.56 100A7 7 0 0 0 455.56 100L455.56 0A7 7 0 0 1 441.56 0Z" />
+    <path fill-rule="evenodd" d="M448.56 7L473.04 7A7 7 0 0 0 473.04 -7L448.56 -7A7 7 0 0 1 448.56 7ZM469.692 6.147L488.052 16.147A7 7 0 0 0 494.748 3.853L476.388 -6.147A7 7 0 0 1 469.692 6.147ZM484.986 12.804L491.106 26.804A7 7 0 0 0 503.934 21.196L497.814 7.196A7 7 0 0 1 484.986 12.804ZM491.284 20.82L485.164 32.82A7 7 0 0 0 497.636 39.18L503.756 27.18A7 7 0 0 1 491.284 20.82ZM488.052 29.853L469.692 39.853A7 7 0 0 0 476.388 52.147L494.748 42.147A7 7 0 0 1 488.052 29.853ZM473.04 39L448.56 39A7 7 0 0 0 448.56 53L473.04 53A7 7 0 0 1 473.04 39Z" />
+    <path fill-rule="evenodd" d="M464.812 49.273L493.372 103.273A7 7 0 0 0 505.748 96.727L477.188 42.727A7 7 0 0 1 464.812 49.273Z" />
+    <path fill-rule="evenodd" d="M541.254 102.172L573.894 2.172A7 7 0 0 0 560.586 -2.172L527.946 97.828A7 7 0 0 1 541.254 102.172ZM560.586 2.172L593.226 102.172A7 7 0 0 0 606.534 97.828L573.894 -2.172A7 7 0 0 1 560.586 2.172Z" />
+    <path fill-rule="evenodd" d="M548.88 71L585.6 71A7 7 0 0 0 585.6 57L548.88 57A7 7 0 0 1 548.88 71Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#0C1614"></i><b>bg</b><code>#0C1614</code></span><span class="swatch"><i style="background:#E8F2EF"></i><b>ink</b><code>#E8F2EF</code></span><span class="swatch"><i style="background:#5BD0B0"></i><b>brand</b><code>#5BD0B0</code></span><span class="swatch"><i style="background:#FF8A73"></i><b>accent</b><code>#FF8A73</code></span></div>
+    <p class="plate-note">Lowest pair <b>3.77:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>Contrast, measured</h3>
+      <table>
+        <thead><tr><th>Mode</th><th>Pair</th><th>Ratio</th><th>Status</th></tr></thead>
+        <tbody><tr><td>light</td><td>brand / bg</td><td>6.19:1</td><td class="pass">pass</td></tr><tr><td>light</td><td>ink / bg</td><td>15.93:1</td><td class="pass">pass</td></tr><tr><td>light</td><td>accent / bg</td><td>3.97:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>brand / bg</td><td>7.84:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>ink / bg</td><td>16.03:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>accent / bg</td><td>10.13:1</td><td class="pass">pass</td></tr></tbody>
+      </table>
+      <p class="plate-note" style="color:var(--ink-soft)">Alternate spruce-coral: lowest 3.77:1 (accent / bg, light).</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>One line</h2><p>The same theme contract in HTML, CSS or React. Change a token, rebuild, and every variant follows.</p></div>
+    <div class="grid grid-2">
+      <pre class="code">&lt;svg class="logo" style="--ld-brand:#1D4ED8; --ld-accent:#0F8A6E"&gt;…&lt;/svg&gt;
+
+&lt;TanderaLogo type="horizontal" /&gt;
+
+:root {
+  --ld-brand: #1D4ED8;
+  --ld-accent: #0F8A6E;
+}</pre>
+      <div class="card">
+        <h3>What is in the folder</h3>
+        <p class="plate-note" style="color:var(--ink-soft);font-size:13px">Fifteen SVG variants, a favicon, two app icons, tokens, palette CSS, a control-sheet preview and a typed React component. The alternate palette is built from the same masters.</p>
+        <details class="files"><summary>Primary deck · 19 files</summary><ul><li><code>dist/tandera-app-icon-maskable.svg</code></li><li><code>dist/tandera-app-icon.svg</code></li><li><code>dist/tandera-favicon.svg</code></li><li><code>dist/tandera-lockup-horizontal-dark.svg</code></li><li><code>dist/tandera-lockup-horizontal-mono.svg</code></li><li><code>dist/tandera-lockup-horizontal.svg</code></li><li><code>dist/tandera-lockup-stacked-dark.svg</code></li><li><code>dist/tandera-lockup-stacked-mono.svg</code></li><li><code>dist/tandera-lockup-stacked.svg</code></li><li><code>dist/tandera-palette.css</code></li><li><code>dist/tandera-preview.html</code></li><li><code>dist/tandera-symbol-dark.svg</code></li><li><code>dist/tandera-symbol-mono.svg</code></li><li><code>dist/tandera-symbol.svg</code></li><li><code>dist/tandera-tokens.json</code></li><li><code>dist/tandera-wordmark-dark.svg</code></li><li><code>dist/tandera-wordmark-mono.svg</code></li><li><code>dist/tandera-wordmark.svg</code></li><li><code>dist/tandera.tsx</code></li></ul></details>
+        <details class="files"><summary>Alternate deck · 19 files</summary><ul><li><code>dist-alt/tandera-app-icon-maskable.svg</code></li><li><code>dist-alt/tandera-app-icon.svg</code></li><li><code>dist-alt/tandera-favicon.svg</code></li><li><code>dist-alt/tandera-lockup-horizontal-dark.svg</code></li><li><code>dist-alt/tandera-lockup-horizontal-mono.svg</code></li><li><code>dist-alt/tandera-lockup-horizontal.svg</code></li><li><code>dist-alt/tandera-lockup-stacked-dark.svg</code></li><li><code>dist-alt/tandera-lockup-stacked-mono.svg</code></li><li><code>dist-alt/tandera-lockup-stacked.svg</code></li><li><code>dist-alt/tandera-palette.css</code></li><li><code>dist-alt/tandera-preview.html</code></li><li><code>dist-alt/tandera-symbol-dark.svg</code></li><li><code>dist-alt/tandera-symbol-mono.svg</code></li><li><code>dist-alt/tandera-symbol.svg</code></li><li><code>dist-alt/tandera-tokens.json</code></li><li><code>dist-alt/tandera-wordmark-dark.svg</code></li><li><code>dist-alt/tandera-wordmark-mono.svg</code></li><li><code>dist-alt/tandera-wordmark.svg</code></li><li><code>dist-alt/tandera.tsx</code></li></ul></details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Tandera is a fictional brand drawn for this repository. No third-party mark, font or photograph is used.</span>
+    <span>MIT · generated by logodeck · Tandera — quiet cycling routes for two</span>
+  </footer>
+</div>
+<script>
+  const root = document.documentElement;
+  document.getElementById("theme").addEventListener("click", () => {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+  });
+</script>
+</body>
+</html>

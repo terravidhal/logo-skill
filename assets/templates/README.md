@@ -11,6 +11,8 @@ node ../../skills/logodeck/scripts/build.mjs logo.config.example.json --palette 
 ```
 
 `symbolSmall` is optional. Add a simplified master when the favicon needs thicker negative
-space than the symbol. The wordmark must remain paths: never put `<text>` in a master.
+space than the symbol. `altPalette` and `altOut` are optional too: when present, the example
+build writes a second complete deck from the same masters. The wordmark must remain paths:
+never put `<text>` in a master.
 
 The template is deliberately not a finished brand. Do not ship it as a logo.

@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-brand="tessaro">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tessaro — logodeck identity plate</title>
+<style>
+  :root {
+    --ld-bg:#FBF6EE;--ld-ink:#2A1E17;--ld-brand:#8A3B22;--ld-accent:#4A6B2A;--plate-bg:#FBF6EE;--plate-ink:#2A1E17;
+    --ink-soft: color-mix(in srgb, var(--ld-ink) 64%, transparent);
+    --line: color-mix(in srgb, var(--ld-ink) 15%, transparent);
+    --surface: color-mix(in srgb, var(--ld-bg) 88%, white);
+    --shadow: 0 28px 70px rgba(10, 20, 15, .12);
+    color-scheme: light;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  html[data-theme="dark"] {
+    --ld-bg:#1B120D;--ld-ink:#F4E8DA;--ld-brand:#E59A78;--ld-accent:#A9C77A;--plate-bg:#1B120D;--plate-ink:#F4E8DA;
+    --ink-soft: color-mix(in srgb, var(--ld-ink) 66%, transparent);
+    --line: color-mix(in srgb, var(--ld-ink) 20%, transparent);
+    --surface: color-mix(in srgb, var(--ld-bg) 90%, white);
+    --shadow: 0 28px 70px rgba(0, 0, 0, .4);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ld-bg); color: var(--ld-ink); transition: background 170ms ease, color 170ms ease; }
+  a { color: inherit; }
+  .wrap { width: min(1240px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 72px; }
+  nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 26px; }
+  nav .crumb { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  nav .tools { display: flex; gap: 8px; flex-wrap: wrap; }
+  button, .button { font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ld-ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+  .hero { display: grid; grid-template-columns: 1.3fr .7fr; gap: 28px; align-items: stretch; padding: 24px 0 22px; }
+  .hero-main { display: flex; flex-direction: column; justify-content: space-between; gap: 30px; }
+  .eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+  h1 { font-size: clamp(56px, 8vw, 118px); line-height: .88; letter-spacing: -.045em; margin: 14px 0 18px; font-weight: 650; }
+  .promise { font-size: clamp(18px, 2.1vw, 26px); line-height: 1.35; max-width: 28ch; margin: 0; }
+  .idea { margin: 24px 0 0; font-size: 14px; line-height: 1.7; color: var(--ink-soft); max-width: 52ch; }
+  .hero-lockup { border: 1px solid var(--line); border-radius: 30px; background: var(--surface); box-shadow: var(--shadow); padding: 40px; display: grid; place-items: center; min-height: 250px; }
+  .hero-lockup svg { width: min(100%, 430px); height: auto; display: block; }
+  .dark-panel { border-radius: 30px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; box-shadow: var(--shadow); }
+  .dark-panel .eyebrow { color: color-mix(in srgb, currentColor 62%, transparent); }
+  .dark-panel svg { width: min(100%, 260px); height: auto; display: block; }
+  .section { margin-top: 52px; }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 20px; }
+  h2 { margin: 0; font-size: 15px; letter-spacing: .13em; text-transform: uppercase; font-weight: 600; }
+  .section-head p { margin: 0; color: var(--ink-soft); font-size: 13px; max-width: 52ch; }
+  .grid { display: grid; gap: 16px; }
+  .grid-5 { grid-template-columns: repeat(5, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .card { border: 1px solid var(--line); border-radius: 22px; background: var(--surface); padding: 22px; display: flex; flex-direction: column; gap: 16px; min-height: 176px; }
+  .card h3 { margin: 0; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  .card .art { flex: 1; display: grid; place-items: center; }
+  .card .art svg { display: block; max-width: 100%; height: auto; }
+  .art.symbol svg { width: 118px; height: 118px; }
+  .art.word svg { width: min(100%, 250px); height: auto; }
+  .art.lockup svg { width: min(100%, 330px); height: auto; }
+  .art.app svg { width: 92px; height: 92px; }
+  .mono { color: var(--ld-ink); }
+  .darkcard { border-color: transparent; }
+  .darkcard h3 { color: color-mix(in srgb, currentColor 62%, transparent); }
+  .darkcard .mono { color: inherit; }
+  .favicons { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; }
+  .favicons figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 7px; color: var(--ink-soft); font-size: 11px; }
+  .favicons svg, .favicons span svg { display: block; width: 100%; height: 100%; }
+  .palette-group { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 22px; }
+  .palette-group:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+  .palette-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .palette-title b { font-size: 17px; }
+  .palette-title span { color: var(--ink-soft); font-size: 13px; }
+  .plate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .plate { border-radius: 20px; padding: 18px; background: var(--plate-bg); color: var(--plate-ink); border: 1px solid color-mix(in srgb, var(--plate-ink) 14%, transparent); display: flex; flex-direction: column; gap: 13px; }
+  .plate.dark { border-color: rgba(255, 255, 255, .12); }
+  .plate-head { display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--plate-ink) 62%, transparent); }
+  .badge { border: 1px solid currentColor; border-radius: 999px; padding: 3px 8px; letter-spacing: .06em; }
+  .plate-lockup { min-height: 68px; display: flex; align-items: center; }
+  .plate-lockup svg { width: min(100%, 300px); height: auto; display: block; }
+  .swatch-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .swatch { display: flex; flex-direction: column; gap: 5px; font-size: 10px; min-width: 0; }
+  .swatch i { display: block; height: 30px; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--plate-ink) 18%, transparent); }
+  .swatch b { font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: color-mix(in srgb, var(--plate-ink) 65%, transparent); }
+  .swatch code { font: 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; opacity: .8; }
+  .plate-note { margin: 0; font-size: 11px; line-height: 1.5; color: color-mix(in srgb, var(--plate-ink) 66%, transparent); }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--ink-soft); font-weight: 600; }
+  td.pass { color: var(--ld-brand); font-weight: 600; }
+  td.fail { color: #B42318; font-weight: 600; }
+  .code { margin: 0; padding: 18px; border-radius: 18px; background: #0E1713; color: #E9F2EC; border: 1px solid rgba(255, 255, 255, .08); overflow: auto; font: 12px/1.8 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .files { border-top: 1px solid var(--line); padding: 10px 0; font-size: 12px; }
+  .files summary { cursor: pointer; color: var(--ink-soft); }
+  .files ul { columns: 2; gap: 20px; margin: 10px 0 0; padding: 0; list-style: none; }
+  .files li { break-inside: avoid; margin-bottom: 5px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  footer { margin-top: 54px; border-top: 1px solid var(--line); padding-top: 18px; display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; color: var(--ink-soft); font-size: 12px; }
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; }
+    .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3, .grid-2, .plate-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .wrap { width: calc(100% - 28px); padding-top: 16px; }
+    .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .hero-lockup { padding: 22px; }
+    .plate { padding: 14px; }
+    .swatch-row { grid-template-columns: repeat(2, 1fr); }
+    .files ul { columns: 1; }
+    h1 { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <span class="crumb"><a href="../site/index.html">logodeck</a> / identity plate / tessaro</span>
+    <span class="tools">
+      <button type="button" id="theme">Toggle dark</button>
+      <a class="button" href="dist/tessaro-preview.html">Open the preview</a>
+    </span>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-main">
+      <div>
+        <div class="eyebrow">Architecture · interiors · fictional brand · palette clay-cream</div>
+        <h1>Tessaro</h1>
+        <p class="promise">Modular architecture for tight city plots.</p>
+        <p class="idea"><b>Idea.</b> A T assembled from five tiles, with one module slipped a few millimetres out of line.</p>
+      </div>
+      <div class="hero-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.569 1.16" role="img" data-ld="tessaro-lockup-horizontal">
+<title>Tessaro — modular architecture for tight city plots — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1" height="1" viewBox="30 30 196 196" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #8A3B22)">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g></svg>
+  <svg x="1.38" y="0.37" width="2.109" height="0.42" viewBox="-8 -8 582.4 116" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #2A1E17)">
+    <path fill-rule="evenodd" d="M0 8L58.32 8A8 8 0 0 0 58.32 -8L0 -8A8 8 0 0 1 0 8Z" />
+    <path fill-rule="evenodd" d="M21.16 0L21.16 100A8 8 0 0 0 37.16 100L37.16 0A8 8 0 0 1 21.16 0Z" />
+    <path fill-rule="evenodd" d="M76.32 0L76.32 100A8 8 0 0 0 92.32 100L92.32 0A8 8 0 0 1 76.32 0Z" />
+    <path fill-rule="evenodd" d="M84.32 8L134 8A8 8 0 0 0 134 -8L84.32 -8A8 8 0 0 1 84.32 8Z" />
+    <path fill-rule="evenodd" d="M84.32 58L123.2 58A8 8 0 0 0 123.2 42L84.32 42A8 8 0 0 1 84.32 58Z" />
+    <path fill-rule="evenodd" d="M84.32 108L134 108A8 8 0 0 0 134 92L84.32 92A8 8 0 0 1 84.32 108Z" />
+    <path fill-rule="evenodd" d="M220.723 5.429L203.443 -6.571A8 8 0 0 0 194.317 6.571L211.597 18.571A8 8 0 0 1 220.723 5.429ZM198.88 -8L177.28 -8A8 8 0 0 0 177.28 8L198.88 8A8 8 0 0 1 198.88 -8ZM171.845 -5.87L158.885 6.13A8 8 0 0 0 169.755 17.87L182.715 5.87A8 8 0 0 1 171.845 -5.87ZM156.32 12L156.32 30A8 8 0 0 0 172.32 30L172.32 12A8 8 0 0 1 156.32 12ZM158.885 35.87L171.845 47.87A8 8 0 0 0 182.715 36.13L169.755 24.13A8 8 0 0 1 158.885 35.87ZM174.727 49.582L198.487 57.582A8 8 0 0 0 203.593 42.418L179.833 34.418A8 8 0 0 1 174.727 49.582ZM195.605 55.87L208.565 67.87A8 8 0 0 0 219.435 56.13L206.475 44.13A8 8 0 0 1 195.605 55.87ZM206 62L206 82A8 8 0 0 0 222 82L222 62A8 8 0 0 1 206 62ZM207.508 77.326L194.548 95.326A8 8 0 0 0 207.532 104.674L220.492 86.674A8 8 0 0 1 207.508 77.326ZM201.04 92L175.12 92A8 8 0 0 0 175.12 108L201.04 108A8 8 0 0 1 201.04 92ZM180.555 94.13L167.595 82.13A8 8 0 0 0 156.725 93.87L169.685 105.87A8 8 0 0 1 180.555 94.13Z" />
+    <path fill-rule="evenodd" d="M302.883 5.429L285.603 -6.571A8 8 0 0 0 276.477 6.571L293.757 18.571A8 8 0 0 1 302.883 5.429ZM281.04 -8L259.44 -8A8 8 0 0 0 259.44 8L281.04 8A8 8 0 0 1 281.04 -8ZM254.005 -5.87L241.045 6.13A8 8 0 0 0 251.915 17.87L264.875 5.87A8 8 0 0 1 254.005 -5.87ZM238.48 12L238.48 30A8 8 0 0 0 254.48 30L254.48 12A8 8 0 0 1 238.48 12ZM241.045 35.87L254.005 47.87A8 8 0 0 0 264.875 36.13L251.915 24.13A8 8 0 0 1 241.045 35.87ZM256.887 49.582L280.647 57.582A8 8 0 0 0 285.753 42.418L261.993 34.418A8 8 0 0 1 256.887 49.582ZM277.765 55.87L290.725 67.87A8 8 0 0 0 301.595 56.13L288.635 44.13A8 8 0 0 1 277.765 55.87ZM288.16 62L288.16 82A8 8 0 0 0 304.16 82L304.16 62A8 8 0 0 1 288.16 62ZM289.668 77.326L276.708 95.326A8 8 0 0 0 289.692 104.674L302.652 86.674A8 8 0 0 1 289.668 77.326ZM283.2 92L257.28 92A8 8 0 0 0 257.28 108L283.2 108A8 8 0 0 1 283.2 92ZM262.715 94.13L249.755 82.13A8 8 0 0 0 238.885 93.87L251.845 105.87A8 8 0 0 1 262.715 94.13Z" />
+    <path fill-rule="evenodd" d="M334.041 102.613L368.601 2.613A8 8 0 0 0 353.479 -2.613L318.919 97.387A8 8 0 0 1 334.041 102.613ZM353.479 2.613L388.039 102.613A8 8 0 0 0 403.161 97.387L368.601 -2.613A8 8 0 0 1 353.479 2.613Z" />
+    <path fill-rule="evenodd" d="M341.6 72L380.48 72A8 8 0 0 0 380.48 56L341.6 56A8 8 0 0 1 341.6 72Z" />
+    <path fill-rule="evenodd" d="M413.6 0L413.6 100A8 8 0 0 0 429.6 100L429.6 0A8 8 0 0 1 413.6 0Z" />
+    <path fill-rule="evenodd" d="M421.6 8L447.52 8A8 8 0 0 0 447.52 -8L421.6 -8A8 8 0 0 1 421.6 8ZM443.861 7.114L463.301 17.114A8 8 0 0 0 470.619 2.886L451.179 -7.114A8 8 0 0 1 443.861 7.114ZM459.7 13.36L466.18 27.36A8 8 0 0 0 480.7 20.64L474.22 6.64A8 8 0 0 1 459.7 13.36ZM466.401 20.199L459.921 32.199A8 8 0 0 0 473.999 39.801L480.479 27.801A8 8 0 0 1 466.401 20.199ZM463.301 28.886L443.861 38.886A8 8 0 0 0 451.179 53.114L470.619 43.114A8 8 0 0 1 463.301 28.886ZM447.52 38L421.6 38A8 8 0 0 0 421.6 54L447.52 54A8 8 0 0 1 447.52 38Z" />
+    <path fill-rule="evenodd" d="M438.38 49.909L468.62 103.909A8 8 0 0 0 482.58 96.091L452.34 42.091A8 8 0 0 1 438.38 49.909Z" />
+    <path fill-rule="evenodd" d="M503.76 50A31.32 50 0 1 0 566.4 50A31.32 50 0 1 0 503.76 50ZM519.76 50A15.32 34 0 1 1 550.4 50A15.32 34 0 1 1 519.76 50Z" />
+  </g></svg>
+</svg>
+</div>
+    </div>
+    <aside class="dark-panel" style="background:#1B120D;color:#F4E8DA">
+      <div class="eyebrow">On dark</div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.269 1.8" role="img" data-ld="tessaro-lockup-stacked-dark">
+<title>Tessaro — modular architecture for tight city plots — stacked lockup, dark background</title>
+<svg x="0.634" y="0.08" width="1" height="1" viewBox="30 30 196 196" preserveAspectRatio="xMidYMid meet"><g fill="#E59A78">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="2.109" height="0.42" viewBox="-8 -8 582.4 116" preserveAspectRatio="xMidYMid meet"><g fill="#F4E8DA">
+    <path fill-rule="evenodd" d="M0 8L58.32 8A8 8 0 0 0 58.32 -8L0 -8A8 8 0 0 1 0 8Z" />
+    <path fill-rule="evenodd" d="M21.16 0L21.16 100A8 8 0 0 0 37.16 100L37.16 0A8 8 0 0 1 21.16 0Z" />
+    <path fill-rule="evenodd" d="M76.32 0L76.32 100A8 8 0 0 0 92.32 100L92.32 0A8 8 0 0 1 76.32 0Z" />
+    <path fill-rule="evenodd" d="M84.32 8L134 8A8 8 0 0 0 134 -8L84.32 -8A8 8 0 0 1 84.32 8Z" />
+    <path fill-rule="evenodd" d="M84.32 58L123.2 58A8 8 0 0 0 123.2 42L84.32 42A8 8 0 0 1 84.32 58Z" />
+    <path fill-rule="evenodd" d="M84.32 108L134 108A8 8 0 0 0 134 92L84.32 92A8 8 0 0 1 84.32 108Z" />
+    <path fill-rule="evenodd" d="M220.723 5.429L203.443 -6.571A8 8 0 0 0 194.317 6.571L211.597 18.571A8 8 0 0 1 220.723 5.429ZM198.88 -8L177.28 -8A8 8 0 0 0 177.28 8L198.88 8A8 8 0 0 1 198.88 -8ZM171.845 -5.87L158.885 6.13A8 8 0 0 0 169.755 17.87L182.715 5.87A8 8 0 0 1 171.845 -5.87ZM156.32 12L156.32 30A8 8 0 0 0 172.32 30L172.32 12A8 8 0 0 1 156.32 12ZM158.885 35.87L171.845 47.87A8 8 0 0 0 182.715 36.13L169.755 24.13A8 8 0 0 1 158.885 35.87ZM174.727 49.582L198.487 57.582A8 8 0 0 0 203.593 42.418L179.833 34.418A8 8 0 0 1 174.727 49.582ZM195.605 55.87L208.565 67.87A8 8 0 0 0 219.435 56.13L206.475 44.13A8 8 0 0 1 195.605 55.87ZM206 62L206 82A8 8 0 0 0 222 82L222 62A8 8 0 0 1 206 62ZM207.508 77.326L194.548 95.326A8 8 0 0 0 207.532 104.674L220.492 86.674A8 8 0 0 1 207.508 77.326ZM201.04 92L175.12 92A8 8 0 0 0 175.12 108L201.04 108A8 8 0 0 1 201.04 92ZM180.555 94.13L167.595 82.13A8 8 0 0 0 156.725 93.87L169.685 105.87A8 8 0 0 1 180.555 94.13Z" />
+    <path fill-rule="evenodd" d="M302.883 5.429L285.603 -6.571A8 8 0 0 0 276.477 6.571L293.757 18.571A8 8 0 0 1 302.883 5.429ZM281.04 -8L259.44 -8A8 8 0 0 0 259.44 8L281.04 8A8 8 0 0 1 281.04 -8ZM254.005 -5.87L241.045 6.13A8 8 0 0 0 251.915 17.87L264.875 5.87A8 8 0 0 1 254.005 -5.87ZM238.48 12L238.48 30A8 8 0 0 0 254.48 30L254.48 12A8 8 0 0 1 238.48 12ZM241.045 35.87L254.005 47.87A8 8 0 0 0 264.875 36.13L251.915 24.13A8 8 0 0 1 241.045 35.87ZM256.887 49.582L280.647 57.582A8 8 0 0 0 285.753 42.418L261.993 34.418A8 8 0 0 1 256.887 49.582ZM277.765 55.87L290.725 67.87A8 8 0 0 0 301.595 56.13L288.635 44.13A8 8 0 0 1 277.765 55.87ZM288.16 62L288.16 82A8 8 0 0 0 304.16 82L304.16 62A8 8 0 0 1 288.16 62ZM289.668 77.326L276.708 95.326A8 8 0 0 0 289.692 104.674L302.652 86.674A8 8 0 0 1 289.668 77.326ZM283.2 92L257.28 92A8 8 0 0 0 257.28 108L283.2 108A8 8 0 0 1 283.2 92ZM262.715 94.13L249.755 82.13A8 8 0 0 0 238.885 93.87L251.845 105.87A8 8 0 0 1 262.715 94.13Z" />
+    <path fill-rule="evenodd" d="M334.041 102.613L368.601 2.613A8 8 0 0 0 353.479 -2.613L318.919 97.387A8 8 0 0 1 334.041 102.613ZM353.479 2.613L388.039 102.613A8 8 0 0 0 403.161 97.387L368.601 -2.613A8 8 0 0 1 353.479 2.613Z" />
+    <path fill-rule="evenodd" d="M341.6 72L380.48 72A8 8 0 0 0 380.48 56L341.6 56A8 8 0 0 1 341.6 72Z" />
+    <path fill-rule="evenodd" d="M413.6 0L413.6 100A8 8 0 0 0 429.6 100L429.6 0A8 8 0 0 1 413.6 0Z" />
+    <path fill-rule="evenodd" d="M421.6 8L447.52 8A8 8 0 0 0 447.52 -8L421.6 -8A8 8 0 0 1 421.6 8ZM443.861 7.114L463.301 17.114A8 8 0 0 0 470.619 2.886L451.179 -7.114A8 8 0 0 1 443.861 7.114ZM459.7 13.36L466.18 27.36A8 8 0 0 0 480.7 20.64L474.22 6.64A8 8 0 0 1 459.7 13.36ZM466.401 20.199L459.921 32.199A8 8 0 0 0 473.999 39.801L480.479 27.801A8 8 0 0 1 466.401 20.199ZM463.301 28.886L443.861 38.886A8 8 0 0 0 451.179 53.114L470.619 43.114A8 8 0 0 1 463.301 28.886ZM447.52 38L421.6 38A8 8 0 0 0 421.6 54L447.52 54A8 8 0 0 1 447.52 38Z" />
+    <path fill-rule="evenodd" d="M438.38 49.909L468.62 103.909A8 8 0 0 0 482.58 96.091L452.34 42.091A8 8 0 0 1 438.38 49.909Z" />
+    <path fill-rule="evenodd" d="M503.76 50A31.32 50 0 1 0 566.4 50A31.32 50 0 1 0 503.76 50ZM519.76 50A15.32 34 0 1 1 550.4 50A15.32 34 0 1 1 519.76 50Z" />
+  </g></svg>
+</svg>
+
+      <div class="eyebrow">5.69:1 lowest pair</div>
+    </aside>
+  </header>
+
+  <section class="section">
+    <div class="section-head"><h2>The mark</h2><p>One drawing, then the whole family: mono for one colour, a simplified favicon, a tile and a maskable icon.</p></div>
+    <div class="grid grid-5">
+      <div class="card"><h3>Symbol</h3><div class="art symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="30 30 196 196" role="img" data-ld="tessaro-symbol">
+<title>Tessaro — modular architecture for tight city plots — symbol</title>
+<g fill="var(--ld-brand, #8A3B22)">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Symbol mono</h3><div class="art symbol mono"><svg xmlns="http://www.w3.org/2000/svg" viewBox="30 30 196 196" role="img" data-ld="tessaro-symbol-mono">
+<title>Tessaro — modular architecture for tight city plots — mono symbol</title>
+<g fill="currentColor">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g>
+</svg>
+</div></div>
+      <div class="card darkcard" style="background:#1B120D;color:#F4E8DA"><h3>Symbol dark</h3><div class="art symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="30 30 196 196" role="img" data-ld="tessaro-symbol-dark">
+<title>Tessaro — modular architecture for tight city plots — symbol, dark background</title>
+<g fill="#E59A78">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Favicon</h3><div class="art"><div class="favicons">
+        <figure><span style="display:block;width:32px;height:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="tessaro-favicon">
+<title>Tessaro — modular architecture for tight city plots — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#8A3B22"/>
+<svg x="10.24" y="10.24" width="43.52" height="43.52" viewBox="24 24 210 210" preserveAspectRatio="xMidYMid meet"><g fill="#FBF6EE">
+  <rect x="24" y="24" width="62" height="62" rx="3" />
+  <rect x="98" y="24" width="62" height="62" rx="3" />
+  <rect x="172" y="24" width="62" height="62" rx="3" />
+  <rect x="98" y="98" width="62" height="62" rx="3" />
+  <rect x="104" y="172" width="62" height="62" rx="3" />
+  </g></svg>
+</svg>
+</span><figcaption>32</figcaption></figure>
+        <figure><span style="display:block;width:16px;height:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="tessaro-favicon">
+<title>Tessaro — modular architecture for tight city plots — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#8A3B22"/>
+<svg x="10.24" y="10.24" width="43.52" height="43.52" viewBox="24 24 210 210" preserveAspectRatio="xMidYMid meet"><g fill="#FBF6EE">
+  <rect x="24" y="24" width="62" height="62" rx="3" />
+  <rect x="98" y="24" width="62" height="62" rx="3" />
+  <rect x="172" y="24" width="62" height="62" rx="3" />
+  <rect x="98" y="98" width="62" height="62" rx="3" />
+  <rect x="104" y="172" width="62" height="62" rx="3" />
+  </g></svg>
+</svg>
+</span><figcaption>16</figcaption></figure>
+      </div></div></div>
+      <div class="card"><h3>App icon</h3><div class="art app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="tessaro-app-icon">
+<title>Tessaro — modular architecture for tight city plots — app-icon</title>
+<rect width="512" height="512" rx="115.2" fill="#8A3B22"/>
+<svg x="97.28" y="97.28" width="317.44" height="317.44" viewBox="30 30 196 196" preserveAspectRatio="xMidYMid meet"><g fill="#FBF6EE">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g></svg>
+</svg>
+</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Wordmark & lockups</h2><p>The name is drawn as paths. The lockups are composed from the same two masters, never retouched.</p></div>
+    <div class="grid grid-3">
+      <div class="card"><h3>Wordmark</h3><div class="art word"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 582.4 116" role="img" data-ld="tessaro-wordmark">
+<title>Tessaro — modular architecture for tight city plots — wordmark</title>
+<g fill="var(--ld-ink, #2A1E17)">
+    <path fill-rule="evenodd" d="M0 8L58.32 8A8 8 0 0 0 58.32 -8L0 -8A8 8 0 0 1 0 8Z" />
+    <path fill-rule="evenodd" d="M21.16 0L21.16 100A8 8 0 0 0 37.16 100L37.16 0A8 8 0 0 1 21.16 0Z" />
+    <path fill-rule="evenodd" d="M76.32 0L76.32 100A8 8 0 0 0 92.32 100L92.32 0A8 8 0 0 1 76.32 0Z" />
+    <path fill-rule="evenodd" d="M84.32 8L134 8A8 8 0 0 0 134 -8L84.32 -8A8 8 0 0 1 84.32 8Z" />
+    <path fill-rule="evenodd" d="M84.32 58L123.2 58A8 8 0 0 0 123.2 42L84.32 42A8 8 0 0 1 84.32 58Z" />
+    <path fill-rule="evenodd" d="M84.32 108L134 108A8 8 0 0 0 134 92L84.32 92A8 8 0 0 1 84.32 108Z" />
+    <path fill-rule="evenodd" d="M220.723 5.429L203.443 -6.571A8 8 0 0 0 194.317 6.571L211.597 18.571A8 8 0 0 1 220.723 5.429ZM198.88 -8L177.28 -8A8 8 0 0 0 177.28 8L198.88 8A8 8 0 0 1 198.88 -8ZM171.845 -5.87L158.885 6.13A8 8 0 0 0 169.755 17.87L182.715 5.87A8 8 0 0 1 171.845 -5.87ZM156.32 12L156.32 30A8 8 0 0 0 172.32 30L172.32 12A8 8 0 0 1 156.32 12ZM158.885 35.87L171.845 47.87A8 8 0 0 0 182.715 36.13L169.755 24.13A8 8 0 0 1 158.885 35.87ZM174.727 49.582L198.487 57.582A8 8 0 0 0 203.593 42.418L179.833 34.418A8 8 0 0 1 174.727 49.582ZM195.605 55.87L208.565 67.87A8 8 0 0 0 219.435 56.13L206.475 44.13A8 8 0 0 1 195.605 55.87ZM206 62L206 82A8 8 0 0 0 222 82L222 62A8 8 0 0 1 206 62ZM207.508 77.326L194.548 95.326A8 8 0 0 0 207.532 104.674L220.492 86.674A8 8 0 0 1 207.508 77.326ZM201.04 92L175.12 92A8 8 0 0 0 175.12 108L201.04 108A8 8 0 0 1 201.04 92ZM180.555 94.13L167.595 82.13A8 8 0 0 0 156.725 93.87L169.685 105.87A8 8 0 0 1 180.555 94.13Z" />
+    <path fill-rule="evenodd" d="M302.883 5.429L285.603 -6.571A8 8 0 0 0 276.477 6.571L293.757 18.571A8 8 0 0 1 302.883 5.429ZM281.04 -8L259.44 -8A8 8 0 0 0 259.44 8L281.04 8A8 8 0 0 1 281.04 -8ZM254.005 -5.87L241.045 6.13A8 8 0 0 0 251.915 17.87L264.875 5.87A8 8 0 0 1 254.005 -5.87ZM238.48 12L238.48 30A8 8 0 0 0 254.48 30L254.48 12A8 8 0 0 1 238.48 12ZM241.045 35.87L254.005 47.87A8 8 0 0 0 264.875 36.13L251.915 24.13A8 8 0 0 1 241.045 35.87ZM256.887 49.582L280.647 57.582A8 8 0 0 0 285.753 42.418L261.993 34.418A8 8 0 0 1 256.887 49.582ZM277.765 55.87L290.725 67.87A8 8 0 0 0 301.595 56.13L288.635 44.13A8 8 0 0 1 277.765 55.87ZM288.16 62L288.16 82A8 8 0 0 0 304.16 82L304.16 62A8 8 0 0 1 288.16 62ZM289.668 77.326L276.708 95.326A8 8 0 0 0 289.692 104.674L302.652 86.674A8 8 0 0 1 289.668 77.326ZM283.2 92L257.28 92A8 8 0 0 0 257.28 108L283.2 108A8 8 0 0 1 283.2 92ZM262.715 94.13L249.755 82.13A8 8 0 0 0 238.885 93.87L251.845 105.87A8 8 0 0 1 262.715 94.13Z" />
+    <path fill-rule="evenodd" d="M334.041 102.613L368.601 2.613A8 8 0 0 0 353.479 -2.613L318.919 97.387A8 8 0 0 1 334.041 102.613ZM353.479 2.613L388.039 102.613A8 8 0 0 0 403.161 97.387L368.601 -2.613A8 8 0 0 1 353.479 2.613Z" />
+    <path fill-rule="evenodd" d="M341.6 72L380.48 72A8 8 0 0 0 380.48 56L341.6 56A8 8 0 0 1 341.6 72Z" />
+    <path fill-rule="evenodd" d="M413.6 0L413.6 100A8 8 0 0 0 429.6 100L429.6 0A8 8 0 0 1 413.6 0Z" />
+    <path fill-rule="evenodd" d="M421.6 8L447.52 8A8 8 0 0 0 447.52 -8L421.6 -8A8 8 0 0 1 421.6 8ZM443.861 7.114L463.301 17.114A8 8 0 0 0 470.619 2.886L451.179 -7.114A8 8 0 0 1 443.861 7.114ZM459.7 13.36L466.18 27.36A8 8 0 0 0 480.7 20.64L474.22 6.64A8 8 0 0 1 459.7 13.36ZM466.401 20.199L459.921 32.199A8 8 0 0 0 473.999 39.801L480.479 27.801A8 8 0 0 1 466.401 20.199ZM463.301 28.886L443.861 38.886A8 8 0 0 0 451.179 53.114L470.619 43.114A8 8 0 0 1 463.301 28.886ZM447.52 38L421.6 38A8 8 0 0 0 421.6 54L447.52 54A8 8 0 0 1 447.52 38Z" />
+    <path fill-rule="evenodd" d="M438.38 49.909L468.62 103.909A8 8 0 0 0 482.58 96.091L452.34 42.091A8 8 0 0 1 438.38 49.909Z" />
+    <path fill-rule="evenodd" d="M503.76 50A31.32 50 0 1 0 566.4 50A31.32 50 0 1 0 503.76 50ZM519.76 50A15.32 34 0 1 1 550.4 50A15.32 34 0 1 1 519.76 50Z" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Horizontal</h3><div class="art lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.569 1.16" role="img" data-ld="tessaro-lockup-horizontal">
+<title>Tessaro — modular architecture for tight city plots — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1" height="1" viewBox="30 30 196 196" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #8A3B22)">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g></svg>
+  <svg x="1.38" y="0.37" width="2.109" height="0.42" viewBox="-8 -8 582.4 116" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #2A1E17)">
+    <path fill-rule="evenodd" d="M0 8L58.32 8A8 8 0 0 0 58.32 -8L0 -8A8 8 0 0 1 0 8Z" />
+    <path fill-rule="evenodd" d="M21.16 0L21.16 100A8 8 0 0 0 37.16 100L37.16 0A8 8 0 0 1 21.16 0Z" />
+    <path fill-rule="evenodd" d="M76.32 0L76.32 100A8 8 0 0 0 92.32 100L92.32 0A8 8 0 0 1 76.32 0Z" />
+    <path fill-rule="evenodd" d="M84.32 8L134 8A8 8 0 0 0 134 -8L84.32 -8A8 8 0 0 1 84.32 8Z" />
+    <path fill-rule="evenodd" d="M84.32 58L123.2 58A8 8 0 0 0 123.2 42L84.32 42A8 8 0 0 1 84.32 58Z" />
+    <path fill-rule="evenodd" d="M84.32 108L134 108A8 8 0 0 0 134 92L84.32 92A8 8 0 0 1 84.32 108Z" />
+    <path fill-rule="evenodd" d="M220.723 5.429L203.443 -6.571A8 8 0 0 0 194.317 6.571L211.597 18.571A8 8 0 0 1 220.723 5.429ZM198.88 -8L177.28 -8A8 8 0 0 0 177.28 8L198.88 8A8 8 0 0 1 198.88 -8ZM171.845 -5.87L158.885 6.13A8 8 0 0 0 169.755 17.87L182.715 5.87A8 8 0 0 1 171.845 -5.87ZM156.32 12L156.32 30A8 8 0 0 0 172.32 30L172.32 12A8 8 0 0 1 156.32 12ZM158.885 35.87L171.845 47.87A8 8 0 0 0 182.715 36.13L169.755 24.13A8 8 0 0 1 158.885 35.87ZM174.727 49.582L198.487 57.582A8 8 0 0 0 203.593 42.418L179.833 34.418A8 8 0 0 1 174.727 49.582ZM195.605 55.87L208.565 67.87A8 8 0 0 0 219.435 56.13L206.475 44.13A8 8 0 0 1 195.605 55.87ZM206 62L206 82A8 8 0 0 0 222 82L222 62A8 8 0 0 1 206 62ZM207.508 77.326L194.548 95.326A8 8 0 0 0 207.532 104.674L220.492 86.674A8 8 0 0 1 207.508 77.326ZM201.04 92L175.12 92A8 8 0 0 0 175.12 108L201.04 108A8 8 0 0 1 201.04 92ZM180.555 94.13L167.595 82.13A8 8 0 0 0 156.725 93.87L169.685 105.87A8 8 0 0 1 180.555 94.13Z" />
+    <path fill-rule="evenodd" d="M302.883 5.429L285.603 -6.571A8 8 0 0 0 276.477 6.571L293.757 18.571A8 8 0 0 1 302.883 5.429ZM281.04 -8L259.44 -8A8 8 0 0 0 259.44 8L281.04 8A8 8 0 0 1 281.04 -8ZM254.005 -5.87L241.045 6.13A8 8 0 0 0 251.915 17.87L264.875 5.87A8 8 0 0 1 254.005 -5.87ZM238.48 12L238.48 30A8 8 0 0 0 254.48 30L254.48 12A8 8 0 0 1 238.48 12ZM241.045 35.87L254.005 47.87A8 8 0 0 0 264.875 36.13L251.915 24.13A8 8 0 0 1 241.045 35.87ZM256.887 49.582L280.647 57.582A8 8 0 0 0 285.753 42.418L261.993 34.418A8 8 0 0 1 256.887 49.582ZM277.765 55.87L290.725 67.87A8 8 0 0 0 301.595 56.13L288.635 44.13A8 8 0 0 1 277.765 55.87ZM288.16 62L288.16 82A8 8 0 0 0 304.16 82L304.16 62A8 8 0 0 1 288.16 62ZM289.668 77.326L276.708 95.326A8 8 0 0 0 289.692 104.674L302.652 86.674A8 8 0 0 1 289.668 77.326ZM283.2 92L257.28 92A8 8 0 0 0 257.28 108L283.2 108A8 8 0 0 1 283.2 92ZM262.715 94.13L249.755 82.13A8 8 0 0 0 238.885 93.87L251.845 105.87A8 8 0 0 1 262.715 94.13Z" />
+    <path fill-rule="evenodd" d="M334.041 102.613L368.601 2.613A8 8 0 0 0 353.479 -2.613L318.919 97.387A8 8 0 0 1 334.041 102.613ZM353.479 2.613L388.039 102.613A8 8 0 0 0 403.161 97.387L368.601 -2.613A8 8 0 0 1 353.479 2.613Z" />
+    <path fill-rule="evenodd" d="M341.6 72L380.48 72A8 8 0 0 0 380.48 56L341.6 56A8 8 0 0 1 341.6 72Z" />
+    <path fill-rule="evenodd" d="M413.6 0L413.6 100A8 8 0 0 0 429.6 100L429.6 0A8 8 0 0 1 413.6 0Z" />
+    <path fill-rule="evenodd" d="M421.6 8L447.52 8A8 8 0 0 0 447.52 -8L421.6 -8A8 8 0 0 1 421.6 8ZM443.861 7.114L463.301 17.114A8 8 0 0 0 470.619 2.886L451.179 -7.114A8 8 0 0 1 443.861 7.114ZM459.7 13.36L466.18 27.36A8 8 0 0 0 480.7 20.64L474.22 6.64A8 8 0 0 1 459.7 13.36ZM466.401 20.199L459.921 32.199A8 8 0 0 0 473.999 39.801L480.479 27.801A8 8 0 0 1 466.401 20.199ZM463.301 28.886L443.861 38.886A8 8 0 0 0 451.179 53.114L470.619 43.114A8 8 0 0 1 463.301 28.886ZM447.52 38L421.6 38A8 8 0 0 0 421.6 54L447.52 54A8 8 0 0 1 447.52 38Z" />
+    <path fill-rule="evenodd" d="M438.38 49.909L468.62 103.909A8 8 0 0 0 482.58 96.091L452.34 42.091A8 8 0 0 1 438.38 49.909Z" />
+    <path fill-rule="evenodd" d="M503.76 50A31.32 50 0 1 0 566.4 50A31.32 50 0 1 0 503.76 50ZM519.76 50A15.32 34 0 1 1 550.4 50A15.32 34 0 1 1 519.76 50Z" />
+  </g></svg>
+</svg>
+</div></div>
+      <div class="card darkcard" style="background:#1B120D;color:#F4E8DA"><h3>Stacked dark</h3><div class="art lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.269 1.8" role="img" data-ld="tessaro-lockup-stacked-dark">
+<title>Tessaro — modular architecture for tight city plots — stacked lockup, dark background</title>
+<svg x="0.634" y="0.08" width="1" height="1" viewBox="30 30 196 196" preserveAspectRatio="xMidYMid meet"><g fill="#E59A78">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="2.109" height="0.42" viewBox="-8 -8 582.4 116" preserveAspectRatio="xMidYMid meet"><g fill="#F4E8DA">
+    <path fill-rule="evenodd" d="M0 8L58.32 8A8 8 0 0 0 58.32 -8L0 -8A8 8 0 0 1 0 8Z" />
+    <path fill-rule="evenodd" d="M21.16 0L21.16 100A8 8 0 0 0 37.16 100L37.16 0A8 8 0 0 1 21.16 0Z" />
+    <path fill-rule="evenodd" d="M76.32 0L76.32 100A8 8 0 0 0 92.32 100L92.32 0A8 8 0 0 1 76.32 0Z" />
+    <path fill-rule="evenodd" d="M84.32 8L134 8A8 8 0 0 0 134 -8L84.32 -8A8 8 0 0 1 84.32 8Z" />
+    <path fill-rule="evenodd" d="M84.32 58L123.2 58A8 8 0 0 0 123.2 42L84.32 42A8 8 0 0 1 84.32 58Z" />
+    <path fill-rule="evenodd" d="M84.32 108L134 108A8 8 0 0 0 134 92L84.32 92A8 8 0 0 1 84.32 108Z" />
+    <path fill-rule="evenodd" d="M220.723 5.429L203.443 -6.571A8 8 0 0 0 194.317 6.571L211.597 18.571A8 8 0 0 1 220.723 5.429ZM198.88 -8L177.28 -8A8 8 0 0 0 177.28 8L198.88 8A8 8 0 0 1 198.88 -8ZM171.845 -5.87L158.885 6.13A8 8 0 0 0 169.755 17.87L182.715 5.87A8 8 0 0 1 171.845 -5.87ZM156.32 12L156.32 30A8 8 0 0 0 172.32 30L172.32 12A8 8 0 0 1 156.32 12ZM158.885 35.87L171.845 47.87A8 8 0 0 0 182.715 36.13L169.755 24.13A8 8 0 0 1 158.885 35.87ZM174.727 49.582L198.487 57.582A8 8 0 0 0 203.593 42.418L179.833 34.418A8 8 0 0 1 174.727 49.582ZM195.605 55.87L208.565 67.87A8 8 0 0 0 219.435 56.13L206.475 44.13A8 8 0 0 1 195.605 55.87ZM206 62L206 82A8 8 0 0 0 222 82L222 62A8 8 0 0 1 206 62ZM207.508 77.326L194.548 95.326A8 8 0 0 0 207.532 104.674L220.492 86.674A8 8 0 0 1 207.508 77.326ZM201.04 92L175.12 92A8 8 0 0 0 175.12 108L201.04 108A8 8 0 0 1 201.04 92ZM180.555 94.13L167.595 82.13A8 8 0 0 0 156.725 93.87L169.685 105.87A8 8 0 0 1 180.555 94.13Z" />
+    <path fill-rule="evenodd" d="M302.883 5.429L285.603 -6.571A8 8 0 0 0 276.477 6.571L293.757 18.571A8 8 0 0 1 302.883 5.429ZM281.04 -8L259.44 -8A8 8 0 0 0 259.44 8L281.04 8A8 8 0 0 1 281.04 -8ZM254.005 -5.87L241.045 6.13A8 8 0 0 0 251.915 17.87L264.875 5.87A8 8 0 0 1 254.005 -5.87ZM238.48 12L238.48 30A8 8 0 0 0 254.48 30L254.48 12A8 8 0 0 1 238.48 12ZM241.045 35.87L254.005 47.87A8 8 0 0 0 264.875 36.13L251.915 24.13A8 8 0 0 1 241.045 35.87ZM256.887 49.582L280.647 57.582A8 8 0 0 0 285.753 42.418L261.993 34.418A8 8 0 0 1 256.887 49.582ZM277.765 55.87L290.725 67.87A8 8 0 0 0 301.595 56.13L288.635 44.13A8 8 0 0 1 277.765 55.87ZM288.16 62L288.16 82A8 8 0 0 0 304.16 82L304.16 62A8 8 0 0 1 288.16 62ZM289.668 77.326L276.708 95.326A8 8 0 0 0 289.692 104.674L302.652 86.674A8 8 0 0 1 289.668 77.326ZM283.2 92L257.28 92A8 8 0 0 0 257.28 108L283.2 108A8 8 0 0 1 283.2 92ZM262.715 94.13L249.755 82.13A8 8 0 0 0 238.885 93.87L251.845 105.87A8 8 0 0 1 262.715 94.13Z" />
+    <path fill-rule="evenodd" d="M334.041 102.613L368.601 2.613A8 8 0 0 0 353.479 -2.613L318.919 97.387A8 8 0 0 1 334.041 102.613ZM353.479 2.613L388.039 102.613A8 8 0 0 0 403.161 97.387L368.601 -2.613A8 8 0 0 1 353.479 2.613Z" />
+    <path fill-rule="evenodd" d="M341.6 72L380.48 72A8 8 0 0 0 380.48 56L341.6 56A8 8 0 0 1 341.6 72Z" />
+    <path fill-rule="evenodd" d="M413.6 0L413.6 100A8 8 0 0 0 429.6 100L429.6 0A8 8 0 0 1 413.6 0Z" />
+    <path fill-rule="evenodd" d="M421.6 8L447.52 8A8 8 0 0 0 447.52 -8L421.6 -8A8 8 0 0 1 421.6 8ZM443.861 7.114L463.301 17.114A8 8 0 0 0 470.619 2.886L451.179 -7.114A8 8 0 0 1 443.861 7.114ZM459.7 13.36L466.18 27.36A8 8 0 0 0 480.7 20.64L474.22 6.64A8 8 0 0 1 459.7 13.36ZM466.401 20.199L459.921 32.199A8 8 0 0 0 473.999 39.801L480.479 27.801A8 8 0 0 1 466.401 20.199ZM463.301 28.886L443.861 38.886A8 8 0 0 0 451.179 53.114L470.619 43.114A8 8 0 0 1 463.301 28.886ZM447.52 38L421.6 38A8 8 0 0 0 421.6 54L447.52 54A8 8 0 0 1 447.52 38Z" />
+    <path fill-rule="evenodd" d="M438.38 49.909L468.62 103.909A8 8 0 0 0 482.58 96.091L452.34 42.091A8 8 0 0 1 438.38 49.909Z" />
+    <path fill-rule="evenodd" d="M503.76 50A31.32 50 0 1 0 566.4 50A31.32 50 0 1 0 503.76 50ZM519.76 50A15.32 34 0 1 1 550.4 50A15.32 34 0 1 1 519.76 50Z" />
+  </g></svg>
+</svg>
+</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Two palettes</h2><p>Every pair is measured in light and dark. The drawing never changes; only the tokens do.</p></div>
+    <div class="palette-group">
+      <div class="palette-title"><b>Clay &amp; cream</b><span>Earthy and tactile. Terracotta brand with an olive accent. · primary</span></div>
+      <div class="plate-grid">
+        <article class="plate light" style="--ld-bg:#FBF6EE;--ld-ink:#2A1E17;--ld-brand:#8A3B22;--ld-accent:#4A6B2A;--plate-bg:#FBF6EE;--plate-ink:#2A1E17">
+    <div class="plate-head"><span>Primary</span><span class="badge">light</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.569 1.16" role="img" data-ld="tessaro-lockup-horizontal">
+<title>Tessaro — modular architecture for tight city plots — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1" height="1" viewBox="30 30 196 196" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #8A3B22)">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g></svg>
+  <svg x="1.38" y="0.37" width="2.109" height="0.42" viewBox="-8 -8 582.4 116" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #2A1E17)">
+    <path fill-rule="evenodd" d="M0 8L58.32 8A8 8 0 0 0 58.32 -8L0 -8A8 8 0 0 1 0 8Z" />
+    <path fill-rule="evenodd" d="M21.16 0L21.16 100A8 8 0 0 0 37.16 100L37.16 0A8 8 0 0 1 21.16 0Z" />
+    <path fill-rule="evenodd" d="M76.32 0L76.32 100A8 8 0 0 0 92.32 100L92.32 0A8 8 0 0 1 76.32 0Z" />
+    <path fill-rule="evenodd" d="M84.32 8L134 8A8 8 0 0 0 134 -8L84.32 -8A8 8 0 0 1 84.32 8Z" />
+    <path fill-rule="evenodd" d="M84.32 58L123.2 58A8 8 0 0 0 123.2 42L84.32 42A8 8 0 0 1 84.32 58Z" />
+    <path fill-rule="evenodd" d="M84.32 108L134 108A8 8 0 0 0 134 92L84.32 92A8 8 0 0 1 84.32 108Z" />
+    <path fill-rule="evenodd" d="M220.723 5.429L203.443 -6.571A8 8 0 0 0 194.317 6.571L211.597 18.571A8 8 0 0 1 220.723 5.429ZM198.88 -8L177.28 -8A8 8 0 0 0 177.28 8L198.88 8A8 8 0 0 1 198.88 -8ZM171.845 -5.87L158.885 6.13A8 8 0 0 0 169.755 17.87L182.715 5.87A8 8 0 0 1 171.845 -5.87ZM156.32 12L156.32 30A8 8 0 0 0 172.32 30L172.32 12A8 8 0 0 1 156.32 12ZM158.885 35.87L171.845 47.87A8 8 0 0 0 182.715 36.13L169.755 24.13A8 8 0 0 1 158.885 35.87ZM174.727 49.582L198.487 57.582A8 8 0 0 0 203.593 42.418L179.833 34.418A8 8 0 0 1 174.727 49.582ZM195.605 55.87L208.565 67.87A8 8 0 0 0 219.435 56.13L206.475 44.13A8 8 0 0 1 195.605 55.87ZM206 62L206 82A8 8 0 0 0 222 82L222 62A8 8 0 0 1 206 62ZM207.508 77.326L194.548 95.326A8 8 0 0 0 207.532 104.674L220.492 86.674A8 8 0 0 1 207.508 77.326ZM201.04 92L175.12 92A8 8 0 0 0 175.12 108L201.04 108A8 8 0 0 1 201.04 92ZM180.555 94.13L167.595 82.13A8 8 0 0 0 156.725 93.87L169.685 105.87A8 8 0 0 1 180.555 94.13Z" />
+    <path fill-rule="evenodd" d="M302.883 5.429L285.603 -6.571A8 8 0 0 0 276.477 6.571L293.757 18.571A8 8 0 0 1 302.883 5.429ZM281.04 -8L259.44 -8A8 8 0 0 0 259.44 8L281.04 8A8 8 0 0 1 281.04 -8ZM254.005 -5.87L241.045 6.13A8 8 0 0 0 251.915 17.87L264.875 5.87A8 8 0 0 1 254.005 -5.87ZM238.48 12L238.48 30A8 8 0 0 0 254.48 30L254.48 12A8 8 0 0 1 238.48 12ZM241.045 35.87L254.005 47.87A8 8 0 0 0 264.875 36.13L251.915 24.13A8 8 0 0 1 241.045 35.87ZM256.887 49.582L280.647 57.582A8 8 0 0 0 285.753 42.418L261.993 34.418A8 8 0 0 1 256.887 49.582ZM277.765 55.87L290.725 67.87A8 8 0 0 0 301.595 56.13L288.635 44.13A8 8 0 0 1 277.765 55.87ZM288.16 62L288.16 82A8 8 0 0 0 304.16 82L304.16 62A8 8 0 0 1 288.16 62ZM289.668 77.326L276.708 95.326A8 8 0 0 0 289.692 104.674L302.652 86.674A8 8 0 0 1 289.668 77.326ZM283.2 92L257.28 92A8 8 0 0 0 257.28 108L283.2 108A8 8 0 0 1 283.2 92ZM262.715 94.13L249.755 82.13A8 8 0 0 0 238.885 93.87L251.845 105.87A8 8 0 0 1 262.715 94.13Z" />
+    <path fill-rule="evenodd" d="M334.041 102.613L368.601 2.613A8 8 0 0 0 353.479 -2.613L318.919 97.387A8 8 0 0 1 334.041 102.613ZM353.479 2.613L388.039 102.613A8 8 0 0 0 403.161 97.387L368.601 -2.613A8 8 0 0 1 353.479 2.613Z" />
+    <path fill-rule="evenodd" d="M341.6 72L380.48 72A8 8 0 0 0 380.48 56L341.6 56A8 8 0 0 1 341.6 72Z" />
+    <path fill-rule="evenodd" d="M413.6 0L413.6 100A8 8 0 0 0 429.6 100L429.6 0A8 8 0 0 1 413.6 0Z" />
+    <path fill-rule="evenodd" d="M421.6 8L447.52 8A8 8 0 0 0 447.52 -8L421.6 -8A8 8 0 0 1 421.6 8ZM443.861 7.114L463.301 17.114A8 8 0 0 0 470.619 2.886L451.179 -7.114A8 8 0 0 1 443.861 7.114ZM459.7 13.36L466.18 27.36A8 8 0 0 0 480.7 20.64L474.22 6.64A8 8 0 0 1 459.7 13.36ZM466.401 20.199L459.921 32.199A8 8 0 0 0 473.999 39.801L480.479 27.801A8 8 0 0 1 466.401 20.199ZM463.301 28.886L443.861 38.886A8 8 0 0 0 451.179 53.114L470.619 43.114A8 8 0 0 1 463.301 28.886ZM447.52 38L421.6 38A8 8 0 0 0 421.6 54L447.52 54A8 8 0 0 1 447.52 38Z" />
+    <path fill-rule="evenodd" d="M438.38 49.909L468.62 103.909A8 8 0 0 0 482.58 96.091L452.34 42.091A8 8 0 0 1 438.38 49.909Z" />
+    <path fill-rule="evenodd" d="M503.76 50A31.32 50 0 1 0 566.4 50A31.32 50 0 1 0 503.76 50ZM519.76 50A15.32 34 0 1 1 550.4 50A15.32 34 0 1 1 519.76 50Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#FBF6EE"></i><b>bg</b><code>#FBF6EE</code></span><span class="swatch"><i style="background:#2A1E17"></i><b>ink</b><code>#2A1E17</code></span><span class="swatch"><i style="background:#8A3B22"></i><b>brand</b><code>#8A3B22</code></span><span class="swatch"><i style="background:#4A6B2A"></i><b>accent</b><code>#4A6B2A</code></span></div>
+    <p class="plate-note">Lowest pair <b>5.69:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+        <article class="plate dark" style="--ld-bg:#1B120D;--ld-ink:#F4E8DA;--ld-brand:#E59A78;--ld-accent:#A9C77A;--plate-bg:#1B120D;--plate-ink:#F4E8DA">
+    <div class="plate-head"><span>Primary</span><span class="badge">dark</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.569 1.16" role="img" data-ld="tessaro-lockup-horizontal-dark">
+<title>Tessaro — modular architecture for tight city plots — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="1" height="1" viewBox="30 30 196 196" preserveAspectRatio="xMidYMid meet"><g fill="#E59A78">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g></svg>
+  <svg x="1.38" y="0.37" width="2.109" height="0.42" viewBox="-8 -8 582.4 116" preserveAspectRatio="xMidYMid meet"><g fill="#F4E8DA">
+    <path fill-rule="evenodd" d="M0 8L58.32 8A8 8 0 0 0 58.32 -8L0 -8A8 8 0 0 1 0 8Z" />
+    <path fill-rule="evenodd" d="M21.16 0L21.16 100A8 8 0 0 0 37.16 100L37.16 0A8 8 0 0 1 21.16 0Z" />
+    <path fill-rule="evenodd" d="M76.32 0L76.32 100A8 8 0 0 0 92.32 100L92.32 0A8 8 0 0 1 76.32 0Z" />
+    <path fill-rule="evenodd" d="M84.32 8L134 8A8 8 0 0 0 134 -8L84.32 -8A8 8 0 0 1 84.32 8Z" />
+    <path fill-rule="evenodd" d="M84.32 58L123.2 58A8 8 0 0 0 123.2 42L84.32 42A8 8 0 0 1 84.32 58Z" />
+    <path fill-rule="evenodd" d="M84.32 108L134 108A8 8 0 0 0 134 92L84.32 92A8 8 0 0 1 84.32 108Z" />
+    <path fill-rule="evenodd" d="M220.723 5.429L203.443 -6.571A8 8 0 0 0 194.317 6.571L211.597 18.571A8 8 0 0 1 220.723 5.429ZM198.88 -8L177.28 -8A8 8 0 0 0 177.28 8L198.88 8A8 8 0 0 1 198.88 -8ZM171.845 -5.87L158.885 6.13A8 8 0 0 0 169.755 17.87L182.715 5.87A8 8 0 0 1 171.845 -5.87ZM156.32 12L156.32 30A8 8 0 0 0 172.32 30L172.32 12A8 8 0 0 1 156.32 12ZM158.885 35.87L171.845 47.87A8 8 0 0 0 182.715 36.13L169.755 24.13A8 8 0 0 1 158.885 35.87ZM174.727 49.582L198.487 57.582A8 8 0 0 0 203.593 42.418L179.833 34.418A8 8 0 0 1 174.727 49.582ZM195.605 55.87L208.565 67.87A8 8 0 0 0 219.435 56.13L206.475 44.13A8 8 0 0 1 195.605 55.87ZM206 62L206 82A8 8 0 0 0 222 82L222 62A8 8 0 0 1 206 62ZM207.508 77.326L194.548 95.326A8 8 0 0 0 207.532 104.674L220.492 86.674A8 8 0 0 1 207.508 77.326ZM201.04 92L175.12 92A8 8 0 0 0 175.12 108L201.04 108A8 8 0 0 1 201.04 92ZM180.555 94.13L167.595 82.13A8 8 0 0 0 156.725 93.87L169.685 105.87A8 8 0 0 1 180.555 94.13Z" />
+    <path fill-rule="evenodd" d="M302.883 5.429L285.603 -6.571A8 8 0 0 0 276.477 6.571L293.757 18.571A8 8 0 0 1 302.883 5.429ZM281.04 -8L259.44 -8A8 8 0 0 0 259.44 8L281.04 8A8 8 0 0 1 281.04 -8ZM254.005 -5.87L241.045 6.13A8 8 0 0 0 251.915 17.87L264.875 5.87A8 8 0 0 1 254.005 -5.87ZM238.48 12L238.48 30A8 8 0 0 0 254.48 30L254.48 12A8 8 0 0 1 238.48 12ZM241.045 35.87L254.005 47.87A8 8 0 0 0 264.875 36.13L251.915 24.13A8 8 0 0 1 241.045 35.87ZM256.887 49.582L280.647 57.582A8 8 0 0 0 285.753 42.418L261.993 34.418A8 8 0 0 1 256.887 49.582ZM277.765 55.87L290.725 67.87A8 8 0 0 0 301.595 56.13L288.635 44.13A8 8 0 0 1 277.765 55.87ZM288.16 62L288.16 82A8 8 0 0 0 304.16 82L304.16 62A8 8 0 0 1 288.16 62ZM289.668 77.326L276.708 95.326A8 8 0 0 0 289.692 104.674L302.652 86.674A8 8 0 0 1 289.668 77.326ZM283.2 92L257.28 92A8 8 0 0 0 257.28 108L283.2 108A8 8 0 0 1 283.2 92ZM262.715 94.13L249.755 82.13A8 8 0 0 0 238.885 93.87L251.845 105.87A8 8 0 0 1 262.715 94.13Z" />
+    <path fill-rule="evenodd" d="M334.041 102.613L368.601 2.613A8 8 0 0 0 353.479 -2.613L318.919 97.387A8 8 0 0 1 334.041 102.613ZM353.479 2.613L388.039 102.613A8 8 0 0 0 403.161 97.387L368.601 -2.613A8 8 0 0 1 353.479 2.613Z" />
+    <path fill-rule="evenodd" d="M341.6 72L380.48 72A8 8 0 0 0 380.48 56L341.6 56A8 8 0 0 1 341.6 72Z" />
+    <path fill-rule="evenodd" d="M413.6 0L413.6 100A8 8 0 0 0 429.6 100L429.6 0A8 8 0 0 1 413.6 0Z" />
+    <path fill-rule="evenodd" d="M421.6 8L447.52 8A8 8 0 0 0 447.52 -8L421.6 -8A8 8 0 0 1 421.6 8ZM443.861 7.114L463.301 17.114A8 8 0 0 0 470.619 2.886L451.179 -7.114A8 8 0 0 1 443.861 7.114ZM459.7 13.36L466.18 27.36A8 8 0 0 0 480.7 20.64L474.22 6.64A8 8 0 0 1 459.7 13.36ZM466.401 20.199L459.921 32.199A8 8 0 0 0 473.999 39.801L480.479 27.801A8 8 0 0 1 466.401 20.199ZM463.301 28.886L443.861 38.886A8 8 0 0 0 451.179 53.114L470.619 43.114A8 8 0 0 1 463.301 28.886ZM447.52 38L421.6 38A8 8 0 0 0 421.6 54L447.52 54A8 8 0 0 1 447.52 38Z" />
+    <path fill-rule="evenodd" d="M438.38 49.909L468.62 103.909A8 8 0 0 0 482.58 96.091L452.34 42.091A8 8 0 0 1 438.38 49.909Z" />
+    <path fill-rule="evenodd" d="M503.76 50A31.32 50 0 1 0 566.4 50A31.32 50 0 1 0 503.76 50ZM519.76 50A15.32 34 0 1 1 550.4 50A15.32 34 0 1 1 519.76 50Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#1B120D"></i><b>bg</b><code>#1B120D</code></span><span class="swatch"><i style="background:#F4E8DA"></i><b>ink</b><code>#F4E8DA</code></span><span class="swatch"><i style="background:#E59A78"></i><b>brand</b><code>#E59A78</code></span><span class="swatch"><i style="background:#A9C77A"></i><b>accent</b><code>#A9C77A</code></span></div>
+    <p class="plate-note">Lowest pair <b>5.69:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+      </div>
+    </div>
+    <div class="palette-group">
+      <div class="palette-title"><b>Cobalt &amp; mint</b><span>Clear and technical without falling back to default blue-on-white. · alternate</span></div>
+      <div class="plate-grid">
+        <article class="plate light" style="--ld-bg:#F3F6FB;--ld-ink:#101B2D;--ld-brand:#1D4ED8;--ld-accent:#0F8A6E;--plate-bg:#F3F6FB;--plate-ink:#101B2D">
+    <div class="plate-head"><span>Alternate</span><span class="badge">light</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.569 1.16" role="img" data-ld="tessaro-lockup-horizontal">
+<title>Tessaro — modular architecture for tight city plots — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1" height="1" viewBox="30 30 196 196" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #1D4ED8)">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g></svg>
+  <svg x="1.38" y="0.37" width="2.109" height="0.42" viewBox="-8 -8 582.4 116" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #101B2D)">
+    <path fill-rule="evenodd" d="M0 8L58.32 8A8 8 0 0 0 58.32 -8L0 -8A8 8 0 0 1 0 8Z" />
+    <path fill-rule="evenodd" d="M21.16 0L21.16 100A8 8 0 0 0 37.16 100L37.16 0A8 8 0 0 1 21.16 0Z" />
+    <path fill-rule="evenodd" d="M76.32 0L76.32 100A8 8 0 0 0 92.32 100L92.32 0A8 8 0 0 1 76.32 0Z" />
+    <path fill-rule="evenodd" d="M84.32 8L134 8A8 8 0 0 0 134 -8L84.32 -8A8 8 0 0 1 84.32 8Z" />
+    <path fill-rule="evenodd" d="M84.32 58L123.2 58A8 8 0 0 0 123.2 42L84.32 42A8 8 0 0 1 84.32 58Z" />
+    <path fill-rule="evenodd" d="M84.32 108L134 108A8 8 0 0 0 134 92L84.32 92A8 8 0 0 1 84.32 108Z" />
+    <path fill-rule="evenodd" d="M220.723 5.429L203.443 -6.571A8 8 0 0 0 194.317 6.571L211.597 18.571A8 8 0 0 1 220.723 5.429ZM198.88 -8L177.28 -8A8 8 0 0 0 177.28 8L198.88 8A8 8 0 0 1 198.88 -8ZM171.845 -5.87L158.885 6.13A8 8 0 0 0 169.755 17.87L182.715 5.87A8 8 0 0 1 171.845 -5.87ZM156.32 12L156.32 30A8 8 0 0 0 172.32 30L172.32 12A8 8 0 0 1 156.32 12ZM158.885 35.87L171.845 47.87A8 8 0 0 0 182.715 36.13L169.755 24.13A8 8 0 0 1 158.885 35.87ZM174.727 49.582L198.487 57.582A8 8 0 0 0 203.593 42.418L179.833 34.418A8 8 0 0 1 174.727 49.582ZM195.605 55.87L208.565 67.87A8 8 0 0 0 219.435 56.13L206.475 44.13A8 8 0 0 1 195.605 55.87ZM206 62L206 82A8 8 0 0 0 222 82L222 62A8 8 0 0 1 206 62ZM207.508 77.326L194.548 95.326A8 8 0 0 0 207.532 104.674L220.492 86.674A8 8 0 0 1 207.508 77.326ZM201.04 92L175.12 92A8 8 0 0 0 175.12 108L201.04 108A8 8 0 0 1 201.04 92ZM180.555 94.13L167.595 82.13A8 8 0 0 0 156.725 93.87L169.685 105.87A8 8 0 0 1 180.555 94.13Z" />
+    <path fill-rule="evenodd" d="M302.883 5.429L285.603 -6.571A8 8 0 0 0 276.477 6.571L293.757 18.571A8 8 0 0 1 302.883 5.429ZM281.04 -8L259.44 -8A8 8 0 0 0 259.44 8L281.04 8A8 8 0 0 1 281.04 -8ZM254.005 -5.87L241.045 6.13A8 8 0 0 0 251.915 17.87L264.875 5.87A8 8 0 0 1 254.005 -5.87ZM238.48 12L238.48 30A8 8 0 0 0 254.48 30L254.48 12A8 8 0 0 1 238.48 12ZM241.045 35.87L254.005 47.87A8 8 0 0 0 264.875 36.13L251.915 24.13A8 8 0 0 1 241.045 35.87ZM256.887 49.582L280.647 57.582A8 8 0 0 0 285.753 42.418L261.993 34.418A8 8 0 0 1 256.887 49.582ZM277.765 55.87L290.725 67.87A8 8 0 0 0 301.595 56.13L288.635 44.13A8 8 0 0 1 277.765 55.87ZM288.16 62L288.16 82A8 8 0 0 0 304.16 82L304.16 62A8 8 0 0 1 288.16 62ZM289.668 77.326L276.708 95.326A8 8 0 0 0 289.692 104.674L302.652 86.674A8 8 0 0 1 289.668 77.326ZM283.2 92L257.28 92A8 8 0 0 0 257.28 108L283.2 108A8 8 0 0 1 283.2 92ZM262.715 94.13L249.755 82.13A8 8 0 0 0 238.885 93.87L251.845 105.87A8 8 0 0 1 262.715 94.13Z" />
+    <path fill-rule="evenodd" d="M334.041 102.613L368.601 2.613A8 8 0 0 0 353.479 -2.613L318.919 97.387A8 8 0 0 1 334.041 102.613ZM353.479 2.613L388.039 102.613A8 8 0 0 0 403.161 97.387L368.601 -2.613A8 8 0 0 1 353.479 2.613Z" />
+    <path fill-rule="evenodd" d="M341.6 72L380.48 72A8 8 0 0 0 380.48 56L341.6 56A8 8 0 0 1 341.6 72Z" />
+    <path fill-rule="evenodd" d="M413.6 0L413.6 100A8 8 0 0 0 429.6 100L429.6 0A8 8 0 0 1 413.6 0Z" />
+    <path fill-rule="evenodd" d="M421.6 8L447.52 8A8 8 0 0 0 447.52 -8L421.6 -8A8 8 0 0 1 421.6 8ZM443.861 7.114L463.301 17.114A8 8 0 0 0 470.619 2.886L451.179 -7.114A8 8 0 0 1 443.861 7.114ZM459.7 13.36L466.18 27.36A8 8 0 0 0 480.7 20.64L474.22 6.64A8 8 0 0 1 459.7 13.36ZM466.401 20.199L459.921 32.199A8 8 0 0 0 473.999 39.801L480.479 27.801A8 8 0 0 1 466.401 20.199ZM463.301 28.886L443.861 38.886A8 8 0 0 0 451.179 53.114L470.619 43.114A8 8 0 0 1 463.301 28.886ZM447.52 38L421.6 38A8 8 0 0 0 421.6 54L447.52 54A8 8 0 0 1 447.52 38Z" />
+    <path fill-rule="evenodd" d="M438.38 49.909L468.62 103.909A8 8 0 0 0 482.58 96.091L452.34 42.091A8 8 0 0 1 438.38 49.909Z" />
+    <path fill-rule="evenodd" d="M503.76 50A31.32 50 0 1 0 566.4 50A31.32 50 0 1 0 503.76 50ZM519.76 50A15.32 34 0 1 1 550.4 50A15.32 34 0 1 1 519.76 50Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#F3F6FB"></i><b>bg</b><code>#F3F6FB</code></span><span class="swatch"><i style="background:#101B2D"></i><b>ink</b><code>#101B2D</code></span><span class="swatch"><i style="background:#1D4ED8"></i><b>brand</b><code>#1D4ED8</code></span><span class="swatch"><i style="background:#0F8A6E"></i><b>accent</b><code>#0F8A6E</code></span></div>
+    <p class="plate-note">Lowest pair <b>3.97:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+        <article class="plate dark" style="--ld-bg:#0A1220;--ld-ink:#E6EEF9;--ld-brand:#7EA6FF;--ld-accent:#57D3B0;--plate-bg:#0A1220;--plate-ink:#E6EEF9">
+    <div class="plate-head"><span>Alternate</span><span class="badge">dark</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.569 1.16" role="img" data-ld="tessaro-lockup-horizontal-dark">
+<title>Tessaro — modular architecture for tight city plots — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="1" height="1" viewBox="30 30 196 196" preserveAspectRatio="xMidYMid meet"><g fill="#7EA6FF">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g></svg>
+  <svg x="1.38" y="0.37" width="2.109" height="0.42" viewBox="-8 -8 582.4 116" preserveAspectRatio="xMidYMid meet"><g fill="#E6EEF9">
+    <path fill-rule="evenodd" d="M0 8L58.32 8A8 8 0 0 0 58.32 -8L0 -8A8 8 0 0 1 0 8Z" />
+    <path fill-rule="evenodd" d="M21.16 0L21.16 100A8 8 0 0 0 37.16 100L37.16 0A8 8 0 0 1 21.16 0Z" />
+    <path fill-rule="evenodd" d="M76.32 0L76.32 100A8 8 0 0 0 92.32 100L92.32 0A8 8 0 0 1 76.32 0Z" />
+    <path fill-rule="evenodd" d="M84.32 8L134 8A8 8 0 0 0 134 -8L84.32 -8A8 8 0 0 1 84.32 8Z" />
+    <path fill-rule="evenodd" d="M84.32 58L123.2 58A8 8 0 0 0 123.2 42L84.32 42A8 8 0 0 1 84.32 58Z" />
+    <path fill-rule="evenodd" d="M84.32 108L134 108A8 8 0 0 0 134 92L84.32 92A8 8 0 0 1 84.32 108Z" />
+    <path fill-rule="evenodd" d="M220.723 5.429L203.443 -6.571A8 8 0 0 0 194.317 6.571L211.597 18.571A8 8 0 0 1 220.723 5.429ZM198.88 -8L177.28 -8A8 8 0 0 0 177.28 8L198.88 8A8 8 0 0 1 198.88 -8ZM171.845 -5.87L158.885 6.13A8 8 0 0 0 169.755 17.87L182.715 5.87A8 8 0 0 1 171.845 -5.87ZM156.32 12L156.32 30A8 8 0 0 0 172.32 30L172.32 12A8 8 0 0 1 156.32 12ZM158.885 35.87L171.845 47.87A8 8 0 0 0 182.715 36.13L169.755 24.13A8 8 0 0 1 158.885 35.87ZM174.727 49.582L198.487 57.582A8 8 0 0 0 203.593 42.418L179.833 34.418A8 8 0 0 1 174.727 49.582ZM195.605 55.87L208.565 67.87A8 8 0 0 0 219.435 56.13L206.475 44.13A8 8 0 0 1 195.605 55.87ZM206 62L206 82A8 8 0 0 0 222 82L222 62A8 8 0 0 1 206 62ZM207.508 77.326L194.548 95.326A8 8 0 0 0 207.532 104.674L220.492 86.674A8 8 0 0 1 207.508 77.326ZM201.04 92L175.12 92A8 8 0 0 0 175.12 108L201.04 108A8 8 0 0 1 201.04 92ZM180.555 94.13L167.595 82.13A8 8 0 0 0 156.725 93.87L169.685 105.87A8 8 0 0 1 180.555 94.13Z" />
+    <path fill-rule="evenodd" d="M302.883 5.429L285.603 -6.571A8 8 0 0 0 276.477 6.571L293.757 18.571A8 8 0 0 1 302.883 5.429ZM281.04 -8L259.44 -8A8 8 0 0 0 259.44 8L281.04 8A8 8 0 0 1 281.04 -8ZM254.005 -5.87L241.045 6.13A8 8 0 0 0 251.915 17.87L264.875 5.87A8 8 0 0 1 254.005 -5.87ZM238.48 12L238.48 30A8 8 0 0 0 254.48 30L254.48 12A8 8 0 0 1 238.48 12ZM241.045 35.87L254.005 47.87A8 8 0 0 0 264.875 36.13L251.915 24.13A8 8 0 0 1 241.045 35.87ZM256.887 49.582L280.647 57.582A8 8 0 0 0 285.753 42.418L261.993 34.418A8 8 0 0 1 256.887 49.582ZM277.765 55.87L290.725 67.87A8 8 0 0 0 301.595 56.13L288.635 44.13A8 8 0 0 1 277.765 55.87ZM288.16 62L288.16 82A8 8 0 0 0 304.16 82L304.16 62A8 8 0 0 1 288.16 62ZM289.668 77.326L276.708 95.326A8 8 0 0 0 289.692 104.674L302.652 86.674A8 8 0 0 1 289.668 77.326ZM283.2 92L257.28 92A8 8 0 0 0 257.28 108L283.2 108A8 8 0 0 1 283.2 92ZM262.715 94.13L249.755 82.13A8 8 0 0 0 238.885 93.87L251.845 105.87A8 8 0 0 1 262.715 94.13Z" />
+    <path fill-rule="evenodd" d="M334.041 102.613L368.601 2.613A8 8 0 0 0 353.479 -2.613L318.919 97.387A8 8 0 0 1 334.041 102.613ZM353.479 2.613L388.039 102.613A8 8 0 0 0 403.161 97.387L368.601 -2.613A8 8 0 0 1 353.479 2.613Z" />
+    <path fill-rule="evenodd" d="M341.6 72L380.48 72A8 8 0 0 0 380.48 56L341.6 56A8 8 0 0 1 341.6 72Z" />
+    <path fill-rule="evenodd" d="M413.6 0L413.6 100A8 8 0 0 0 429.6 100L429.6 0A8 8 0 0 1 413.6 0Z" />
+    <path fill-rule="evenodd" d="M421.6 8L447.52 8A8 8 0 0 0 447.52 -8L421.6 -8A8 8 0 0 1 421.6 8ZM443.861 7.114L463.301 17.114A8 8 0 0 0 470.619 2.886L451.179 -7.114A8 8 0 0 1 443.861 7.114ZM459.7 13.36L466.18 27.36A8 8 0 0 0 480.7 20.64L474.22 6.64A8 8 0 0 1 459.7 13.36ZM466.401 20.199L459.921 32.199A8 8 0 0 0 473.999 39.801L480.479 27.801A8 8 0 0 1 466.401 20.199ZM463.301 28.886L443.861 38.886A8 8 0 0 0 451.179 53.114L470.619 43.114A8 8 0 0 1 463.301 28.886ZM447.52 38L421.6 38A8 8 0 0 0 421.6 54L447.52 54A8 8 0 0 1 447.52 38Z" />
+    <path fill-rule="evenodd" d="M438.38 49.909L468.62 103.909A8 8 0 0 0 482.58 96.091L452.34 42.091A8 8 0 0 1 438.38 49.909Z" />
+    <path fill-rule="evenodd" d="M503.76 50A31.32 50 0 1 0 566.4 50A31.32 50 0 1 0 503.76 50ZM519.76 50A15.32 34 0 1 1 550.4 50A15.32 34 0 1 1 519.76 50Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#0A1220"></i><b>bg</b><code>#0A1220</code></span><span class="swatch"><i style="background:#E6EEF9"></i><b>ink</b><code>#E6EEF9</code></span><span class="swatch"><i style="background:#7EA6FF"></i><b>brand</b><code>#7EA6FF</code></span><span class="swatch"><i style="background:#57D3B0"></i><b>accent</b><code>#57D3B0</code></span></div>
+    <p class="plate-note">Lowest pair <b>3.97:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>Contrast, measured</h3>
+      <table>
+        <thead><tr><th>Mode</th><th>Pair</th><th>Ratio</th><th>Status</th></tr></thead>
+        <tbody><tr><td>light</td><td>brand / bg</td><td>7.15:1</td><td class="pass">pass</td></tr><tr><td>light</td><td>ink / bg</td><td>15.05:1</td><td class="pass">pass</td></tr><tr><td>light</td><td>accent / bg</td><td>5.69:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>brand / bg</td><td>8.1:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>ink / bg</td><td>15.28:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>accent / bg</td><td>9.78:1</td><td class="pass">pass</td></tr></tbody>
+      </table>
+      <p class="plate-note" style="color:var(--ink-soft)">Alternate cobalt-mint: lowest 3.97:1 (accent / bg, light).</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>One line</h2><p>The same theme contract in HTML, CSS or React. Change a token, rebuild, and every variant follows.</p></div>
+    <div class="grid grid-2">
+      <pre class="code">&lt;svg class="logo" style="--ld-brand:#8A3B22; --ld-accent:#4A6B2A"&gt;…&lt;/svg&gt;
+
+&lt;TessaroLogo type="horizontal" /&gt;
+
+:root {
+  --ld-brand: #8A3B22;
+  --ld-accent: #4A6B2A;
+}</pre>
+      <div class="card">
+        <h3>What is in the folder</h3>
+        <p class="plate-note" style="color:var(--ink-soft);font-size:13px">Fifteen SVG variants, a favicon, two app icons, tokens, palette CSS, a control-sheet preview and a typed React component. The alternate palette is built from the same masters.</p>
+        <details class="files"><summary>Primary deck · 19 files</summary><ul><li><code>dist/tessaro-app-icon-maskable.svg</code></li><li><code>dist/tessaro-app-icon.svg</code></li><li><code>dist/tessaro-favicon.svg</code></li><li><code>dist/tessaro-lockup-horizontal-dark.svg</code></li><li><code>dist/tessaro-lockup-horizontal-mono.svg</code></li><li><code>dist/tessaro-lockup-horizontal.svg</code></li><li><code>dist/tessaro-lockup-stacked-dark.svg</code></li><li><code>dist/tessaro-lockup-stacked-mono.svg</code></li><li><code>dist/tessaro-lockup-stacked.svg</code></li><li><code>dist/tessaro-palette.css</code></li><li><code>dist/tessaro-preview.html</code></li><li><code>dist/tessaro-symbol-dark.svg</code></li><li><code>dist/tessaro-symbol-mono.svg</code></li><li><code>dist/tessaro-symbol.svg</code></li><li><code>dist/tessaro-tokens.json</code></li><li><code>dist/tessaro-wordmark-dark.svg</code></li><li><code>dist/tessaro-wordmark-mono.svg</code></li><li><code>dist/tessaro-wordmark.svg</code></li><li><code>dist/tessaro.tsx</code></li></ul></details>
+        <details class="files"><summary>Alternate deck · 19 files</summary><ul><li><code>dist-alt/tessaro-app-icon-maskable.svg</code></li><li><code>dist-alt/tessaro-app-icon.svg</code></li><li><code>dist-alt/tessaro-favicon.svg</code></li><li><code>dist-alt/tessaro-lockup-horizontal-dark.svg</code></li><li><code>dist-alt/tessaro-lockup-horizontal-mono.svg</code></li><li><code>dist-alt/tessaro-lockup-horizontal.svg</code></li><li><code>dist-alt/tessaro-lockup-stacked-dark.svg</code></li><li><code>dist-alt/tessaro-lockup-stacked-mono.svg</code></li><li><code>dist-alt/tessaro-lockup-stacked.svg</code></li><li><code>dist-alt/tessaro-palette.css</code></li><li><code>dist-alt/tessaro-preview.html</code></li><li><code>dist-alt/tessaro-symbol-dark.svg</code></li><li><code>dist-alt/tessaro-symbol-mono.svg</code></li><li><code>dist-alt/tessaro-symbol.svg</code></li><li><code>dist-alt/tessaro-tokens.json</code></li><li><code>dist-alt/tessaro-wordmark-dark.svg</code></li><li><code>dist-alt/tessaro-wordmark-mono.svg</code></li><li><code>dist-alt/tessaro-wordmark.svg</code></li><li><code>dist-alt/tessaro.tsx</code></li></ul></details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Tessaro is a fictional brand drawn for this repository. No third-party mark, font or photograph is used.</span>
+    <span>MIT · generated by logodeck · Tessaro — modular architecture for tight city plots</span>
+  </footer>
+</div>
+<script>
+  const root = document.documentElement;
+  document.getElementById("theme").addEventListener("click", () => {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+  });
+</script>
+</body>
+</html>

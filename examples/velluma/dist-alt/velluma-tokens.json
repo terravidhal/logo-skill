@@ -1,0 +1,62 @@
+{
+  "name": "clay-cream",
+  "label": "Clay & cream",
+  "note": "Earthy and tactile. Terracotta brand with an olive accent.",
+  "light": {
+    "bg": "#FBF6EE",
+    "ink": "#2A1E17",
+    "brand": "#8A3B22",
+    "accent": "#4A6B2A"
+  },
+  "dark": {
+    "bg": "#1B120D",
+    "ink": "#F4E8DA",
+    "brand": "#E59A78",
+    "accent": "#A9C77A"
+  },
+  "contrast": [
+    {
+      "mode": "light",
+      "pair": "brand / bg",
+      "ratio": 7.15,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "pair": "ink / bg",
+      "ratio": 15.05,
+      "min": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "pair": "accent / bg",
+      "ratio": 5.69,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "brand / bg",
+      "ratio": 8.1,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "ink / bg",
+      "ratio": 15.28,
+      "min": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "accent / bg",
+      "ratio": 9.78,
+      "min": 3,
+      "pass": true
+    }
+  ],
+  "generatedBy": "logodeck"
+}

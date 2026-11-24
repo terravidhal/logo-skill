@@ -1,0 +1,29 @@
+/* logodeck palette: slate-sky */
+:root {
+  --ld-bg: #F4F6F8;
+  --ld-ink: #18202B;
+  --ld-brand: #2B5B84;
+  --ld-accent: #B45309;
+  --ld-bg-dark: #0E151D;
+  --ld-ink-dark: #E8EFF6;
+  --ld-brand-dark: #82B7E8;
+  --ld-accent-dark: #F0A35E;
+  --ld-on-dark: #E8EFF6;
+}
+
+:root[data-theme="dark"],
+:root.dark {
+  --ld-bg: var(--ld-bg-dark);
+  --ld-ink: var(--ld-ink-dark);
+  --ld-brand: var(--ld-brand-dark);
+  --ld-accent: var(--ld-accent-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ld-bg: var(--ld-bg-dark);
+    --ld-ink: var(--ld-ink-dark);
+    --ld-brand: var(--ld-brand-dark);
+    --ld-accent: var(--ld-accent-dark);
+  }
+}

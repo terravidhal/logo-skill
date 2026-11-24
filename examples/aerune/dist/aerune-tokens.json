@@ -1,0 +1,62 @@
+{
+  "name": "slate-sky",
+  "label": "Slate & sky",
+  "note": "Calm infrastructure palette. Blue-grey brand, amber accent.",
+  "light": {
+    "bg": "#F4F6F8",
+    "ink": "#18202B",
+    "brand": "#2B5B84",
+    "accent": "#B45309"
+  },
+  "dark": {
+    "bg": "#0E151D",
+    "ink": "#E8EFF6",
+    "brand": "#82B7E8",
+    "accent": "#F0A35E"
+  },
+  "contrast": [
+    {
+      "mode": "light",
+      "pair": "brand / bg",
+      "ratio": 6.61,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "pair": "ink / bg",
+      "ratio": 15.14,
+      "min": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "pair": "accent / bg",
+      "ratio": 4.64,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "brand / bg",
+      "ratio": 8.65,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "ink / bg",
+      "ratio": 15.83,
+      "min": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "accent / bg",
+      "ratio": 8.84,
+      "min": 3,
+      "pass": true
+    }
+  ],
+  "generatedBy": "logodeck"
+}

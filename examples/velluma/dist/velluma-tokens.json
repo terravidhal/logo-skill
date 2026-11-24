@@ -1,0 +1,62 @@
+{
+  "name": "plum-gold",
+  "label": "Plum & gold",
+  "note": "Editorial and confident. Suits culture, publishing and premium services.",
+  "light": {
+    "bg": "#FAF6F3",
+    "ink": "#23161F",
+    "brand": "#6B2C5F",
+    "accent": "#8A5A00"
+  },
+  "dark": {
+    "bg": "#1A1017",
+    "ink": "#F3E9F0",
+    "brand": "#D59ACB",
+    "accent": "#E8B44A"
+  },
+  "contrast": [
+    {
+      "mode": "light",
+      "pair": "brand / bg",
+      "ratio": 9.09,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "pair": "ink / bg",
+      "ratio": 16.2,
+      "min": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "pair": "accent / bg",
+      "ratio": 5.52,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "brand / bg",
+      "ratio": 8.24,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "ink / bg",
+      "ratio": 15.68,
+      "min": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "accent / bg",
+      "ratio": 9.78,
+      "min": 3,
+      "pass": true
+    }
+  ],
+  "generatedBy": "logodeck"
+}

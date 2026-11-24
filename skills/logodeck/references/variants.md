@@ -34,6 +34,13 @@ masters. This is what keeps the wordmark, the lockups and the favicon from drift
 - One file, one purpose. Do not create `logo-final-v3.svg`.
 - Keep the deck in a folder named after the slug; never mix two brands in one deck.
 
+## Two palettes
+
+A palette is a token set, not a second drawing. When the manifest declares `altPalette` and
+`altOut`, build the same manifest twice: once into `out`, once into `altOut` with `--palette`.
+Each folder holds the full 19-file matrix with the same file names; the masters are never
+duplicated or recoloured by hand. This is how the examples ship two complete decks per brand.
+
 ## The symbol
 
 The symbol is the primary mark when the app icon or the avatar is the first encounter. It must

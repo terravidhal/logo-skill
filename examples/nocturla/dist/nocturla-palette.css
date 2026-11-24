@@ -1,0 +1,29 @@
+/* logodeck palette: midnight-rose */
+:root {
+  --ld-bg: #F7F4F6;
+  --ld-ink: #1B1720;
+  --ld-brand: #8A1F4E;
+  --ld-accent: #3B4FA8;
+  --ld-bg-dark: #120E15;
+  --ld-ink-dark: #F2EAF0;
+  --ld-brand-dark: #F08CB6;
+  --ld-accent-dark: #9AA9F5;
+  --ld-on-dark: #F2EAF0;
+}
+
+:root[data-theme="dark"],
+:root.dark {
+  --ld-bg: var(--ld-bg-dark);
+  --ld-ink: var(--ld-ink-dark);
+  --ld-brand: var(--ld-brand-dark);
+  --ld-accent: var(--ld-accent-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ld-bg: var(--ld-bg-dark);
+    --ld-ink: var(--ld-ink-dark);
+    --ld-brand: var(--ld-brand-dark);
+    --ld-accent: var(--ld-accent-dark);
+  }
+}

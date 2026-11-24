@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-brand="loam">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Loam — logodeck identity plate</title>
+<style>
+  :root {
+    --ld-bg:#F6F4EC;--ld-ink:#16241D;--ld-brand:#1F6F4A;--ld-accent:#C2542D;--plate-bg:#F6F4EC;--plate-ink:#16241D;
+    --ink-soft: color-mix(in srgb, var(--ld-ink) 64%, transparent);
+    --line: color-mix(in srgb, var(--ld-ink) 15%, transparent);
+    --surface: color-mix(in srgb, var(--ld-bg) 88%, white);
+    --shadow: 0 28px 70px rgba(10, 20, 15, .12);
+    color-scheme: light;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  html[data-theme="dark"] {
+    --ld-bg:#101A16;--ld-ink:#EAF2EC;--ld-brand:#64C79A;--ld-accent:#F08A5D;--plate-bg:#101A16;--plate-ink:#EAF2EC;
+    --ink-soft: color-mix(in srgb, var(--ld-ink) 66%, transparent);
+    --line: color-mix(in srgb, var(--ld-ink) 20%, transparent);
+    --surface: color-mix(in srgb, var(--ld-bg) 90%, white);
+    --shadow: 0 28px 70px rgba(0, 0, 0, .4);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ld-bg); color: var(--ld-ink); transition: background 170ms ease, color 170ms ease; }
+  a { color: inherit; }
+  .wrap { width: min(1240px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 72px; }
+  nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 26px; }
+  nav .crumb { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  nav .tools { display: flex; gap: 8px; flex-wrap: wrap; }
+  button, .button { font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ld-ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+  .hero { display: grid; grid-template-columns: 1.3fr .7fr; gap: 28px; align-items: stretch; padding: 24px 0 22px; }
+  .hero-main { display: flex; flex-direction: column; justify-content: space-between; gap: 30px; }
+  .eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+  h1 { font-size: clamp(56px, 8vw, 118px); line-height: .88; letter-spacing: -.045em; margin: 14px 0 18px; font-weight: 650; }
+  .promise { font-size: clamp(18px, 2.1vw, 26px); line-height: 1.35; max-width: 28ch; margin: 0; }
+  .idea { margin: 24px 0 0; font-size: 14px; line-height: 1.7; color: var(--ink-soft); max-width: 52ch; }
+  .hero-lockup { border: 1px solid var(--line); border-radius: 30px; background: var(--surface); box-shadow: var(--shadow); padding: 40px; display: grid; place-items: center; min-height: 250px; }
+  .hero-lockup svg { width: min(100%, 430px); height: auto; display: block; }
+  .dark-panel { border-radius: 30px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; box-shadow: var(--shadow); }
+  .dark-panel .eyebrow { color: color-mix(in srgb, currentColor 62%, transparent); }
+  .dark-panel svg { width: min(100%, 260px); height: auto; display: block; }
+  .section { margin-top: 52px; }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 20px; }
+  h2 { margin: 0; font-size: 15px; letter-spacing: .13em; text-transform: uppercase; font-weight: 600; }
+  .section-head p { margin: 0; color: var(--ink-soft); font-size: 13px; max-width: 52ch; }
+  .grid { display: grid; gap: 16px; }
+  .grid-5 { grid-template-columns: repeat(5, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .card { border: 1px solid var(--line); border-radius: 22px; background: var(--surface); padding: 22px; display: flex; flex-direction: column; gap: 16px; min-height: 176px; }
+  .card h3 { margin: 0; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  .card .art { flex: 1; display: grid; place-items: center; }
+  .card .art svg { display: block; max-width: 100%; height: auto; }
+  .art.symbol svg { width: 118px; height: 118px; }
+  .art.word svg { width: min(100%, 250px); height: auto; }
+  .art.lockup svg { width: min(100%, 330px); height: auto; }
+  .art.app svg { width: 92px; height: 92px; }
+  .mono { color: var(--ld-ink); }
+  .darkcard { border-color: transparent; }
+  .darkcard h3 { color: color-mix(in srgb, currentColor 62%, transparent); }
+  .darkcard .mono { color: inherit; }
+  .favicons { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; }
+  .favicons figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 7px; color: var(--ink-soft); font-size: 11px; }
+  .favicons svg, .favicons span svg { display: block; width: 100%; height: 100%; }
+  .palette-group { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 22px; }
+  .palette-group:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+  .palette-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .palette-title b { font-size: 17px; }
+  .palette-title span { color: var(--ink-soft); font-size: 13px; }
+  .plate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .plate { border-radius: 20px; padding: 18px; background: var(--plate-bg); color: var(--plate-ink); border: 1px solid color-mix(in srgb, var(--plate-ink) 14%, transparent); display: flex; flex-direction: column; gap: 13px; }
+  .plate.dark { border-color: rgba(255, 255, 255, .12); }
+  .plate-head { display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--plate-ink) 62%, transparent); }
+  .badge { border: 1px solid currentColor; border-radius: 999px; padding: 3px 8px; letter-spacing: .06em; }
+  .plate-lockup { min-height: 68px; display: flex; align-items: center; }
+  .plate-lockup svg { width: min(100%, 300px); height: auto; display: block; }
+  .swatch-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .swatch { display: flex; flex-direction: column; gap: 5px; font-size: 10px; min-width: 0; }
+  .swatch i { display: block; height: 30px; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--plate-ink) 18%, transparent); }
+  .swatch b { font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: color-mix(in srgb, var(--plate-ink) 65%, transparent); }
+  .swatch code { font: 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; opacity: .8; }
+  .plate-note { margin: 0; font-size: 11px; line-height: 1.5; color: color-mix(in srgb, var(--plate-ink) 66%, transparent); }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--ink-soft); font-weight: 600; }
+  td.pass { color: var(--ld-brand); font-weight: 600; }
+  td.fail { color: #B42318; font-weight: 600; }
+  .code { margin: 0; padding: 18px; border-radius: 18px; background: #0E1713; color: #E9F2EC; border: 1px solid rgba(255, 255, 255, .08); overflow: auto; font: 12px/1.8 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .files { border-top: 1px solid var(--line); padding: 10px 0; font-size: 12px; }
+  .files summary { cursor: pointer; color: var(--ink-soft); }
+  .files ul { columns: 2; gap: 20px; margin: 10px 0 0; padding: 0; list-style: none; }
+  .files li { break-inside: avoid; margin-bottom: 5px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  footer { margin-top: 54px; border-top: 1px solid var(--line); padding-top: 18px; display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; color: var(--ink-soft); font-size: 12px; }
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; }
+    .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3, .grid-2, .plate-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .wrap { width: calc(100% - 28px); padding-top: 16px; }
+    .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .hero-lockup { padding: 22px; }
+    .plate { padding: 14px; }
+    .swatch-row { grid-template-columns: repeat(2, 1fr); }
+    .files ul { columns: 1; }
+    h1 { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <span class="crumb"><a href="../site/index.html">logodeck</a> / identity plate / loam</span>
+    <span class="tools">
+      <button type="button" id="theme">Toggle dark</button>
+      <a class="button" href="dist/loam-preview.html">Open the preview</a>
+    </span>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-main">
+      <div>
+        <div class="eyebrow">Agritech · soil · fictional brand · palette moss-clay</div>
+        <h1>Loam</h1>
+        <p class="promise">Soil health for small farms.</p>
+        <p class="idea"><b>Idea.</b> A seed whose sprout is cut out of the solid form.</p>
+      </div>
+      <div class="hero-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.092 1.16" role="img" data-ld="loam-lockup-horizontal">
+<title>Loam — soil health for small farms — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="var(--ld-brand, #1F6F4A)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #16241D)">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div>
+    </div>
+    <aside class="dark-panel" style="background:#101A16;color:#EAF2EC">
+      <div class="eyebrow">On dark</div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1.83 1.82" role="img" data-ld="loam-lockup-stacked-dark">
+<title>Loam — soil health for small farms — stacked lockup, dark background</title>
+<svg x="0.434" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="#64C79A"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="0.08" y="1.3" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="#EAF2EC">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+
+      <div class="eyebrow">4.15:1 lowest pair</div>
+    </aside>
+  </header>
+
+  <section class="section">
+    <div class="section-head"><h2>The mark</h2><p>One drawing, then the whole family: mono for one colour, a simplified favicon, a tile and a maskable icon.</p></div>
+    <div class="grid grid-5">
+      <div class="card"><h3>Symbol</h3><div class="art symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 24 200 208" role="img" data-ld="loam-symbol">
+<title>Loam — soil health for small farms — symbol</title>
+<path
+    fill="var(--ld-brand, #1F6F4A)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  />
+</svg>
+</div></div>
+      <div class="card"><h3>Symbol mono</h3><div class="art symbol mono"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 24 200 208" role="img" data-ld="loam-symbol-mono">
+<title>Loam — soil health for small farms — mono symbol</title>
+<path
+    fill="currentColor"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  />
+</svg>
+</div></div>
+      <div class="card darkcard" style="background:#101A16;color:#EAF2EC"><h3>Symbol dark</h3><div class="art symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 24 200 208" role="img" data-ld="loam-symbol-dark">
+<title>Loam — soil health for small farms — symbol, dark background</title>
+<path
+    fill="#64C79A"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  />
+</svg>
+</div></div>
+      <div class="card"><h3>Favicon</h3><div class="art"><div class="favicons">
+        <figure><span style="display:block;width:32px;height:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="loam-favicon">
+<title>Loam — soil health for small farms — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#1F6F4A"/>
+<svg x="11.077" y="10.24" width="41.846" height="43.52" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="#F6F4EC"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM116 192L116 140C99 140 85 127 80 111C102 107 116 121 122 138C128 116 147 105 168 109C164 130 149 143 134 143L134 192Z"
+  /></svg>
+</svg>
+</span><figcaption>32</figcaption></figure>
+        <figure><span style="display:block;width:16px;height:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="loam-favicon">
+<title>Loam — soil health for small farms — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#1F6F4A"/>
+<svg x="11.077" y="10.24" width="41.846" height="43.52" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="#F6F4EC"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM116 192L116 140C99 140 85 127 80 111C102 107 116 121 122 138C128 116 147 105 168 109C164 130 149 143 134 143L134 192Z"
+  /></svg>
+</svg>
+</span><figcaption>16</figcaption></figure>
+      </div></div></div>
+      <div class="card"><h3>App icon</h3><div class="art app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="loam-app-icon">
+<title>Loam — soil health for small farms — app-icon</title>
+<rect width="512" height="512" rx="115.2" fill="#1F6F4A"/>
+<svg x="103.385" y="97.28" width="305.231" height="317.44" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="#F6F4EC"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+</svg>
+</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Wordmark & lockups</h2><p>The name is drawn as paths. The lockups are composed from the same two masters, never retouched.</p></div>
+    <div class="grid grid-3">
+      <div class="card"><h3>Wordmark</h3><div class="art word"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 12 334 88" role="img" data-ld="loam-wordmark">
+<title>Loam — soil health for small farms — wordmark</title>
+<g fill="var(--ld-ink, #16241D)">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Horizontal</h3><div class="art lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.092 1.16" role="img" data-ld="loam-lockup-horizontal">
+<title>Loam — soil health for small farms — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="var(--ld-brand, #1F6F4A)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #16241D)">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div></div>
+      <div class="card darkcard" style="background:#101A16;color:#EAF2EC"><h3>Stacked dark</h3><div class="art lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1.83 1.82" role="img" data-ld="loam-lockup-stacked-dark">
+<title>Loam — soil health for small farms — stacked lockup, dark background</title>
+<svg x="0.434" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="#64C79A"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="0.08" y="1.3" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="#EAF2EC">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Two palettes</h2><p>Every pair is measured in light and dark. The drawing never changes; only the tokens do.</p></div>
+    <div class="palette-group">
+      <div class="palette-title"><b>Moss &amp; clay</b><span>Grounded and botanical. Warm paper, deep green, terracotta accent. · primary</span></div>
+      <div class="plate-grid">
+        <article class="plate light" style="--ld-bg:#F6F4EC;--ld-ink:#16241D;--ld-brand:#1F6F4A;--ld-accent:#C2542D;--plate-bg:#F6F4EC;--plate-ink:#16241D">
+    <div class="plate-head"><span>Primary</span><span class="badge">light</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.092 1.16" role="img" data-ld="loam-lockup-horizontal">
+<title>Loam — soil health for small farms — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="var(--ld-brand, #1F6F4A)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #16241D)">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#F6F4EC"></i><b>bg</b><code>#F6F4EC</code></span><span class="swatch"><i style="background:#16241D"></i><b>ink</b><code>#16241D</code></span><span class="swatch"><i style="background:#1F6F4A"></i><b>brand</b><code>#1F6F4A</code></span><span class="swatch"><i style="background:#C2542D"></i><b>accent</b><code>#C2542D</code></span></div>
+    <p class="plate-note">Lowest pair <b>4.15:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+        <article class="plate dark" style="--ld-bg:#101A16;--ld-ink:#EAF2EC;--ld-brand:#64C79A;--ld-accent:#F08A5D;--plate-bg:#101A16;--plate-ink:#EAF2EC">
+    <div class="plate-head"><span>Primary</span><span class="badge">dark</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.092 1.16" role="img" data-ld="loam-lockup-horizontal-dark">
+<title>Loam — soil health for small farms — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="#64C79A"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="#EAF2EC">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#101A16"></i><b>bg</b><code>#101A16</code></span><span class="swatch"><i style="background:#EAF2EC"></i><b>ink</b><code>#EAF2EC</code></span><span class="swatch"><i style="background:#64C79A"></i><b>brand</b><code>#64C79A</code></span><span class="swatch"><i style="background:#F08A5D"></i><b>accent</b><code>#F08A5D</code></span></div>
+    <p class="plate-note">Lowest pair <b>4.15:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+      </div>
+    </div>
+    <div class="palette-group">
+      <div class="palette-title"><b>Clay &amp; cream</b><span>Earthy and tactile. Terracotta brand with an olive accent. · alternate</span></div>
+      <div class="plate-grid">
+        <article class="plate light" style="--ld-bg:#FBF6EE;--ld-ink:#2A1E17;--ld-brand:#8A3B22;--ld-accent:#4A6B2A;--plate-bg:#FBF6EE;--plate-ink:#2A1E17">
+    <div class="plate-head"><span>Alternate</span><span class="badge">light</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.092 1.16" role="img" data-ld="loam-lockup-horizontal">
+<title>Loam — soil health for small farms — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="var(--ld-brand, #8A3B22)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #2A1E17)">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#FBF6EE"></i><b>bg</b><code>#FBF6EE</code></span><span class="swatch"><i style="background:#2A1E17"></i><b>ink</b><code>#2A1E17</code></span><span class="swatch"><i style="background:#8A3B22"></i><b>brand</b><code>#8A3B22</code></span><span class="swatch"><i style="background:#4A6B2A"></i><b>accent</b><code>#4A6B2A</code></span></div>
+    <p class="plate-note">Lowest pair <b>5.69:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+        <article class="plate dark" style="--ld-bg:#1B120D;--ld-ink:#F4E8DA;--ld-brand:#E59A78;--ld-accent:#A9C77A;--plate-bg:#1B120D;--plate-ink:#F4E8DA">
+    <div class="plate-head"><span>Alternate</span><span class="badge">dark</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.092 1.16" role="img" data-ld="loam-lockup-horizontal-dark">
+<title>Loam — soil health for small farms — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="#E59A78"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="#F4E8DA">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#1B120D"></i><b>bg</b><code>#1B120D</code></span><span class="swatch"><i style="background:#F4E8DA"></i><b>ink</b><code>#F4E8DA</code></span><span class="swatch"><i style="background:#E59A78"></i><b>brand</b><code>#E59A78</code></span><span class="swatch"><i style="background:#A9C77A"></i><b>accent</b><code>#A9C77A</code></span></div>
+    <p class="plate-note">Lowest pair <b>5.69:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>Contrast, measured</h3>
+      <table>
+        <thead><tr><th>Mode</th><th>Pair</th><th>Ratio</th><th>Status</th></tr></thead>
+        <tbody><tr><td>light</td><td>brand / bg</td><td>5.56:1</td><td class="pass">pass</td></tr><tr><td>light</td><td>ink / bg</td><td>14.62:1</td><td class="pass">pass</td></tr><tr><td>light</td><td>accent / bg</td><td>4.15:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>brand / bg</td><td>8.62:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>ink / bg</td><td>15.58:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>accent / bg</td><td>7.19:1</td><td class="pass">pass</td></tr></tbody>
+      </table>
+      <p class="plate-note" style="color:var(--ink-soft)">Alternate clay-cream: lowest 5.69:1 (accent / bg, light).</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>One line</h2><p>The same theme contract in HTML, CSS or React. Change a token, rebuild, and every variant follows.</p></div>
+    <div class="grid grid-2">
+      <pre class="code">&lt;svg class="logo" style="--ld-brand:#1F6F4A; --ld-accent:#C2542D"&gt;…&lt;/svg&gt;
+
+&lt;LoamLogo type="horizontal" /&gt;
+
+:root {
+  --ld-brand: #1F6F4A;
+  --ld-accent: #C2542D;
+}</pre>
+      <div class="card">
+        <h3>What is in the folder</h3>
+        <p class="plate-note" style="color:var(--ink-soft);font-size:13px">Fifteen SVG variants, a favicon, two app icons, tokens, palette CSS, a control-sheet preview and a typed React component. The alternate palette is built from the same masters.</p>
+        <details class="files"><summary>Primary deck · 19 files</summary><ul><li><code>dist/loam-app-icon-maskable.svg</code></li><li><code>dist/loam-app-icon.svg</code></li><li><code>dist/loam-favicon.svg</code></li><li><code>dist/loam-lockup-horizontal-dark.svg</code></li><li><code>dist/loam-lockup-horizontal-mono.svg</code></li><li><code>dist/loam-lockup-horizontal.svg</code></li><li><code>dist/loam-lockup-stacked-dark.svg</code></li><li><code>dist/loam-lockup-stacked-mono.svg</code></li><li><code>dist/loam-lockup-stacked.svg</code></li><li><code>dist/loam-palette.css</code></li><li><code>dist/loam-preview.html</code></li><li><code>dist/loam-symbol-dark.svg</code></li><li><code>dist/loam-symbol-mono.svg</code></li><li><code>dist/loam-symbol.svg</code></li><li><code>dist/loam-tokens.json</code></li><li><code>dist/loam-wordmark-dark.svg</code></li><li><code>dist/loam-wordmark-mono.svg</code></li><li><code>dist/loam-wordmark.svg</code></li><li><code>dist/loam.tsx</code></li></ul></details>
+        <details class="files"><summary>Alternate deck · 19 files</summary><ul><li><code>dist-alt/loam-app-icon-maskable.svg</code></li><li><code>dist-alt/loam-app-icon.svg</code></li><li><code>dist-alt/loam-favicon.svg</code></li><li><code>dist-alt/loam-lockup-horizontal-dark.svg</code></li><li><code>dist-alt/loam-lockup-horizontal-mono.svg</code></li><li><code>dist-alt/loam-lockup-horizontal.svg</code></li><li><code>dist-alt/loam-lockup-stacked-dark.svg</code></li><li><code>dist-alt/loam-lockup-stacked-mono.svg</code></li><li><code>dist-alt/loam-lockup-stacked.svg</code></li><li><code>dist-alt/loam-palette.css</code></li><li><code>dist-alt/loam-preview.html</code></li><li><code>dist-alt/loam-symbol-dark.svg</code></li><li><code>dist-alt/loam-symbol-mono.svg</code></li><li><code>dist-alt/loam-symbol.svg</code></li><li><code>dist-alt/loam-tokens.json</code></li><li><code>dist-alt/loam-wordmark-dark.svg</code></li><li><code>dist-alt/loam-wordmark-mono.svg</code></li><li><code>dist-alt/loam-wordmark.svg</code></li><li><code>dist-alt/loam.tsx</code></li></ul></details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Loam is a fictional brand drawn for this repository. No third-party mark, font or photograph is used.</span>
+    <span>MIT · generated by logodeck · Loam — soil health for small farms</span>
+  </footer>
+</div>
+<script>
+  const root = document.documentElement;
+  document.getElementById("theme").addEventListener("click", () => {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+  });
+</script>
+</body>
+</html>

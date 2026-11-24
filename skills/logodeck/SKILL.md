@@ -147,6 +147,7 @@ is still a limitation. Read `references/delivery.md` for the handover format.
   "component": "LoamLogo",
   "title": "Loam — soil health for small farms",
   "palette": "moss-clay",
+  "altPalette": "clay-cream",
   "files": {
     "symbol": "symbol.svg",
     "wordmark": "wordmark.svg",
@@ -163,13 +164,16 @@ is still a limitation. Read `references/delivery.md` for the handover format.
     "faviconScale": 0.68,
     "maskableScale": 0.5
   },
-  "out": "dist"
+  "out": "dist",
+  "altOut": "dist-alt"
 }
 ```
 
 `symbolSmall` is optional: a simplified drawing with thicker negative space for the favicon.
-All paths are relative to the manifest. The geometry values are unitless ratios; the build
-turns them into a composed `viewBox`.
+`altPalette` is optional: when present, build a second complete deck into `altOut` from the same
+two masters, so the client can compare two palettes without redrawing. All paths are relative to
+the manifest. The geometry values are unitless ratios; the build turns them into a composed
+`viewBox`.
 
 ## What the deck contains
 

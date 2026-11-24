@@ -1,0 +1,29 @@
+/* logodeck palette: cobalt-mint */
+:root {
+  --ld-bg: #F3F6FB;
+  --ld-ink: #101B2D;
+  --ld-brand: #1D4ED8;
+  --ld-accent: #0F8A6E;
+  --ld-bg-dark: #0A1220;
+  --ld-ink-dark: #E6EEF9;
+  --ld-brand-dark: #7EA6FF;
+  --ld-accent-dark: #57D3B0;
+  --ld-on-dark: #E6EEF9;
+}
+
+:root[data-theme="dark"],
+:root.dark {
+  --ld-bg: var(--ld-bg-dark);
+  --ld-ink: var(--ld-ink-dark);
+  --ld-brand: var(--ld-brand-dark);
+  --ld-accent: var(--ld-accent-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ld-bg: var(--ld-bg-dark);
+    --ld-ink: var(--ld-ink-dark);
+    --ld-brand: var(--ld-brand-dark);
+    --ld-accent: var(--ld-accent-dark);
+  }
+}

@@ -4,6 +4,7 @@
   "component": "AsterLogo",
   "title": "Aster — a starter deck",
   "palette": "cobalt-mint",
+  "altPalette": "spruce-coral",
   "files": {
     "symbol": "symbol.svg",
     "wordmark": "wordmark.svg",
@@ -20,5 +21,6 @@
     "faviconScale": 0.68,
     "maskableScale": 0.5
   },
-  "out": "dist"
+  "out": "dist",
+  "altOut": "dist-alt"
 }

@@ -1,0 +1,29 @@
+/* logodeck palette: plum-gold */
+:root {
+  --ld-bg: #FAF6F3;
+  --ld-ink: #23161F;
+  --ld-brand: #6B2C5F;
+  --ld-accent: #8A5A00;
+  --ld-bg-dark: #1A1017;
+  --ld-ink-dark: #F3E9F0;
+  --ld-brand-dark: #D59ACB;
+  --ld-accent-dark: #E8B44A;
+  --ld-on-dark: #F3E9F0;
+}
+
+:root[data-theme="dark"],
+:root.dark {
+  --ld-bg: var(--ld-bg-dark);
+  --ld-ink: var(--ld-ink-dark);
+  --ld-brand: var(--ld-brand-dark);
+  --ld-accent: var(--ld-accent-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ld-bg: var(--ld-bg-dark);
+    --ld-ink: var(--ld-ink-dark);
+    --ld-brand: var(--ld-brand-dark);
+    --ld-accent: var(--ld-accent-dark);
+  }
+}

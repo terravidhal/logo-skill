@@ -23,6 +23,11 @@ import { loadPalettes, validateAll } from "../skills/logodeck/scripts/palette.mj
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const SKILL = join(ROOT, "skills/logodeck");
+const EXAMPLES = readdirSync(join(ROOT, "examples"), { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .filter((name) => existsSync(join(ROOT, "examples", name, "logo.json")))
+  .sort();
 const errors = [];
 const warnings = [];
 const checks = [];
@@ -113,7 +118,7 @@ function scanSecrets() {
     [/https?:\/\/[^\s/@]+:[^\s/@]+@/, "credentials in a URL"],
   ];
   const files = walk(ROOT, {
-    skip: new Set(["ref", "node_modules", ".git", ".vague", "dist", ".next"]),
+    skip: new Set(["ref", "node_modules", ".git", ".vague", "dist", "dist-alt", ".next"]),
   }).filter((file) => statSync(file).size < 300_000);
   let hits = 0;
   for (const file of files) {
@@ -134,113 +139,122 @@ function scanSecrets() {
   if (!hits) ok("no secret patterns found");
 }
 
-function staticTsxCheck(file) {
+function staticTsxCheck(file, label = "TSX") {
   const text = read(file);
-  check(!/dangerouslySetInnerHTML/.test(text), "TSX does not use dangerouslySetInnerHTML");
-  check(/useSyncExternalStore/.test(text), "TSX implements mode auto with useSyncExternalStore");
+  check(!/dangerouslySetInnerHTML/.test(text), `${label}: no dangerouslySetInnerHTML`);
+  check(/useSyncExternalStore/.test(text), `${label}: mode auto via useSyncExternalStore`);
   for (const prop of ["variant", "type", "mode", "title"]) {
-    check(new RegExp(`${prop}\\??:`).test(text), `TSX exposes "${prop}"`);
+    check(new RegExp(`${prop}\\??:`).test(text), `${label}: exposes "${prop}"`);
   }
   const imports = [...text.matchAll(/from\s+"([^"]+)"/g)].map((match) => match[1]);
-  check(imports.every((name) => name === "react"), "TSX imports only react");
-  check(!/tailwind|className="[^"]*\b(dark:|bg-|text-)/.test(text), "TSX does not require Tailwind");
-  check(/--ld-brand/.test(text), "TSX keeps the brand token");
-  check(/const LIGHT/.test(text) && /const DARK/.test(text), "TSX ships light and dark palettes");
+  check(imports.every((name) => name === "react"), `${label}: imports only react`);
+  check(
+    !/tailwind|className="[^"]*\b(dark:|bg-|text-)/.test(text),
+    `${label}: does not require Tailwind`,
+  );
+  check(/--ld-brand/.test(text), `${label}: keeps the brand token`);
+  check(
+    /const LIGHT/.test(text) && /const DARK/.test(text),
+    `${label}: ships light and dark palettes`,
+  );
 }
 
-function compareDeck(tempDir) {
-  const committed = join(ROOT, "examples/loam/dist");
-  if (!existsSync(committed)) {
-    fail("examples/loam/dist is missing; run npm run build:example");
+function compareDeck(sourceDir, committedDir, label) {
+  if (!existsSync(committedDir)) {
+    fail(`${label} folder is missing; run npm run build:examples`);
     return;
   }
-  const generated = readdirSync(tempDir).sort();
-  const expected = [
-    "loam-app-icon-maskable.svg",
-    "loam-app-icon.svg",
-    "loam-favicon.svg",
-    "loam-lockup-horizontal-dark.svg",
-    "loam-lockup-horizontal-mono.svg",
-    "loam-lockup-horizontal.svg",
-    "loam-lockup-stacked-dark.svg",
-    "loam-lockup-stacked-mono.svg",
-    "loam-lockup-stacked.svg",
-    "loam-palette.css",
-    "loam-preview.html",
-    "loam-symbol-dark.svg",
-    "loam-symbol-mono.svg",
-    "loam-symbol.svg",
-    "loam-tokens.json",
-    "loam-wordmark-dark.svg",
-    "loam-wordmark-mono.svg",
-    "loam-wordmark.svg",
-    "loam.tsx",
-  ].sort();
+  const generated = readdirSync(sourceDir).sort();
+  const committed = readdirSync(committedDir).sort();
+  check(generated.length === 19, `${label} produces the expected 19 files`);
   check(
-    JSON.stringify(generated) === JSON.stringify(expected),
-    "the example build produces the expected 19 files",
+    JSON.stringify(generated) === JSON.stringify(committed),
+    `${label} file list matches the committed deck`,
   );
   let differences = 0;
   for (const name of generated) {
-    const committedFile = join(committed, name);
+    const committedFile = join(committedDir, name);
     if (!existsSync(committedFile)) {
-      fail(`committed deck is missing ${name}; run npm run build:example`);
+      fail(`${label} is missing ${name}; run npm run build:examples`);
       differences += 1;
       continue;
     }
-    if (read(committedFile) !== read(join(tempDir, name))) {
-      fail(`committed ${name} is stale; run npm run build:example`);
+    if (read(committedFile) !== read(join(sourceDir, name))) {
+      fail(`${label}: ${name} is stale; run npm run build:examples`);
       differences += 1;
     }
   }
-  if (!differences) ok("the committed deck is reproducible");
-  const extras = readdirSync(committed).filter((name) => !expected.includes(name));
-  if (extras.length) warn(`committed deck has extra files: ${extras.join(", ")}`);
+  if (!differences) ok(`${label} is reproducible`);
+  const extras = committed.filter((name) => !generated.includes(name));
+  if (extras.length) warn(`${label} has extra files: ${extras.join(", ")}`);
+}
+
+function auditDeck(directory, label) {
+  const audit = spawnSync(
+    process.execPath,
+    [join(SKILL, "scripts/audit.mjs"), directory, "--json"],
+    { encoding: "utf8" },
+  );
+  let report = null;
+  try {
+    report = JSON.parse(audit.stdout);
+  } catch {
+    fail(`${label}: audit did not return JSON: ${(audit.stderr || audit.stdout || "").trim()}`);
+    return;
+  }
+  if (report.errors > 0 || audit.status !== 0) {
+    for (const entry of report.reports ?? []) {
+      for (const error of entry.errors ?? []) fail(`${label} ${entry.file}: ${error}`);
+    }
+    for (const error of report.matrix ?? []) fail(`${label} matrix: ${error}`);
+  } else {
+    ok(`${label}: audit passes with ${report.warnings} warnings (score ${report.score})`);
+  }
+}
+
+function buildOne(manifestFile, outDir, palette) {
+  const args = [
+    join(SKILL, "scripts/build.mjs"),
+    manifestFile,
+    "--out",
+    outDir,
+    "--quiet",
+  ];
+  if (palette) args.push("--palette", palette);
+  return spawnSync(process.execPath, args, { encoding: "utf8" });
 }
 
 function buildAndAudit() {
-  const tempDir = mkdtempSync(join(tmpdir(), "logodeck-"));
-  try {
-    const build = spawnSync(
-      process.execPath,
-      [
-        join(SKILL, "scripts/build.mjs"),
-        join(ROOT, "examples/loam/logo.json"),
-        "--out",
-        tempDir,
-        "--quiet",
-      ],
-      { encoding: "utf8" },
-    );
-    if (build.status !== 0) {
-      fail(`example build failed: ${(build.stderr || build.stdout || "").trim()}`);
-      return;
-    }
-    ok("example build succeeds");
-    compareDeck(tempDir);
-
-    const audit = spawnSync(
-      process.execPath,
-      [join(SKILL, "scripts/audit.mjs"), tempDir, "--json"],
-      { encoding: "utf8" },
-    );
-    let report = null;
+  for (const slug of EXAMPLES) {
+    const dir = join(ROOT, "examples", slug);
+    const manifestFile = join(dir, "logo.json");
+    const manifest = JSON.parse(read(manifestFile));
+    const primaryTemp = mkdtempSync(join(tmpdir(), `logodeck-${slug}-`));
+    const altTemp = mkdtempSync(join(tmpdir(), `logodeck-${slug}-alt-`));
     try {
-      report = JSON.parse(audit.stdout);
-    } catch {
-      fail(`audit did not return JSON: ${(audit.stderr || audit.stdout || "").trim()}`);
-      return;
-    }
-    if (report.errors > 0 || audit.status !== 0) {
-      for (const entry of report.reports ?? []) {
-        for (const error of entry.errors ?? []) fail(`audit ${entry.file}: ${error}`);
+      const primary = buildOne(manifestFile, primaryTemp);
+      if (primary.status !== 0) {
+        fail(`${slug} build failed: ${(primary.stderr || primary.stdout || "").trim()}`);
+        continue;
       }
-      for (const error of report.matrix ?? []) fail(`audit matrix: ${error}`);
-    } else {
-      ok(`audit passes with ${report.warnings} warnings (score ${report.score})`);
+      compareDeck(primaryTemp, join(dir, manifest.out ?? "dist"), `${slug} primary`);
+      auditDeck(primaryTemp, `${slug} primary`);
+
+      if (manifest.altPalette) {
+        const alt = buildOne(manifestFile, altTemp, manifest.altPalette);
+        if (alt.status !== 0) {
+          fail(`${slug} alternate build failed: ${(alt.stderr || alt.stdout || "").trim()}`);
+          continue;
+        }
+        compareDeck(altTemp, join(dir, manifest.altOut ?? "dist-alt"), `${slug} alternate`);
+        auditDeck(altTemp, `${slug} alternate`);
+      } else {
+        fail(`${slug} is missing altPalette; the examples ship two palettes each`);
+      }
+    } finally {
+      rmSync(primaryTemp, { recursive: true, force: true });
+      rmSync(altTemp, { recursive: true, force: true });
     }
-  } finally {
-    rmSync(tempDir, { recursive: true, force: true });
   }
 }
 
@@ -249,10 +263,10 @@ function checkSizeBudget() {
   const skillBytes = skillFiles.reduce((sum, file) => sum + statSync(file).size, 0);
   check(skillBytes < 320_000, `skill folder is ${Math.round(skillBytes / 1024)} KB (< 320 KB)`);
   const repoFiles = walk(ROOT, {
-    skip: new Set(["ref", "node_modules", ".git", ".vague", "dist", ".next"]),
+    skip: new Set(["ref", "node_modules", ".git", ".vague", "dist", "dist-alt", ".next"]),
   });
   const repoBytes = repoFiles.reduce((sum, file) => sum + statSync(file).size, 0);
-  check(repoBytes < 2_500_000, `repository is ${Math.round(repoBytes / 1024)} KB (< 2.5 MB)`);
+  check(repoBytes < 20_000_000, `repository is ${Math.round(repoBytes / 1024)} KB (< 20 MB)`);
 }
 
 function main() {
@@ -267,17 +281,24 @@ function main() {
     "evals/evals.json",
     "scripts/check-skill.mjs",
     ".github/workflows/check.yml",
-    "assets/readme/before-after.svg",
+    "assets/readme/before-after.png",
     "assets/readme/family.svg",
+    "assets/readme/gallery-1440-light.png",
+    "assets/readme/gallery-1440-dark.png",
+    "assets/readme/gallery-390-light.png",
+    "assets/readme/gallery-390-dark.png",
+    "assets/demo.gif",
     "assets/templates/logo.config.example.json",
     "assets/templates/symbol.svg",
     "assets/templates/wordmark.svg",
-    "examples/loam/logo.json",
-    "examples/loam/symbol.svg",
-    "examples/loam/symbol-small.svg",
-    "examples/loam/wordmark.svg",
+    "examples/build-examples.mjs",
     "examples/capture.mjs",
+    "examples/make-boards.mjs",
+    "examples/make-masters.mjs",
+    "examples/make-proof.mjs",
+    "examples/lib/browser.mjs",
     "examples/site/index.html",
+    "examples/site/before-after.html",
     "examples/typecheck/tsconfig.json",
     "skills/logodeck/SKILL.md",
     "skills/logodeck/assets/palettes.json",
@@ -286,6 +307,51 @@ function main() {
     "skills/logodeck/scripts/palette.mjs",
   ];
   for (const file of required) requireFile(join(ROOT, file));
+
+  check(EXAMPLES.length >= 8, `examples folder has ${EXAMPLES.length} brands (at least 8)`);
+  for (const slug of EXAMPLES) {
+    const dir = join("examples", slug);
+    for (const file of [
+      "logo.json",
+      "symbol.svg",
+      "symbol-small.svg",
+      "wordmark.svg",
+      "board.html",
+      "dist/" + slug + "-tokens.json",
+      "dist-alt/" + slug + "-tokens.json",
+      "dist/" + slug + ".tsx",
+      "dist-alt/" + slug + ".tsx",
+    ]) {
+      requireFile(join(ROOT, dir, file), `${dir}/${file}`);
+    }
+    const board = read(join(ROOT, dir, "board.html"));
+    check(board.includes(`data-brand="${slug}"`), `${slug} board is branded`);
+    check(board.includes("Two palettes"), `${slug} board shows two palettes`);
+    check((board.match(/<svg\b/g) ?? []).length >= 10, `${slug} board inlines the family`);
+    for (const viewport of ["1440", "390"]) {
+      for (const theme of ["light", "dark"]) {
+        requireFile(
+          join(ROOT, "assets/readme", `${slug}-${viewport}-${theme}.png`),
+          `assets/readme/${slug}-${viewport}-${theme}.png`,
+        );
+      }
+    }
+  }
+
+  const gallery = read(join(ROOT, "examples/site/index.html"));
+  for (const slug of EXAMPLES) {
+    const manifest = JSON.parse(read(join(ROOT, "examples", slug, "logo.json")));
+    check(gallery.includes(manifest.name), `gallery lists ${manifest.name}`);
+  }
+  check(gallery.includes("data-theme"), "gallery has a theme switch");
+
+  const readmeDir = join(ROOT, "assets/readme");
+  for (const name of readdirSync(readmeDir).filter((file) => file.endsWith(".png")).sort()) {
+    const header = readFileSync(join(readmeDir, name)).subarray(0, 8).toString("hex");
+    check(header === "89504e470d0a1a0a", `assets/readme/${name} is a real PNG`);
+  }
+  const gifHeader = readFileSync(join(ROOT, "assets/demo.gif")).subarray(0, 6).toString("ascii");
+  check(gifHeader === "GIF89a" || gifHeader === "GIF87a", "assets/demo.gif is a real GIF");
 
   const references = [
     "brief.md",
@@ -332,16 +398,19 @@ function main() {
     }
   }
 
-  // Fontmatter description budget warning for the whole skill
   // JSON files
-  for (const file of [
+  const jsonFiles = [
     "package.json",
     "evals/evals.json",
     "skills/logodeck/assets/palettes.json",
-    "examples/loam/logo.json",
-    "examples/loam/dist/loam-tokens.json",
     "assets/templates/logo.config.example.json",
-  ]) {
+  ];
+  for (const slug of EXAMPLES) {
+    jsonFiles.push(`examples/${slug}/logo.json`);
+    jsonFiles.push(`examples/${slug}/dist/${slug}-tokens.json`);
+    jsonFiles.push(`examples/${slug}/dist-alt/${slug}-tokens.json`);
+  }
+  for (const file of jsonFiles) {
     const path = join(ROOT, file);
     if (existsSync(path)) parseJsonFile(path);
   }
@@ -359,14 +428,22 @@ function main() {
   }
 
   // Masters
-  for (const name of ["symbol.svg", "symbol-small.svg", "wordmark.svg"]) {
-    const file = join(ROOT, "examples/loam", name);
-    if (!existsSync(file)) continue;
-    const text = read(file);
-    check(/viewBox="[^"]+"/.test(text), `${name} has a viewBox`);
-    check(!/<(text|image|filter|foreignObject)\b/i.test(text), `${name} has no forbidden element`);
-    check(!/\bstroke\s*=/.test(text), `${name} has no live stroke`);
-    check(/var\(--ld-[a-z-]+,\s*#[0-9A-Fa-f]{3,8}\)/.test(text), `${name} uses token fallbacks`);
+  for (const slug of EXAMPLES) {
+    for (const name of ["symbol.svg", "symbol-small.svg", "wordmark.svg"]) {
+      const file = join(ROOT, "examples", slug, name);
+      if (!existsSync(file)) continue;
+      const text = read(file);
+      check(/viewBox="[^"]+"/.test(text), `${slug}/${name} has a viewBox`);
+      check(
+        !/<(text|image|filter|foreignObject)\b/i.test(text),
+        `${slug}/${name} has no forbidden element`,
+      );
+      check(!/\bstroke\s*=/.test(text), `${slug}/${name} has no live stroke`);
+      check(
+        /var\(--ld-[a-z-]+,\s*#[0-9A-Fa-f]{3,8}\)/.test(text),
+        `${slug}/${name} uses token fallbacks`,
+      );
+    }
   }
 
   // Evals
@@ -394,23 +471,36 @@ function main() {
   if (existsSync(readme)) {
     const text = read(readme);
     check(/npx skills add terravidhal\/logodeck/.test(text), "README shows the install command");
-    check(text.includes("assets/readme/before-after.svg"), "README links the before/after plate");
+    check(text.includes("assets/readme/before-after.png"), "README links the before/after plate");
     check(text.includes("assets/readme/family.svg"), "README links the family plate");
+    check(text.includes("assets/demo.gif"), "README links the demo GIF");
+    check(/eight/i.test(text), "README presents the eight examples");
     check(/MIT/.test(text), "README states the licence");
     check(/does not|won't|will not/i.test(text), "README states the limits");
   }
 
+  const pkg = parseJsonFile(join(ROOT, "package.json")) ?? {};
+  for (const script of ["lint", "build:examples", "boards", "proof", "typecheck", "capture"]) {
+    check(Boolean(pkg.scripts?.[script]), `package.json exposes "${script}"`);
+  }
+
   // TSX
-  const tsx = join(ROOT, "examples/loam/dist/loam.tsx");
-  if (existsSync(tsx)) staticTsxCheck(tsx);
+  for (const slug of EXAMPLES) {
+    for (const deck of ["dist", "dist-alt"]) {
+      const tsx = join(ROOT, "examples", slug, deck, `${slug}.tsx`);
+      if (existsSync(tsx)) staticTsxCheck(tsx, `${slug} ${deck}`);
+    }
+  }
 
   // CI
   const ci = join(ROOT, ".github/workflows/check.yml");
   if (existsSync(ci)) {
     const text = read(ci);
     check(/npm run lint/.test(text), "CI runs npm run lint");
-    check(/typecheck|tsc/.test(text), "CI typechecks the generated component");
-    check(/build:example|build\.mjs/.test(text), "CI builds the example");
+    check(/typecheck|tsc/.test(text), "CI typechecks the generated components");
+    check(/build:examples|build\.mjs/.test(text), "CI builds every example");
+    check(/npm run boards/.test(text), "CI regenerates the boards");
+    check(/npm run proof/.test(text), "CI regenerates the before/after page");
   }
 
   // Secrets and size

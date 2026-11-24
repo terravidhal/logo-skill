@@ -1,0 +1,29 @@
+{
+  "name": "Cindral",
+  "slug": "cindral",
+  "component": "CindralLogo",
+  "title": "Cindral — wood-fired coffee, roasted in small batches",
+  "promise": "Wood-fired coffee, roasted in small batches.",
+  "sector": "Coffee · roastery",
+  "idea": "A coffee bean whose crease is a flame.",
+  "palette": "clay-cream",
+  "altPalette": "spruce-coral",
+  "files": {
+    "symbol": "symbol.svg",
+    "wordmark": "wordmark.svg",
+    "symbolSmall": "symbol-small.svg"
+  },
+  "geometry": {
+    "symbolHeight": 1,
+    "wordmarkHeight": 0.42,
+    "gap": 0.3,
+    "padding": 0.08,
+    "stackedGap": 0.22,
+    "appIconScale": 0.62,
+    "appIconRadius": 0.225,
+    "faviconScale": 0.68,
+    "maskableScale": 0.5
+  },
+  "out": "dist",
+  "altOut": "dist-alt"
+}

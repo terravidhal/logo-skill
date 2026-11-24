@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-brand="brambler">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Brambler — logodeck identity plate</title>
+<style>
+  :root {
+    --ld-bg:#FAF6F3;--ld-ink:#23161F;--ld-brand:#6B2C5F;--ld-accent:#8A5A00;--plate-bg:#FAF6F3;--plate-ink:#23161F;
+    --ink-soft: color-mix(in srgb, var(--ld-ink) 64%, transparent);
+    --line: color-mix(in srgb, var(--ld-ink) 15%, transparent);
+    --surface: color-mix(in srgb, var(--ld-bg) 88%, white);
+    --shadow: 0 28px 70px rgba(10, 20, 15, .12);
+    color-scheme: light;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  html[data-theme="dark"] {
+    --ld-bg:#1A1017;--ld-ink:#F3E9F0;--ld-brand:#D59ACB;--ld-accent:#E8B44A;--plate-bg:#1A1017;--plate-ink:#F3E9F0;
+    --ink-soft: color-mix(in srgb, var(--ld-ink) 66%, transparent);
+    --line: color-mix(in srgb, var(--ld-ink) 20%, transparent);
+    --surface: color-mix(in srgb, var(--ld-bg) 90%, white);
+    --shadow: 0 28px 70px rgba(0, 0, 0, .4);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ld-bg); color: var(--ld-ink); transition: background 170ms ease, color 170ms ease; }
+  a { color: inherit; }
+  .wrap { width: min(1240px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 72px; }
+  nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 26px; }
+  nav .crumb { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  nav .tools { display: flex; gap: 8px; flex-wrap: wrap; }
+  button, .button { font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ld-ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+  .hero { display: grid; grid-template-columns: 1.3fr .7fr; gap: 28px; align-items: stretch; padding: 24px 0 22px; }
+  .hero-main { display: flex; flex-direction: column; justify-content: space-between; gap: 30px; }
+  .eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+  h1 { font-size: clamp(56px, 8vw, 118px); line-height: .88; letter-spacing: -.045em; margin: 14px 0 18px; font-weight: 650; }
+  .promise { font-size: clamp(18px, 2.1vw, 26px); line-height: 1.35; max-width: 28ch; margin: 0; }
+  .idea { margin: 24px 0 0; font-size: 14px; line-height: 1.7; color: var(--ink-soft); max-width: 52ch; }
+  .hero-lockup { border: 1px solid var(--line); border-radius: 30px; background: var(--surface); box-shadow: var(--shadow); padding: 40px; display: grid; place-items: center; min-height: 250px; }
+  .hero-lockup svg { width: min(100%, 430px); height: auto; display: block; }
+  .dark-panel { border-radius: 30px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; box-shadow: var(--shadow); }
+  .dark-panel .eyebrow { color: color-mix(in srgb, currentColor 62%, transparent); }
+  .dark-panel svg { width: min(100%, 260px); height: auto; display: block; }
+  .section { margin-top: 52px; }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 20px; }
+  h2 { margin: 0; font-size: 15px; letter-spacing: .13em; text-transform: uppercase; font-weight: 600; }
+  .section-head p { margin: 0; color: var(--ink-soft); font-size: 13px; max-width: 52ch; }
+  .grid { display: grid; gap: 16px; }
+  .grid-5 { grid-template-columns: repeat(5, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .card { border: 1px solid var(--line); border-radius: 22px; background: var(--surface); padding: 22px; display: flex; flex-direction: column; gap: 16px; min-height: 176px; }
+  .card h3 { margin: 0; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  .card .art { flex: 1; display: grid; place-items: center; }
+  .card .art svg { display: block; max-width: 100%; height: auto; }
+  .art.symbol svg { width: 118px; height: 118px; }
+  .art.word svg { width: min(100%, 250px); height: auto; }
+  .art.lockup svg { width: min(100%, 330px); height: auto; }
+  .art.app svg { width: 92px; height: 92px; }
+  .mono { color: var(--ld-ink); }
+  .darkcard { border-color: transparent; }
+  .darkcard h3 { color: color-mix(in srgb, currentColor 62%, transparent); }
+  .darkcard .mono { color: inherit; }
+  .favicons { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; }
+  .favicons figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 7px; color: var(--ink-soft); font-size: 11px; }
+  .favicons svg, .favicons span svg { display: block; width: 100%; height: 100%; }
+  .palette-group { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 22px; }
+  .palette-group:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+  .palette-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .palette-title b { font-size: 17px; }
+  .palette-title span { color: var(--ink-soft); font-size: 13px; }
+  .plate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .plate { border-radius: 20px; padding: 18px; background: var(--plate-bg); color: var(--plate-ink); border: 1px solid color-mix(in srgb, var(--plate-ink) 14%, transparent); display: flex; flex-direction: column; gap: 13px; }
+  .plate.dark { border-color: rgba(255, 255, 255, .12); }
+  .plate-head { display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--plate-ink) 62%, transparent); }
+  .badge { border: 1px solid currentColor; border-radius: 999px; padding: 3px 8px; letter-spacing: .06em; }
+  .plate-lockup { min-height: 68px; display: flex; align-items: center; }
+  .plate-lockup svg { width: min(100%, 300px); height: auto; display: block; }
+  .swatch-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .swatch { display: flex; flex-direction: column; gap: 5px; font-size: 10px; min-width: 0; }
+  .swatch i { display: block; height: 30px; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--plate-ink) 18%, transparent); }
+  .swatch b { font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: color-mix(in srgb, var(--plate-ink) 65%, transparent); }
+  .swatch code { font: 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; opacity: .8; }
+  .plate-note { margin: 0; font-size: 11px; line-height: 1.5; color: color-mix(in srgb, var(--plate-ink) 66%, transparent); }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--ink-soft); font-weight: 600; }
+  td.pass { color: var(--ld-brand); font-weight: 600; }
+  td.fail { color: #B42318; font-weight: 600; }
+  .code { margin: 0; padding: 18px; border-radius: 18px; background: #0E1713; color: #E9F2EC; border: 1px solid rgba(255, 255, 255, .08); overflow: auto; font: 12px/1.8 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .files { border-top: 1px solid var(--line); padding: 10px 0; font-size: 12px; }
+  .files summary { cursor: pointer; color: var(--ink-soft); }
+  .files ul { columns: 2; gap: 20px; margin: 10px 0 0; padding: 0; list-style: none; }
+  .files li { break-inside: avoid; margin-bottom: 5px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  footer { margin-top: 54px; border-top: 1px solid var(--line); padding-top: 18px; display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; color: var(--ink-soft); font-size: 12px; }
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; }
+    .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3, .grid-2, .plate-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .wrap { width: calc(100% - 28px); padding-top: 16px; }
+    .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .hero-lockup { padding: 22px; }
+    .plate { padding: 14px; }
+    .swatch-row { grid-template-columns: repeat(2, 1fr); }
+    .files ul { columns: 1; }
+    h1 { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <span class="crumb"><a href="../site/index.html">logodeck</a> / identity plate / brambler</span>
+    <span class="tools">
+      <button type="button" id="theme">Toggle dark</button>
+      <a class="button" href="dist/brambler-preview.html">Open the preview</a>
+    </span>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-main">
+      <div>
+        <div class="eyebrow">Food · pantry · fictional brand · palette plum-gold</div>
+        <h1>Brambler</h1>
+        <p class="promise">Small-batch preserves from hedgerow fruit.</p>
+        <p class="idea"><b>Idea.</b> Three thorn blades turn around a seed; the fruit stays hidden in the bramble.</p>
+      </div>
+      <div class="hero-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.704 1.16" role="img" data-ld="brambler-lockup-horizontal">
+<title>Brambler — small-batch preserves from hedgerow fruit — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="0.901" height="1" viewBox="31 17.5 178 197.5" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g></svg>
+  <svg x="1.281" y="0.37" width="2.342" height="0.42" viewBox="-7.5 -7.5 641.36 115" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-7.5 0L-7.5 100A7.5 7.5 0 0 0 7.5 100L7.5 0A7.5 7.5 0 0 1 -7.5 0Z" />
+    <path fill-rule="evenodd" d="M0 7.5L23.52 7.5A7.5 7.5 0 0 0 23.52 -7.5L0 -7.5A7.5 7.5 0 0 1 0 7.5ZM19.821 6.525L37.461 16.525A7.5 7.5 0 0 0 44.859 3.475L27.219 -6.525A7.5 7.5 0 0 1 19.821 6.525ZM34.245 12.904L40.125 26.904A7.5 7.5 0 0 0 53.955 21.096L48.075 7.096A7.5 7.5 0 0 1 34.245 12.904ZM40.125 21.096L34.245 35.096A7.5 7.5 0 0 0 48.075 40.904L53.955 26.904A7.5 7.5 0 0 1 40.125 21.096ZM37.461 31.475L19.821 41.475A7.5 7.5 0 0 0 27.219 54.525L44.859 44.525A7.5 7.5 0 0 1 37.461 31.475ZM23.52 40.5L0 40.5A7.5 7.5 0 0 0 0 55.5L23.52 55.5A7.5 7.5 0 0 1 23.52 40.5Z" />
+    <path fill-rule="evenodd" d="M0 55.5L27.44 55.5A7.5 7.5 0 0 0 27.44 40.5L0 40.5A7.5 7.5 0 0 1 0 55.5ZM23.524 54.396L43.124 66.396A7.5 7.5 0 0 0 50.956 53.604L31.356 41.604A7.5 7.5 0 0 1 23.524 54.396ZM40 62.587L45.88 78.587A7.5 7.5 0 0 0 59.96 73.413L54.08 57.413A7.5 7.5 0 0 1 40 62.587ZM46.005 73.096L40.125 87.096A7.5 7.5 0 0 0 53.955 92.904L59.835 78.904A7.5 7.5 0 0 1 46.005 73.096ZM43.631 83.319L24.031 93.319A7.5 7.5 0 0 0 30.849 106.681L50.449 96.681A7.5 7.5 0 0 1 43.631 83.319ZM27.44 92.5L0 92.5A7.5 7.5 0 0 0 0 107.5L27.44 107.5A7.5 7.5 0 0 1 27.44 92.5Z" />
+    <path fill-rule="evenodd" d="M72.46 0L72.46 100A7.5 7.5 0 0 0 87.46 100L87.46 0A7.5 7.5 0 0 1 72.46 0Z" />
+    <path fill-rule="evenodd" d="M79.96 7.5L103.48 7.5A7.5 7.5 0 0 0 103.48 -7.5L79.96 -7.5A7.5 7.5 0 0 1 79.96 7.5ZM99.781 6.525L117.421 16.525A7.5 7.5 0 0 0 124.819 3.475L107.179 -6.525A7.5 7.5 0 0 1 99.781 6.525ZM114.205 12.904L120.085 26.904A7.5 7.5 0 0 0 133.915 21.096L128.035 7.096A7.5 7.5 0 0 1 114.205 12.904ZM120.265 20.7L114.385 32.7A7.5 7.5 0 0 0 127.855 39.3L133.735 27.3A7.5 7.5 0 0 1 120.265 20.7ZM117.421 29.475L99.781 39.475A7.5 7.5 0 0 0 107.179 52.525L124.819 42.525A7.5 7.5 0 0 1 117.421 29.475ZM103.48 38.5L79.96 38.5A7.5 7.5 0 0 0 79.96 53.5L103.48 53.5A7.5 7.5 0 0 1 103.48 38.5Z" />
+    <path fill-rule="evenodd" d="M94.834 49.398L122.274 103.398A7.5 7.5 0 0 0 135.646 96.602L108.206 42.602A7.5 7.5 0 0 1 94.834 49.398Z" />
+    <path fill-rule="evenodd" d="M167.076 102.244L198.436 2.244A7.5 7.5 0 0 0 184.124 -2.244L152.764 97.756A7.5 7.5 0 0 1 167.076 102.244ZM184.124 2.244L215.484 102.244A7.5 7.5 0 0 0 229.796 97.756L198.436 -2.244A7.5 7.5 0 0 1 184.124 2.244Z" />
+    <path fill-rule="evenodd" d="M173.64 71.5L208.92 71.5A7.5 7.5 0 0 0 208.92 56.5L173.64 56.5A7.5 7.5 0 0 1 173.64 71.5Z" />
+    <path fill-rule="evenodd" d="M259.14 100L259.14 0A7.5 7.5 0 0 0 244.14 0L244.14 100A7.5 7.5 0 0 1 259.14 100ZM245.089 3.652L277.429 61.652A7.5 7.5 0 0 0 290.531 54.348L258.191 -3.652A7.5 7.5 0 0 1 245.089 3.652ZM290.531 61.652L322.871 3.652A7.5 7.5 0 0 0 309.769 -3.652L277.429 54.348A7.5 7.5 0 0 1 290.531 61.652ZM308.82 0L308.82 100A7.5 7.5 0 0 0 323.82 100L323.82 0A7.5 7.5 0 0 1 308.82 0Z" />
+    <path fill-rule="evenodd" d="M337.82 0L337.82 100A7.5 7.5 0 0 0 352.82 100L352.82 0A7.5 7.5 0 0 1 337.82 0Z" />
+    <path fill-rule="evenodd" d="M345.32 7.5L368.84 7.5A7.5 7.5 0 0 0 368.84 -7.5L345.32 -7.5A7.5 7.5 0 0 1 345.32 7.5ZM365.141 6.525L382.781 16.525A7.5 7.5 0 0 0 390.179 3.475L372.539 -6.525A7.5 7.5 0 0 1 365.141 6.525ZM379.565 12.904L385.445 26.904A7.5 7.5 0 0 0 399.275 21.096L393.395 7.096A7.5 7.5 0 0 1 379.565 12.904ZM385.445 21.096L379.565 35.096A7.5 7.5 0 0 0 393.395 40.904L399.275 26.904A7.5 7.5 0 0 1 385.445 21.096ZM382.781 31.475L365.141 41.475A7.5 7.5 0 0 0 372.539 54.525L390.179 44.525A7.5 7.5 0 0 1 382.781 31.475ZM368.84 40.5L345.32 40.5A7.5 7.5 0 0 0 345.32 55.5L368.84 55.5A7.5 7.5 0 0 1 368.84 40.5Z" />
+    <path fill-rule="evenodd" d="M345.32 55.5L372.76 55.5A7.5 7.5 0 0 0 372.76 40.5L345.32 40.5A7.5 7.5 0 0 1 345.32 55.5ZM368.844 54.396L388.444 66.396A7.5 7.5 0 0 0 396.276 53.604L376.676 41.604A7.5 7.5 0 0 1 368.844 54.396ZM385.32 62.587L391.2 78.587A7.5 7.5 0 0 0 405.28 73.413L399.4 57.413A7.5 7.5 0 0 1 385.32 62.587ZM391.325 73.096L385.445 87.096A7.5 7.5 0 0 0 399.275 92.904L405.155 78.904A7.5 7.5 0 0 1 391.325 73.096ZM388.951 83.319L369.351 93.319A7.5 7.5 0 0 0 376.169 106.681L395.769 96.681A7.5 7.5 0 0 1 388.951 83.319ZM372.76 92.5L345.32 92.5A7.5 7.5 0 0 0 345.32 107.5L372.76 107.5A7.5 7.5 0 0 1 372.76 92.5Z" />
+    <path fill-rule="evenodd" d="M417.78 0L417.78 100A7.5 7.5 0 0 0 432.78 100L432.78 0A7.5 7.5 0 0 1 417.78 0Z" />
+    <path fill-rule="evenodd" d="M425.28 107.5L468.4 107.5A7.5 7.5 0 0 0 468.4 92.5L425.28 92.5A7.5 7.5 0 0 1 425.28 107.5Z" />
+    <path fill-rule="evenodd" d="M491.86 0L491.86 100A7.5 7.5 0 0 0 506.86 100L506.86 0A7.5 7.5 0 0 1 491.86 0Z" />
+    <path fill-rule="evenodd" d="M499.36 7.5L544.44 7.5A7.5 7.5 0 0 0 544.44 -7.5L499.36 -7.5A7.5 7.5 0 0 1 499.36 7.5Z" />
+    <path fill-rule="evenodd" d="M499.36 57.5L534.64 57.5A7.5 7.5 0 0 0 534.64 42.5L499.36 42.5A7.5 7.5 0 0 1 499.36 57.5Z" />
+    <path fill-rule="evenodd" d="M499.36 107.5L544.44 107.5A7.5 7.5 0 0 0 544.44 92.5L499.36 92.5A7.5 7.5 0 0 1 499.36 107.5Z" />
+    <path fill-rule="evenodd" d="M567.9 0L567.9 100A7.5 7.5 0 0 0 582.9 100L582.9 0A7.5 7.5 0 0 1 567.9 0Z" />
+    <path fill-rule="evenodd" d="M575.4 7.5L598.92 7.5A7.5 7.5 0 0 0 598.92 -7.5L575.4 -7.5A7.5 7.5 0 0 1 575.4 7.5ZM595.221 6.525L612.861 16.525A7.5 7.5 0 0 0 620.259 3.475L602.619 -6.525A7.5 7.5 0 0 1 595.221 6.525ZM609.645 12.904L615.525 26.904A7.5 7.5 0 0 0 629.355 21.096L623.475 7.096A7.5 7.5 0 0 1 609.645 12.904ZM615.705 20.7L609.825 32.7A7.5 7.5 0 0 0 623.295 39.3L629.175 27.3A7.5 7.5 0 0 1 615.705 20.7ZM612.861 29.475L595.221 39.475A7.5 7.5 0 0 0 602.619 52.525L620.259 42.525A7.5 7.5 0 0 1 612.861 29.475ZM598.92 38.5L575.4 38.5A7.5 7.5 0 0 0 575.4 53.5L598.92 53.5A7.5 7.5 0 0 1 598.92 38.5Z" />
+    <path fill-rule="evenodd" d="M590.274 49.398L617.714 103.398A7.5 7.5 0 0 0 631.086 96.602L603.646 42.602A7.5 7.5 0 0 1 590.274 49.398Z" />
+  </g></svg>
+</svg>
+</div>
+    </div>
+    <aside class="dark-panel" style="background:#1A1017;color:#F3E9F0">
+      <div class="eyebrow">On dark</div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.502 1.8" role="img" data-ld="brambler-lockup-stacked-dark">
+<title>Brambler — small-batch preserves from hedgerow fruit — stacked lockup, dark background</title>
+<svg x="0.801" y="0.08" width="0.901" height="1" viewBox="31 17.5 178 197.5" preserveAspectRatio="xMidYMid meet"><g fill="#D59ACB">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="2.342" height="0.42" viewBox="-7.5 -7.5 641.36 115" preserveAspectRatio="xMidYMid meet"><g fill="#F3E9F0">
+    <path fill-rule="evenodd" d="M-7.5 0L-7.5 100A7.5 7.5 0 0 0 7.5 100L7.5 0A7.5 7.5 0 0 1 -7.5 0Z" />
+    <path fill-rule="evenodd" d="M0 7.5L23.52 7.5A7.5 7.5 0 0 0 23.52 -7.5L0 -7.5A7.5 7.5 0 0 1 0 7.5ZM19.821 6.525L37.461 16.525A7.5 7.5 0 0 0 44.859 3.475L27.219 -6.525A7.5 7.5 0 0 1 19.821 6.525ZM34.245 12.904L40.125 26.904A7.5 7.5 0 0 0 53.955 21.096L48.075 7.096A7.5 7.5 0 0 1 34.245 12.904ZM40.125 21.096L34.245 35.096A7.5 7.5 0 0 0 48.075 40.904L53.955 26.904A7.5 7.5 0 0 1 40.125 21.096ZM37.461 31.475L19.821 41.475A7.5 7.5 0 0 0 27.219 54.525L44.859 44.525A7.5 7.5 0 0 1 37.461 31.475ZM23.52 40.5L0 40.5A7.5 7.5 0 0 0 0 55.5L23.52 55.5A7.5 7.5 0 0 1 23.52 40.5Z" />
+    <path fill-rule="evenodd" d="M0 55.5L27.44 55.5A7.5 7.5 0 0 0 27.44 40.5L0 40.5A7.5 7.5 0 0 1 0 55.5ZM23.524 54.396L43.124 66.396A7.5 7.5 0 0 0 50.956 53.604L31.356 41.604A7.5 7.5 0 0 1 23.524 54.396ZM40 62.587L45.88 78.587A7.5 7.5 0 0 0 59.96 73.413L54.08 57.413A7.5 7.5 0 0 1 40 62.587ZM46.005 73.096L40.125 87.096A7.5 7.5 0 0 0 53.955 92.904L59.835 78.904A7.5 7.5 0 0 1 46.005 73.096ZM43.631 83.319L24.031 93.319A7.5 7.5 0 0 0 30.849 106.681L50.449 96.681A7.5 7.5 0 0 1 43.631 83.319ZM27.44 92.5L0 92.5A7.5 7.5 0 0 0 0 107.5L27.44 107.5A7.5 7.5 0 0 1 27.44 92.5Z" />
+    <path fill-rule="evenodd" d="M72.46 0L72.46 100A7.5 7.5 0 0 0 87.46 100L87.46 0A7.5 7.5 0 0 1 72.46 0Z" />
+    <path fill-rule="evenodd" d="M79.96 7.5L103.48 7.5A7.5 7.5 0 0 0 103.48 -7.5L79.96 -7.5A7.5 7.5 0 0 1 79.96 7.5ZM99.781 6.525L117.421 16.525A7.5 7.5 0 0 0 124.819 3.475L107.179 -6.525A7.5 7.5 0 0 1 99.781 6.525ZM114.205 12.904L120.085 26.904A7.5 7.5 0 0 0 133.915 21.096L128.035 7.096A7.5 7.5 0 0 1 114.205 12.904ZM120.265 20.7L114.385 32.7A7.5 7.5 0 0 0 127.855 39.3L133.735 27.3A7.5 7.5 0 0 1 120.265 20.7ZM117.421 29.475L99.781 39.475A7.5 7.5 0 0 0 107.179 52.525L124.819 42.525A7.5 7.5 0 0 1 117.421 29.475ZM103.48 38.5L79.96 38.5A7.5 7.5 0 0 0 79.96 53.5L103.48 53.5A7.5 7.5 0 0 1 103.48 38.5Z" />
+    <path fill-rule="evenodd" d="M94.834 49.398L122.274 103.398A7.5 7.5 0 0 0 135.646 96.602L108.206 42.602A7.5 7.5 0 0 1 94.834 49.398Z" />
+    <path fill-rule="evenodd" d="M167.076 102.244L198.436 2.244A7.5 7.5 0 0 0 184.124 -2.244L152.764 97.756A7.5 7.5 0 0 1 167.076 102.244ZM184.124 2.244L215.484 102.244A7.5 7.5 0 0 0 229.796 97.756L198.436 -2.244A7.5 7.5 0 0 1 184.124 2.244Z" />
+    <path fill-rule="evenodd" d="M173.64 71.5L208.92 71.5A7.5 7.5 0 0 0 208.92 56.5L173.64 56.5A7.5 7.5 0 0 1 173.64 71.5Z" />
+    <path fill-rule="evenodd" d="M259.14 100L259.14 0A7.5 7.5 0 0 0 244.14 0L244.14 100A7.5 7.5 0 0 1 259.14 100ZM245.089 3.652L277.429 61.652A7.5 7.5 0 0 0 290.531 54.348L258.191 -3.652A7.5 7.5 0 0 1 245.089 3.652ZM290.531 61.652L322.871 3.652A7.5 7.5 0 0 0 309.769 -3.652L277.429 54.348A7.5 7.5 0 0 1 290.531 61.652ZM308.82 0L308.82 100A7.5 7.5 0 0 0 323.82 100L323.82 0A7.5 7.5 0 0 1 308.82 0Z" />
+    <path fill-rule="evenodd" d="M337.82 0L337.82 100A7.5 7.5 0 0 0 352.82 100L352.82 0A7.5 7.5 0 0 1 337.82 0Z" />
+    <path fill-rule="evenodd" d="M345.32 7.5L368.84 7.5A7.5 7.5 0 0 0 368.84 -7.5L345.32 -7.5A7.5 7.5 0 0 1 345.32 7.5ZM365.141 6.525L382.781 16.525A7.5 7.5 0 0 0 390.179 3.475L372.539 -6.525A7.5 7.5 0 0 1 365.141 6.525ZM379.565 12.904L385.445 26.904A7.5 7.5 0 0 0 399.275 21.096L393.395 7.096A7.5 7.5 0 0 1 379.565 12.904ZM385.445 21.096L379.565 35.096A7.5 7.5 0 0 0 393.395 40.904L399.275 26.904A7.5 7.5 0 0 1 385.445 21.096ZM382.781 31.475L365.141 41.475A7.5 7.5 0 0 0 372.539 54.525L390.179 44.525A7.5 7.5 0 0 1 382.781 31.475ZM368.84 40.5L345.32 40.5A7.5 7.5 0 0 0 345.32 55.5L368.84 55.5A7.5 7.5 0 0 1 368.84 40.5Z" />
+    <path fill-rule="evenodd" d="M345.32 55.5L372.76 55.5A7.5 7.5 0 0 0 372.76 40.5L345.32 40.5A7.5 7.5 0 0 1 345.32 55.5ZM368.844 54.396L388.444 66.396A7.5 7.5 0 0 0 396.276 53.604L376.676 41.604A7.5 7.5 0 0 1 368.844 54.396ZM385.32 62.587L391.2 78.587A7.5 7.5 0 0 0 405.28 73.413L399.4 57.413A7.5 7.5 0 0 1 385.32 62.587ZM391.325 73.096L385.445 87.096A7.5 7.5 0 0 0 399.275 92.904L405.155 78.904A7.5 7.5 0 0 1 391.325 73.096ZM388.951 83.319L369.351 93.319A7.5 7.5 0 0 0 376.169 106.681L395.769 96.681A7.5 7.5 0 0 1 388.951 83.319ZM372.76 92.5L345.32 92.5A7.5 7.5 0 0 0 345.32 107.5L372.76 107.5A7.5 7.5 0 0 1 372.76 92.5Z" />
+    <path fill-rule="evenodd" d="M417.78 0L417.78 100A7.5 7.5 0 0 0 432.78 100L432.78 0A7.5 7.5 0 0 1 417.78 0Z" />
+    <path fill-rule="evenodd" d="M425.28 107.5L468.4 107.5A7.5 7.5 0 0 0 468.4 92.5L425.28 92.5A7.5 7.5 0 0 1 425.28 107.5Z" />
+    <path fill-rule="evenodd" d="M491.86 0L491.86 100A7.5 7.5 0 0 0 506.86 100L506.86 0A7.5 7.5 0 0 1 491.86 0Z" />
+    <path fill-rule="evenodd" d="M499.36 7.5L544.44 7.5A7.5 7.5 0 0 0 544.44 -7.5L499.36 -7.5A7.5 7.5 0 0 1 499.36 7.5Z" />
+    <path fill-rule="evenodd" d="M499.36 57.5L534.64 57.5A7.5 7.5 0 0 0 534.64 42.5L499.36 42.5A7.5 7.5 0 0 1 499.36 57.5Z" />
+    <path fill-rule="evenodd" d="M499.36 107.5L544.44 107.5A7.5 7.5 0 0 0 544.44 92.5L499.36 92.5A7.5 7.5 0 0 1 499.36 107.5Z" />
+    <path fill-rule="evenodd" d="M567.9 0L567.9 100A7.5 7.5 0 0 0 582.9 100L582.9 0A7.5 7.5 0 0 1 567.9 0Z" />
+    <path fill-rule="evenodd" d="M575.4 7.5L598.92 7.5A7.5 7.5 0 0 0 598.92 -7.5L575.4 -7.5A7.5 7.5 0 0 1 575.4 7.5ZM595.221 6.525L612.861 16.525A7.5 7.5 0 0 0 620.259 3.475L602.619 -6.525A7.5 7.5 0 0 1 595.221 6.525ZM609.645 12.904L615.525 26.904A7.5 7.5 0 0 0 629.355 21.096L623.475 7.096A7.5 7.5 0 0 1 609.645 12.904ZM615.705 20.7L609.825 32.7A7.5 7.5 0 0 0 623.295 39.3L629.175 27.3A7.5 7.5 0 0 1 615.705 20.7ZM612.861 29.475L595.221 39.475A7.5 7.5 0 0 0 602.619 52.525L620.259 42.525A7.5 7.5 0 0 1 612.861 29.475ZM598.92 38.5L575.4 38.5A7.5 7.5 0 0 0 575.4 53.5L598.92 53.5A7.5 7.5 0 0 1 598.92 38.5Z" />
+    <path fill-rule="evenodd" d="M590.274 49.398L617.714 103.398A7.5 7.5 0 0 0 631.086 96.602L603.646 42.602A7.5 7.5 0 0 1 590.274 49.398Z" />
+  </g></svg>
+</svg>
+
+      <div class="eyebrow">5.52:1 lowest pair</div>
+    </aside>
+  </header>
+
+  <section class="section">
+    <div class="section-head"><h2>The mark</h2><p>One drawing, then the whole family: mono for one colour, a simplified favicon, a tile and a maskable icon.</p></div>
+    <div class="grid grid-5">
+      <div class="card"><h3>Symbol</h3><div class="art symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="31 17.5 178 197.5" role="img" data-ld="brambler-symbol">
+<title>Brambler — small-batch preserves from hedgerow fruit — symbol</title>
+<g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Symbol mono</h3><div class="art symbol mono"><svg xmlns="http://www.w3.org/2000/svg" viewBox="31 17.5 178 197.5" role="img" data-ld="brambler-symbol-mono">
+<title>Brambler — small-batch preserves from hedgerow fruit — mono symbol</title>
+<g fill="currentColor">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g>
+</svg>
+</div></div>
+      <div class="card darkcard" style="background:#1A1017;color:#F3E9F0"><h3>Symbol dark</h3><div class="art symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="31 17.5 178 197.5" role="img" data-ld="brambler-symbol-dark">
+<title>Brambler — small-batch preserves from hedgerow fruit — symbol, dark background</title>
+<g fill="#D59ACB">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Favicon</h3><div class="art"><div class="favicons">
+        <figure><span style="display:block;width:32px;height:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="brambler-favicon">
+<title>Brambler — small-batch preserves from hedgerow fruit — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#6B2C5F"/>
+<svg x="13.009" y="10.24" width="37.981" height="43.52" viewBox="24 9 192 220" preserveAspectRatio="xMidYMid meet"><g fill="#FAF6F3">
+    <path d="M120 120C111.36 85.44 109.2 48.72 120 9.84C139.44 48.72 154.56 83.28 156.72 117.84C145.92 124.32 130.8 126.48 120 120ZM120 120C154.25 129.798 187.13 146.287 215.401 175.08C172.01 172.476 134.52 168.29 103.511 152.88C103.299 140.287 108.988 126.113 120 120ZM120 120C94.39 144.762 63.67 164.993 24.599 175.08C48.55 138.804 70.92 108.43 99.769 89.28C110.781 95.393 120.212 107.407 120 120Z" />
+    <circle cx="120" cy="206" r="22" />
+  </g></svg>
+</svg>
+</span><figcaption>32</figcaption></figure>
+        <figure><span style="display:block;width:16px;height:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="brambler-favicon">
+<title>Brambler — small-batch preserves from hedgerow fruit — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#6B2C5F"/>
+<svg x="13.009" y="10.24" width="37.981" height="43.52" viewBox="24 9 192 220" preserveAspectRatio="xMidYMid meet"><g fill="#FAF6F3">
+    <path d="M120 120C111.36 85.44 109.2 48.72 120 9.84C139.44 48.72 154.56 83.28 156.72 117.84C145.92 124.32 130.8 126.48 120 120ZM120 120C154.25 129.798 187.13 146.287 215.401 175.08C172.01 172.476 134.52 168.29 103.511 152.88C103.299 140.287 108.988 126.113 120 120ZM120 120C94.39 144.762 63.67 164.993 24.599 175.08C48.55 138.804 70.92 108.43 99.769 89.28C110.781 95.393 120.212 107.407 120 120Z" />
+    <circle cx="120" cy="206" r="22" />
+  </g></svg>
+</svg>
+</span><figcaption>16</figcaption></figure>
+      </div></div></div>
+      <div class="card"><h3>App icon</h3><div class="art app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="brambler-app-icon">
+<title>Brambler — small-batch preserves from hedgerow fruit — app-icon</title>
+<rect width="512" height="512" rx="115.2" fill="#6B2C5F"/>
+<svg x="112.951" y="97.28" width="286.098" height="317.44" viewBox="31 17.5 178 197.5" preserveAspectRatio="xMidYMid meet"><g fill="#FAF6F3">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g></svg>
+</svg>
+</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Wordmark & lockups</h2><p>The name is drawn as paths. The lockups are composed from the same two masters, never retouched.</p></div>
+    <div class="grid grid-3">
+      <div class="card"><h3>Wordmark</h3><div class="art word"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-7.5 -7.5 641.36 115" role="img" data-ld="brambler-wordmark">
+<title>Brambler — small-batch preserves from hedgerow fruit — wordmark</title>
+<g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-7.5 0L-7.5 100A7.5 7.5 0 0 0 7.5 100L7.5 0A7.5 7.5 0 0 1 -7.5 0Z" />
+    <path fill-rule="evenodd" d="M0 7.5L23.52 7.5A7.5 7.5 0 0 0 23.52 -7.5L0 -7.5A7.5 7.5 0 0 1 0 7.5ZM19.821 6.525L37.461 16.525A7.5 7.5 0 0 0 44.859 3.475L27.219 -6.525A7.5 7.5 0 0 1 19.821 6.525ZM34.245 12.904L40.125 26.904A7.5 7.5 0 0 0 53.955 21.096L48.075 7.096A7.5 7.5 0 0 1 34.245 12.904ZM40.125 21.096L34.245 35.096A7.5 7.5 0 0 0 48.075 40.904L53.955 26.904A7.5 7.5 0 0 1 40.125 21.096ZM37.461 31.475L19.821 41.475A7.5 7.5 0 0 0 27.219 54.525L44.859 44.525A7.5 7.5 0 0 1 37.461 31.475ZM23.52 40.5L0 40.5A7.5 7.5 0 0 0 0 55.5L23.52 55.5A7.5 7.5 0 0 1 23.52 40.5Z" />
+    <path fill-rule="evenodd" d="M0 55.5L27.44 55.5A7.5 7.5 0 0 0 27.44 40.5L0 40.5A7.5 7.5 0 0 1 0 55.5ZM23.524 54.396L43.124 66.396A7.5 7.5 0 0 0 50.956 53.604L31.356 41.604A7.5 7.5 0 0 1 23.524 54.396ZM40 62.587L45.88 78.587A7.5 7.5 0 0 0 59.96 73.413L54.08 57.413A7.5 7.5 0 0 1 40 62.587ZM46.005 73.096L40.125 87.096A7.5 7.5 0 0 0 53.955 92.904L59.835 78.904A7.5 7.5 0 0 1 46.005 73.096ZM43.631 83.319L24.031 93.319A7.5 7.5 0 0 0 30.849 106.681L50.449 96.681A7.5 7.5 0 0 1 43.631 83.319ZM27.44 92.5L0 92.5A7.5 7.5 0 0 0 0 107.5L27.44 107.5A7.5 7.5 0 0 1 27.44 92.5Z" />
+    <path fill-rule="evenodd" d="M72.46 0L72.46 100A7.5 7.5 0 0 0 87.46 100L87.46 0A7.5 7.5 0 0 1 72.46 0Z" />
+    <path fill-rule="evenodd" d="M79.96 7.5L103.48 7.5A7.5 7.5 0 0 0 103.48 -7.5L79.96 -7.5A7.5 7.5 0 0 1 79.96 7.5ZM99.781 6.525L117.421 16.525A7.5 7.5 0 0 0 124.819 3.475L107.179 -6.525A7.5 7.5 0 0 1 99.781 6.525ZM114.205 12.904L120.085 26.904A7.5 7.5 0 0 0 133.915 21.096L128.035 7.096A7.5 7.5 0 0 1 114.205 12.904ZM120.265 20.7L114.385 32.7A7.5 7.5 0 0 0 127.855 39.3L133.735 27.3A7.5 7.5 0 0 1 120.265 20.7ZM117.421 29.475L99.781 39.475A7.5 7.5 0 0 0 107.179 52.525L124.819 42.525A7.5 7.5 0 0 1 117.421 29.475ZM103.48 38.5L79.96 38.5A7.5 7.5 0 0 0 79.96 53.5L103.48 53.5A7.5 7.5 0 0 1 103.48 38.5Z" />
+    <path fill-rule="evenodd" d="M94.834 49.398L122.274 103.398A7.5 7.5 0 0 0 135.646 96.602L108.206 42.602A7.5 7.5 0 0 1 94.834 49.398Z" />
+    <path fill-rule="evenodd" d="M167.076 102.244L198.436 2.244A7.5 7.5 0 0 0 184.124 -2.244L152.764 97.756A7.5 7.5 0 0 1 167.076 102.244ZM184.124 2.244L215.484 102.244A7.5 7.5 0 0 0 229.796 97.756L198.436 -2.244A7.5 7.5 0 0 1 184.124 2.244Z" />
+    <path fill-rule="evenodd" d="M173.64 71.5L208.92 71.5A7.5 7.5 0 0 0 208.92 56.5L173.64 56.5A7.5 7.5 0 0 1 173.64 71.5Z" />
+    <path fill-rule="evenodd" d="M259.14 100L259.14 0A7.5 7.5 0 0 0 244.14 0L244.14 100A7.5 7.5 0 0 1 259.14 100ZM245.089 3.652L277.429 61.652A7.5 7.5 0 0 0 290.531 54.348L258.191 -3.652A7.5 7.5 0 0 1 245.089 3.652ZM290.531 61.652L322.871 3.652A7.5 7.5 0 0 0 309.769 -3.652L277.429 54.348A7.5 7.5 0 0 1 290.531 61.652ZM308.82 0L308.82 100A7.5 7.5 0 0 0 323.82 100L323.82 0A7.5 7.5 0 0 1 308.82 0Z" />
+    <path fill-rule="evenodd" d="M337.82 0L337.82 100A7.5 7.5 0 0 0 352.82 100L352.82 0A7.5 7.5 0 0 1 337.82 0Z" />
+    <path fill-rule="evenodd" d="M345.32 7.5L368.84 7.5A7.5 7.5 0 0 0 368.84 -7.5L345.32 -7.5A7.5 7.5 0 0 1 345.32 7.5ZM365.141 6.525L382.781 16.525A7.5 7.5 0 0 0 390.179 3.475L372.539 -6.525A7.5 7.5 0 0 1 365.141 6.525ZM379.565 12.904L385.445 26.904A7.5 7.5 0 0 0 399.275 21.096L393.395 7.096A7.5 7.5 0 0 1 379.565 12.904ZM385.445 21.096L379.565 35.096A7.5 7.5 0 0 0 393.395 40.904L399.275 26.904A7.5 7.5 0 0 1 385.445 21.096ZM382.781 31.475L365.141 41.475A7.5 7.5 0 0 0 372.539 54.525L390.179 44.525A7.5 7.5 0 0 1 382.781 31.475ZM368.84 40.5L345.32 40.5A7.5 7.5 0 0 0 345.32 55.5L368.84 55.5A7.5 7.5 0 0 1 368.84 40.5Z" />
+    <path fill-rule="evenodd" d="M345.32 55.5L372.76 55.5A7.5 7.5 0 0 0 372.76 40.5L345.32 40.5A7.5 7.5 0 0 1 345.32 55.5ZM368.844 54.396L388.444 66.396A7.5 7.5 0 0 0 396.276 53.604L376.676 41.604A7.5 7.5 0 0 1 368.844 54.396ZM385.32 62.587L391.2 78.587A7.5 7.5 0 0 0 405.28 73.413L399.4 57.413A7.5 7.5 0 0 1 385.32 62.587ZM391.325 73.096L385.445 87.096A7.5 7.5 0 0 0 399.275 92.904L405.155 78.904A7.5 7.5 0 0 1 391.325 73.096ZM388.951 83.319L369.351 93.319A7.5 7.5 0 0 0 376.169 106.681L395.769 96.681A7.5 7.5 0 0 1 388.951 83.319ZM372.76 92.5L345.32 92.5A7.5 7.5 0 0 0 345.32 107.5L372.76 107.5A7.5 7.5 0 0 1 372.76 92.5Z" />
+    <path fill-rule="evenodd" d="M417.78 0L417.78 100A7.5 7.5 0 0 0 432.78 100L432.78 0A7.5 7.5 0 0 1 417.78 0Z" />
+    <path fill-rule="evenodd" d="M425.28 107.5L468.4 107.5A7.5 7.5 0 0 0 468.4 92.5L425.28 92.5A7.5 7.5 0 0 1 425.28 107.5Z" />
+    <path fill-rule="evenodd" d="M491.86 0L491.86 100A7.5 7.5 0 0 0 506.86 100L506.86 0A7.5 7.5 0 0 1 491.86 0Z" />
+    <path fill-rule="evenodd" d="M499.36 7.5L544.44 7.5A7.5 7.5 0 0 0 544.44 -7.5L499.36 -7.5A7.5 7.5 0 0 1 499.36 7.5Z" />
+    <path fill-rule="evenodd" d="M499.36 57.5L534.64 57.5A7.5 7.5 0 0 0 534.64 42.5L499.36 42.5A7.5 7.5 0 0 1 499.36 57.5Z" />
+    <path fill-rule="evenodd" d="M499.36 107.5L544.44 107.5A7.5 7.5 0 0 0 544.44 92.5L499.36 92.5A7.5 7.5 0 0 1 499.36 107.5Z" />
+    <path fill-rule="evenodd" d="M567.9 0L567.9 100A7.5 7.5 0 0 0 582.9 100L582.9 0A7.5 7.5 0 0 1 567.9 0Z" />
+    <path fill-rule="evenodd" d="M575.4 7.5L598.92 7.5A7.5 7.5 0 0 0 598.92 -7.5L575.4 -7.5A7.5 7.5 0 0 1 575.4 7.5ZM595.221 6.525L612.861 16.525A7.5 7.5 0 0 0 620.259 3.475L602.619 -6.525A7.5 7.5 0 0 1 595.221 6.525ZM609.645 12.904L615.525 26.904A7.5 7.5 0 0 0 629.355 21.096L623.475 7.096A7.5 7.5 0 0 1 609.645 12.904ZM615.705 20.7L609.825 32.7A7.5 7.5 0 0 0 623.295 39.3L629.175 27.3A7.5 7.5 0 0 1 615.705 20.7ZM612.861 29.475L595.221 39.475A7.5 7.5 0 0 0 602.619 52.525L620.259 42.525A7.5 7.5 0 0 1 612.861 29.475ZM598.92 38.5L575.4 38.5A7.5 7.5 0 0 0 575.4 53.5L598.92 53.5A7.5 7.5 0 0 1 598.92 38.5Z" />
+    <path fill-rule="evenodd" d="M590.274 49.398L617.714 103.398A7.5 7.5 0 0 0 631.086 96.602L603.646 42.602A7.5 7.5 0 0 1 590.274 49.398Z" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Horizontal</h3><div class="art lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.704 1.16" role="img" data-ld="brambler-lockup-horizontal">
+<title>Brambler — small-batch preserves from hedgerow fruit — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="0.901" height="1" viewBox="31 17.5 178 197.5" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g></svg>
+  <svg x="1.281" y="0.37" width="2.342" height="0.42" viewBox="-7.5 -7.5 641.36 115" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-7.5 0L-7.5 100A7.5 7.5 0 0 0 7.5 100L7.5 0A7.5 7.5 0 0 1 -7.5 0Z" />
+    <path fill-rule="evenodd" d="M0 7.5L23.52 7.5A7.5 7.5 0 0 0 23.52 -7.5L0 -7.5A7.5 7.5 0 0 1 0 7.5ZM19.821 6.525L37.461 16.525A7.5 7.5 0 0 0 44.859 3.475L27.219 -6.525A7.5 7.5 0 0 1 19.821 6.525ZM34.245 12.904L40.125 26.904A7.5 7.5 0 0 0 53.955 21.096L48.075 7.096A7.5 7.5 0 0 1 34.245 12.904ZM40.125 21.096L34.245 35.096A7.5 7.5 0 0 0 48.075 40.904L53.955 26.904A7.5 7.5 0 0 1 40.125 21.096ZM37.461 31.475L19.821 41.475A7.5 7.5 0 0 0 27.219 54.525L44.859 44.525A7.5 7.5 0 0 1 37.461 31.475ZM23.52 40.5L0 40.5A7.5 7.5 0 0 0 0 55.5L23.52 55.5A7.5 7.5 0 0 1 23.52 40.5Z" />
+    <path fill-rule="evenodd" d="M0 55.5L27.44 55.5A7.5 7.5 0 0 0 27.44 40.5L0 40.5A7.5 7.5 0 0 1 0 55.5ZM23.524 54.396L43.124 66.396A7.5 7.5 0 0 0 50.956 53.604L31.356 41.604A7.5 7.5 0 0 1 23.524 54.396ZM40 62.587L45.88 78.587A7.5 7.5 0 0 0 59.96 73.413L54.08 57.413A7.5 7.5 0 0 1 40 62.587ZM46.005 73.096L40.125 87.096A7.5 7.5 0 0 0 53.955 92.904L59.835 78.904A7.5 7.5 0 0 1 46.005 73.096ZM43.631 83.319L24.031 93.319A7.5 7.5 0 0 0 30.849 106.681L50.449 96.681A7.5 7.5 0 0 1 43.631 83.319ZM27.44 92.5L0 92.5A7.5 7.5 0 0 0 0 107.5L27.44 107.5A7.5 7.5 0 0 1 27.44 92.5Z" />
+    <path fill-rule="evenodd" d="M72.46 0L72.46 100A7.5 7.5 0 0 0 87.46 100L87.46 0A7.5 7.5 0 0 1 72.46 0Z" />
+    <path fill-rule="evenodd" d="M79.96 7.5L103.48 7.5A7.5 7.5 0 0 0 103.48 -7.5L79.96 -7.5A7.5 7.5 0 0 1 79.96 7.5ZM99.781 6.525L117.421 16.525A7.5 7.5 0 0 0 124.819 3.475L107.179 -6.525A7.5 7.5 0 0 1 99.781 6.525ZM114.205 12.904L120.085 26.904A7.5 7.5 0 0 0 133.915 21.096L128.035 7.096A7.5 7.5 0 0 1 114.205 12.904ZM120.265 20.7L114.385 32.7A7.5 7.5 0 0 0 127.855 39.3L133.735 27.3A7.5 7.5 0 0 1 120.265 20.7ZM117.421 29.475L99.781 39.475A7.5 7.5 0 0 0 107.179 52.525L124.819 42.525A7.5 7.5 0 0 1 117.421 29.475ZM103.48 38.5L79.96 38.5A7.5 7.5 0 0 0 79.96 53.5L103.48 53.5A7.5 7.5 0 0 1 103.48 38.5Z" />
+    <path fill-rule="evenodd" d="M94.834 49.398L122.274 103.398A7.5 7.5 0 0 0 135.646 96.602L108.206 42.602A7.5 7.5 0 0 1 94.834 49.398Z" />
+    <path fill-rule="evenodd" d="M167.076 102.244L198.436 2.244A7.5 7.5 0 0 0 184.124 -2.244L152.764 97.756A7.5 7.5 0 0 1 167.076 102.244ZM184.124 2.244L215.484 102.244A7.5 7.5 0 0 0 229.796 97.756L198.436 -2.244A7.5 7.5 0 0 1 184.124 2.244Z" />
+    <path fill-rule="evenodd" d="M173.64 71.5L208.92 71.5A7.5 7.5 0 0 0 208.92 56.5L173.64 56.5A7.5 7.5 0 0 1 173.64 71.5Z" />
+    <path fill-rule="evenodd" d="M259.14 100L259.14 0A7.5 7.5 0 0 0 244.14 0L244.14 100A7.5 7.5 0 0 1 259.14 100ZM245.089 3.652L277.429 61.652A7.5 7.5 0 0 0 290.531 54.348L258.191 -3.652A7.5 7.5 0 0 1 245.089 3.652ZM290.531 61.652L322.871 3.652A7.5 7.5 0 0 0 309.769 -3.652L277.429 54.348A7.5 7.5 0 0 1 290.531 61.652ZM308.82 0L308.82 100A7.5 7.5 0 0 0 323.82 100L323.82 0A7.5 7.5 0 0 1 308.82 0Z" />
+    <path fill-rule="evenodd" d="M337.82 0L337.82 100A7.5 7.5 0 0 0 352.82 100L352.82 0A7.5 7.5 0 0 1 337.82 0Z" />
+    <path fill-rule="evenodd" d="M345.32 7.5L368.84 7.5A7.5 7.5 0 0 0 368.84 -7.5L345.32 -7.5A7.5 7.5 0 0 1 345.32 7.5ZM365.141 6.525L382.781 16.525A7.5 7.5 0 0 0 390.179 3.475L372.539 -6.525A7.5 7.5 0 0 1 365.141 6.525ZM379.565 12.904L385.445 26.904A7.5 7.5 0 0 0 399.275 21.096L393.395 7.096A7.5 7.5 0 0 1 379.565 12.904ZM385.445 21.096L379.565 35.096A7.5 7.5 0 0 0 393.395 40.904L399.275 26.904A7.5 7.5 0 0 1 385.445 21.096ZM382.781 31.475L365.141 41.475A7.5 7.5 0 0 0 372.539 54.525L390.179 44.525A7.5 7.5 0 0 1 382.781 31.475ZM368.84 40.5L345.32 40.5A7.5 7.5 0 0 0 345.32 55.5L368.84 55.5A7.5 7.5 0 0 1 368.84 40.5Z" />
+    <path fill-rule="evenodd" d="M345.32 55.5L372.76 55.5A7.5 7.5 0 0 0 372.76 40.5L345.32 40.5A7.5 7.5 0 0 1 345.32 55.5ZM368.844 54.396L388.444 66.396A7.5 7.5 0 0 0 396.276 53.604L376.676 41.604A7.5 7.5 0 0 1 368.844 54.396ZM385.32 62.587L391.2 78.587A7.5 7.5 0 0 0 405.28 73.413L399.4 57.413A7.5 7.5 0 0 1 385.32 62.587ZM391.325 73.096L385.445 87.096A7.5 7.5 0 0 0 399.275 92.904L405.155 78.904A7.5 7.5 0 0 1 391.325 73.096ZM388.951 83.319L369.351 93.319A7.5 7.5 0 0 0 376.169 106.681L395.769 96.681A7.5 7.5 0 0 1 388.951 83.319ZM372.76 92.5L345.32 92.5A7.5 7.5 0 0 0 345.32 107.5L372.76 107.5A7.5 7.5 0 0 1 372.76 92.5Z" />
+    <path fill-rule="evenodd" d="M417.78 0L417.78 100A7.5 7.5 0 0 0 432.78 100L432.78 0A7.5 7.5 0 0 1 417.78 0Z" />
+    <path fill-rule="evenodd" d="M425.28 107.5L468.4 107.5A7.5 7.5 0 0 0 468.4 92.5L425.28 92.5A7.5 7.5 0 0 1 425.28 107.5Z" />
+    <path fill-rule="evenodd" d="M491.86 0L491.86 100A7.5 7.5 0 0 0 506.86 100L506.86 0A7.5 7.5 0 0 1 491.86 0Z" />
+    <path fill-rule="evenodd" d="M499.36 7.5L544.44 7.5A7.5 7.5 0 0 0 544.44 -7.5L499.36 -7.5A7.5 7.5 0 0 1 499.36 7.5Z" />
+    <path fill-rule="evenodd" d="M499.36 57.5L534.64 57.5A7.5 7.5 0 0 0 534.64 42.5L499.36 42.5A7.5 7.5 0 0 1 499.36 57.5Z" />
+    <path fill-rule="evenodd" d="M499.36 107.5L544.44 107.5A7.5 7.5 0 0 0 544.44 92.5L499.36 92.5A7.5 7.5 0 0 1 499.36 107.5Z" />
+    <path fill-rule="evenodd" d="M567.9 0L567.9 100A7.5 7.5 0 0 0 582.9 100L582.9 0A7.5 7.5 0 0 1 567.9 0Z" />
+    <path fill-rule="evenodd" d="M575.4 7.5L598.92 7.5A7.5 7.5 0 0 0 598.92 -7.5L575.4 -7.5A7.5 7.5 0 0 1 575.4 7.5ZM595.221 6.525L612.861 16.525A7.5 7.5 0 0 0 620.259 3.475L602.619 -6.525A7.5 7.5 0 0 1 595.221 6.525ZM609.645 12.904L615.525 26.904A7.5 7.5 0 0 0 629.355 21.096L623.475 7.096A7.5 7.5 0 0 1 609.645 12.904ZM615.705 20.7L609.825 32.7A7.5 7.5 0 0 0 623.295 39.3L629.175 27.3A7.5 7.5 0 0 1 615.705 20.7ZM612.861 29.475L595.221 39.475A7.5 7.5 0 0 0 602.619 52.525L620.259 42.525A7.5 7.5 0 0 1 612.861 29.475ZM598.92 38.5L575.4 38.5A7.5 7.5 0 0 0 575.4 53.5L598.92 53.5A7.5 7.5 0 0 1 598.92 38.5Z" />
+    <path fill-rule="evenodd" d="M590.274 49.398L617.714 103.398A7.5 7.5 0 0 0 631.086 96.602L603.646 42.602A7.5 7.5 0 0 1 590.274 49.398Z" />
+  </g></svg>
+</svg>
+</div></div>
+      <div class="card darkcard" style="background:#1A1017;color:#F3E9F0"><h3>Stacked dark</h3><div class="art lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.502 1.8" role="img" data-ld="brambler-lockup-stacked-dark">
+<title>Brambler — small-batch preserves from hedgerow fruit — stacked lockup, dark background</title>
+<svg x="0.801" y="0.08" width="0.901" height="1" viewBox="31 17.5 178 197.5" preserveAspectRatio="xMidYMid meet"><g fill="#D59ACB">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="2.342" height="0.42" viewBox="-7.5 -7.5 641.36 115" preserveAspectRatio="xMidYMid meet"><g fill="#F3E9F0">
+    <path fill-rule="evenodd" d="M-7.5 0L-7.5 100A7.5 7.5 0 0 0 7.5 100L7.5 0A7.5 7.5 0 0 1 -7.5 0Z" />
+    <path fill-rule="evenodd" d="M0 7.5L23.52 7.5A7.5 7.5 0 0 0 23.52 -7.5L0 -7.5A7.5 7.5 0 0 1 0 7.5ZM19.821 6.525L37.461 16.525A7.5 7.5 0 0 0 44.859 3.475L27.219 -6.525A7.5 7.5 0 0 1 19.821 6.525ZM34.245 12.904L40.125 26.904A7.5 7.5 0 0 0 53.955 21.096L48.075 7.096A7.5 7.5 0 0 1 34.245 12.904ZM40.125 21.096L34.245 35.096A7.5 7.5 0 0 0 48.075 40.904L53.955 26.904A7.5 7.5 0 0 1 40.125 21.096ZM37.461 31.475L19.821 41.475A7.5 7.5 0 0 0 27.219 54.525L44.859 44.525A7.5 7.5 0 0 1 37.461 31.475ZM23.52 40.5L0 40.5A7.5 7.5 0 0 0 0 55.5L23.52 55.5A7.5 7.5 0 0 1 23.52 40.5Z" />
+    <path fill-rule="evenodd" d="M0 55.5L27.44 55.5A7.5 7.5 0 0 0 27.44 40.5L0 40.5A7.5 7.5 0 0 1 0 55.5ZM23.524 54.396L43.124 66.396A7.5 7.5 0 0 0 50.956 53.604L31.356 41.604A7.5 7.5 0 0 1 23.524 54.396ZM40 62.587L45.88 78.587A7.5 7.5 0 0 0 59.96 73.413L54.08 57.413A7.5 7.5 0 0 1 40 62.587ZM46.005 73.096L40.125 87.096A7.5 7.5 0 0 0 53.955 92.904L59.835 78.904A7.5 7.5 0 0 1 46.005 73.096ZM43.631 83.319L24.031 93.319A7.5 7.5 0 0 0 30.849 106.681L50.449 96.681A7.5 7.5 0 0 1 43.631 83.319ZM27.44 92.5L0 92.5A7.5 7.5 0 0 0 0 107.5L27.44 107.5A7.5 7.5 0 0 1 27.44 92.5Z" />
+    <path fill-rule="evenodd" d="M72.46 0L72.46 100A7.5 7.5 0 0 0 87.46 100L87.46 0A7.5 7.5 0 0 1 72.46 0Z" />
+    <path fill-rule="evenodd" d="M79.96 7.5L103.48 7.5A7.5 7.5 0 0 0 103.48 -7.5L79.96 -7.5A7.5 7.5 0 0 1 79.96 7.5ZM99.781 6.525L117.421 16.525A7.5 7.5 0 0 0 124.819 3.475L107.179 -6.525A7.5 7.5 0 0 1 99.781 6.525ZM114.205 12.904L120.085 26.904A7.5 7.5 0 0 0 133.915 21.096L128.035 7.096A7.5 7.5 0 0 1 114.205 12.904ZM120.265 20.7L114.385 32.7A7.5 7.5 0 0 0 127.855 39.3L133.735 27.3A7.5 7.5 0 0 1 120.265 20.7ZM117.421 29.475L99.781 39.475A7.5 7.5 0 0 0 107.179 52.525L124.819 42.525A7.5 7.5 0 0 1 117.421 29.475ZM103.48 38.5L79.96 38.5A7.5 7.5 0 0 0 79.96 53.5L103.48 53.5A7.5 7.5 0 0 1 103.48 38.5Z" />
+    <path fill-rule="evenodd" d="M94.834 49.398L122.274 103.398A7.5 7.5 0 0 0 135.646 96.602L108.206 42.602A7.5 7.5 0 0 1 94.834 49.398Z" />
+    <path fill-rule="evenodd" d="M167.076 102.244L198.436 2.244A7.5 7.5 0 0 0 184.124 -2.244L152.764 97.756A7.5 7.5 0 0 1 167.076 102.244ZM184.124 2.244L215.484 102.244A7.5 7.5 0 0 0 229.796 97.756L198.436 -2.244A7.5 7.5 0 0 1 184.124 2.244Z" />
+    <path fill-rule="evenodd" d="M173.64 71.5L208.92 71.5A7.5 7.5 0 0 0 208.92 56.5L173.64 56.5A7.5 7.5 0 0 1 173.64 71.5Z" />
+    <path fill-rule="evenodd" d="M259.14 100L259.14 0A7.5 7.5 0 0 0 244.14 0L244.14 100A7.5 7.5 0 0 1 259.14 100ZM245.089 3.652L277.429 61.652A7.5 7.5 0 0 0 290.531 54.348L258.191 -3.652A7.5 7.5 0 0 1 245.089 3.652ZM290.531 61.652L322.871 3.652A7.5 7.5 0 0 0 309.769 -3.652L277.429 54.348A7.5 7.5 0 0 1 290.531 61.652ZM308.82 0L308.82 100A7.5 7.5 0 0 0 323.82 100L323.82 0A7.5 7.5 0 0 1 308.82 0Z" />
+    <path fill-rule="evenodd" d="M337.82 0L337.82 100A7.5 7.5 0 0 0 352.82 100L352.82 0A7.5 7.5 0 0 1 337.82 0Z" />
+    <path fill-rule="evenodd" d="M345.32 7.5L368.84 7.5A7.5 7.5 0 0 0 368.84 -7.5L345.32 -7.5A7.5 7.5 0 0 1 345.32 7.5ZM365.141 6.525L382.781 16.525A7.5 7.5 0 0 0 390.179 3.475L372.539 -6.525A7.5 7.5 0 0 1 365.141 6.525ZM379.565 12.904L385.445 26.904A7.5 7.5 0 0 0 399.275 21.096L393.395 7.096A7.5 7.5 0 0 1 379.565 12.904ZM385.445 21.096L379.565 35.096A7.5 7.5 0 0 0 393.395 40.904L399.275 26.904A7.5 7.5 0 0 1 385.445 21.096ZM382.781 31.475L365.141 41.475A7.5 7.5 0 0 0 372.539 54.525L390.179 44.525A7.5 7.5 0 0 1 382.781 31.475ZM368.84 40.5L345.32 40.5A7.5 7.5 0 0 0 345.32 55.5L368.84 55.5A7.5 7.5 0 0 1 368.84 40.5Z" />
+    <path fill-rule="evenodd" d="M345.32 55.5L372.76 55.5A7.5 7.5 0 0 0 372.76 40.5L345.32 40.5A7.5 7.5 0 0 1 345.32 55.5ZM368.844 54.396L388.444 66.396A7.5 7.5 0 0 0 396.276 53.604L376.676 41.604A7.5 7.5 0 0 1 368.844 54.396ZM385.32 62.587L391.2 78.587A7.5 7.5 0 0 0 405.28 73.413L399.4 57.413A7.5 7.5 0 0 1 385.32 62.587ZM391.325 73.096L385.445 87.096A7.5 7.5 0 0 0 399.275 92.904L405.155 78.904A7.5 7.5 0 0 1 391.325 73.096ZM388.951 83.319L369.351 93.319A7.5 7.5 0 0 0 376.169 106.681L395.769 96.681A7.5 7.5 0 0 1 388.951 83.319ZM372.76 92.5L345.32 92.5A7.5 7.5 0 0 0 345.32 107.5L372.76 107.5A7.5 7.5 0 0 1 372.76 92.5Z" />
+    <path fill-rule="evenodd" d="M417.78 0L417.78 100A7.5 7.5 0 0 0 432.78 100L432.78 0A7.5 7.5 0 0 1 417.78 0Z" />
+    <path fill-rule="evenodd" d="M425.28 107.5L468.4 107.5A7.5 7.5 0 0 0 468.4 92.5L425.28 92.5A7.5 7.5 0 0 1 425.28 107.5Z" />
+    <path fill-rule="evenodd" d="M491.86 0L491.86 100A7.5 7.5 0 0 0 506.86 100L506.86 0A7.5 7.5 0 0 1 491.86 0Z" />
+    <path fill-rule="evenodd" d="M499.36 7.5L544.44 7.5A7.5 7.5 0 0 0 544.44 -7.5L499.36 -7.5A7.5 7.5 0 0 1 499.36 7.5Z" />
+    <path fill-rule="evenodd" d="M499.36 57.5L534.64 57.5A7.5 7.5 0 0 0 534.64 42.5L499.36 42.5A7.5 7.5 0 0 1 499.36 57.5Z" />
+    <path fill-rule="evenodd" d="M499.36 107.5L544.44 107.5A7.5 7.5 0 0 0 544.44 92.5L499.36 92.5A7.5 7.5 0 0 1 499.36 107.5Z" />
+    <path fill-rule="evenodd" d="M567.9 0L567.9 100A7.5 7.5 0 0 0 582.9 100L582.9 0A7.5 7.5 0 0 1 567.9 0Z" />
+    <path fill-rule="evenodd" d="M575.4 7.5L598.92 7.5A7.5 7.5 0 0 0 598.92 -7.5L575.4 -7.5A7.5 7.5 0 0 1 575.4 7.5ZM595.221 6.525L612.861 16.525A7.5 7.5 0 0 0 620.259 3.475L602.619 -6.525A7.5 7.5 0 0 1 595.221 6.525ZM609.645 12.904L615.525 26.904A7.5 7.5 0 0 0 629.355 21.096L623.475 7.096A7.5 7.5 0 0 1 609.645 12.904ZM615.705 20.7L609.825 32.7A7.5 7.5 0 0 0 623.295 39.3L629.175 27.3A7.5 7.5 0 0 1 615.705 20.7ZM612.861 29.475L595.221 39.475A7.5 7.5 0 0 0 602.619 52.525L620.259 42.525A7.5 7.5 0 0 1 612.861 29.475ZM598.92 38.5L575.4 38.5A7.5 7.5 0 0 0 575.4 53.5L598.92 53.5A7.5 7.5 0 0 1 598.92 38.5Z" />
+    <path fill-rule="evenodd" d="M590.274 49.398L617.714 103.398A7.5 7.5 0 0 0 631.086 96.602L603.646 42.602A7.5 7.5 0 0 1 590.274 49.398Z" />
+  </g></svg>
+</svg>
+</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Two palettes</h2><p>Every pair is measured in light and dark. The drawing never changes; only the tokens do.</p></div>
+    <div class="palette-group">
+      <div class="palette-title"><b>Plum &amp; gold</b><span>Editorial and confident. Suits culture, publishing and premium services. · primary</span></div>
+      <div class="plate-grid">
+        <article class="plate light" style="--ld-bg:#FAF6F3;--ld-ink:#23161F;--ld-brand:#6B2C5F;--ld-accent:#8A5A00;--plate-bg:#FAF6F3;--plate-ink:#23161F">
+    <div class="plate-head"><span>Primary</span><span class="badge">light</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.704 1.16" role="img" data-ld="brambler-lockup-horizontal">
+<title>Brambler — small-batch preserves from hedgerow fruit — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="0.901" height="1" viewBox="31 17.5 178 197.5" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g></svg>
+  <svg x="1.281" y="0.37" width="2.342" height="0.42" viewBox="-7.5 -7.5 641.36 115" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-7.5 0L-7.5 100A7.5 7.5 0 0 0 7.5 100L7.5 0A7.5 7.5 0 0 1 -7.5 0Z" />
+    <path fill-rule="evenodd" d="M0 7.5L23.52 7.5A7.5 7.5 0 0 0 23.52 -7.5L0 -7.5A7.5 7.5 0 0 1 0 7.5ZM19.821 6.525L37.461 16.525A7.5 7.5 0 0 0 44.859 3.475L27.219 -6.525A7.5 7.5 0 0 1 19.821 6.525ZM34.245 12.904L40.125 26.904A7.5 7.5 0 0 0 53.955 21.096L48.075 7.096A7.5 7.5 0 0 1 34.245 12.904ZM40.125 21.096L34.245 35.096A7.5 7.5 0 0 0 48.075 40.904L53.955 26.904A7.5 7.5 0 0 1 40.125 21.096ZM37.461 31.475L19.821 41.475A7.5 7.5 0 0 0 27.219 54.525L44.859 44.525A7.5 7.5 0 0 1 37.461 31.475ZM23.52 40.5L0 40.5A7.5 7.5 0 0 0 0 55.5L23.52 55.5A7.5 7.5 0 0 1 23.52 40.5Z" />
+    <path fill-rule="evenodd" d="M0 55.5L27.44 55.5A7.5 7.5 0 0 0 27.44 40.5L0 40.5A7.5 7.5 0 0 1 0 55.5ZM23.524 54.396L43.124 66.396A7.5 7.5 0 0 0 50.956 53.604L31.356 41.604A7.5 7.5 0 0 1 23.524 54.396ZM40 62.587L45.88 78.587A7.5 7.5 0 0 0 59.96 73.413L54.08 57.413A7.5 7.5 0 0 1 40 62.587ZM46.005 73.096L40.125 87.096A7.5 7.5 0 0 0 53.955 92.904L59.835 78.904A7.5 7.5 0 0 1 46.005 73.096ZM43.631 83.319L24.031 93.319A7.5 7.5 0 0 0 30.849 106.681L50.449 96.681A7.5 7.5 0 0 1 43.631 83.319ZM27.44 92.5L0 92.5A7.5 7.5 0 0 0 0 107.5L27.44 107.5A7.5 7.5 0 0 1 27.44 92.5Z" />
+    <path fill-rule="evenodd" d="M72.46 0L72.46 100A7.5 7.5 0 0 0 87.46 100L87.46 0A7.5 7.5 0 0 1 72.46 0Z" />
+    <path fill-rule="evenodd" d="M79.96 7.5L103.48 7.5A7.5 7.5 0 0 0 103.48 -7.5L79.96 -7.5A7.5 7.5 0 0 1 79.96 7.5ZM99.781 6.525L117.421 16.525A7.5 7.5 0 0 0 124.819 3.475L107.179 -6.525A7.5 7.5 0 0 1 99.781 6.525ZM114.205 12.904L120.085 26.904A7.5 7.5 0 0 0 133.915 21.096L128.035 7.096A7.5 7.5 0 0 1 114.205 12.904ZM120.265 20.7L114.385 32.7A7.5 7.5 0 0 0 127.855 39.3L133.735 27.3A7.5 7.5 0 0 1 120.265 20.7ZM117.421 29.475L99.781 39.475A7.5 7.5 0 0 0 107.179 52.525L124.819 42.525A7.5 7.5 0 0 1 117.421 29.475ZM103.48 38.5L79.96 38.5A7.5 7.5 0 0 0 79.96 53.5L103.48 53.5A7.5 7.5 0 0 1 103.48 38.5Z" />
+    <path fill-rule="evenodd" d="M94.834 49.398L122.274 103.398A7.5 7.5 0 0 0 135.646 96.602L108.206 42.602A7.5 7.5 0 0 1 94.834 49.398Z" />
+    <path fill-rule="evenodd" d="M167.076 102.244L198.436 2.244A7.5 7.5 0 0 0 184.124 -2.244L152.764 97.756A7.5 7.5 0 0 1 167.076 102.244ZM184.124 2.244L215.484 102.244A7.5 7.5 0 0 0 229.796 97.756L198.436 -2.244A7.5 7.5 0 0 1 184.124 2.244Z" />
+    <path fill-rule="evenodd" d="M173.64 71.5L208.92 71.5A7.5 7.5 0 0 0 208.92 56.5L173.64 56.5A7.5 7.5 0 0 1 173.64 71.5Z" />
+    <path fill-rule="evenodd" d="M259.14 100L259.14 0A7.5 7.5 0 0 0 244.14 0L244.14 100A7.5 7.5 0 0 1 259.14 100ZM245.089 3.652L277.429 61.652A7.5 7.5 0 0 0 290.531 54.348L258.191 -3.652A7.5 7.5 0 0 1 245.089 3.652ZM290.531 61.652L322.871 3.652A7.5 7.5 0 0 0 309.769 -3.652L277.429 54.348A7.5 7.5 0 0 1 290.531 61.652ZM308.82 0L308.82 100A7.5 7.5 0 0 0 323.82 100L323.82 0A7.5 7.5 0 0 1 308.82 0Z" />
+    <path fill-rule="evenodd" d="M337.82 0L337.82 100A7.5 7.5 0 0 0 352.82 100L352.82 0A7.5 7.5 0 0 1 337.82 0Z" />
+    <path fill-rule="evenodd" d="M345.32 7.5L368.84 7.5A7.5 7.5 0 0 0 368.84 -7.5L345.32 -7.5A7.5 7.5 0 0 1 345.32 7.5ZM365.141 6.525L382.781 16.525A7.5 7.5 0 0 0 390.179 3.475L372.539 -6.525A7.5 7.5 0 0 1 365.141 6.525ZM379.565 12.904L385.445 26.904A7.5 7.5 0 0 0 399.275 21.096L393.395 7.096A7.5 7.5 0 0 1 379.565 12.904ZM385.445 21.096L379.565 35.096A7.5 7.5 0 0 0 393.395 40.904L399.275 26.904A7.5 7.5 0 0 1 385.445 21.096ZM382.781 31.475L365.141 41.475A7.5 7.5 0 0 0 372.539 54.525L390.179 44.525A7.5 7.5 0 0 1 382.781 31.475ZM368.84 40.5L345.32 40.5A7.5 7.5 0 0 0 345.32 55.5L368.84 55.5A7.5 7.5 0 0 1 368.84 40.5Z" />
+    <path fill-rule="evenodd" d="M345.32 55.5L372.76 55.5A7.5 7.5 0 0 0 372.76 40.5L345.32 40.5A7.5 7.5 0 0 1 345.32 55.5ZM368.844 54.396L388.444 66.396A7.5 7.5 0 0 0 396.276 53.604L376.676 41.604A7.5 7.5 0 0 1 368.844 54.396ZM385.32 62.587L391.2 78.587A7.5 7.5 0 0 0 405.28 73.413L399.4 57.413A7.5 7.5 0 0 1 385.32 62.587ZM391.325 73.096L385.445 87.096A7.5 7.5 0 0 0 399.275 92.904L405.155 78.904A7.5 7.5 0 0 1 391.325 73.096ZM388.951 83.319L369.351 93.319A7.5 7.5 0 0 0 376.169 106.681L395.769 96.681A7.5 7.5 0 0 1 388.951 83.319ZM372.76 92.5L345.32 92.5A7.5 7.5 0 0 0 345.32 107.5L372.76 107.5A7.5 7.5 0 0 1 372.76 92.5Z" />
+    <path fill-rule="evenodd" d="M417.78 0L417.78 100A7.5 7.5 0 0 0 432.78 100L432.78 0A7.5 7.5 0 0 1 417.78 0Z" />
+    <path fill-rule="evenodd" d="M425.28 107.5L468.4 107.5A7.5 7.5 0 0 0 468.4 92.5L425.28 92.5A7.5 7.5 0 0 1 425.28 107.5Z" />
+    <path fill-rule="evenodd" d="M491.86 0L491.86 100A7.5 7.5 0 0 0 506.86 100L506.86 0A7.5 7.5 0 0 1 491.86 0Z" />
+    <path fill-rule="evenodd" d="M499.36 7.5L544.44 7.5A7.5 7.5 0 0 0 544.44 -7.5L499.36 -7.5A7.5 7.5 0 0 1 499.36 7.5Z" />
+    <path fill-rule="evenodd" d="M499.36 57.5L534.64 57.5A7.5 7.5 0 0 0 534.64 42.5L499.36 42.5A7.5 7.5 0 0 1 499.36 57.5Z" />
+    <path fill-rule="evenodd" d="M499.36 107.5L544.44 107.5A7.5 7.5 0 0 0 544.44 92.5L499.36 92.5A7.5 7.5 0 0 1 499.36 107.5Z" />
+    <path fill-rule="evenodd" d="M567.9 0L567.9 100A7.5 7.5 0 0 0 582.9 100L582.9 0A7.5 7.5 0 0 1 567.9 0Z" />
+    <path fill-rule="evenodd" d="M575.4 7.5L598.92 7.5A7.5 7.5 0 0 0 598.92 -7.5L575.4 -7.5A7.5 7.5 0 0 1 575.4 7.5ZM595.221 6.525L612.861 16.525A7.5 7.5 0 0 0 620.259 3.475L602.619 -6.525A7.5 7.5 0 0 1 595.221 6.525ZM609.645 12.904L615.525 26.904A7.5 7.5 0 0 0 629.355 21.096L623.475 7.096A7.5 7.5 0 0 1 609.645 12.904ZM615.705 20.7L609.825 32.7A7.5 7.5 0 0 0 623.295 39.3L629.175 27.3A7.5 7.5 0 0 1 615.705 20.7ZM612.861 29.475L595.221 39.475A7.5 7.5 0 0 0 602.619 52.525L620.259 42.525A7.5 7.5 0 0 1 612.861 29.475ZM598.92 38.5L575.4 38.5A7.5 7.5 0 0 0 575.4 53.5L598.92 53.5A7.5 7.5 0 0 1 598.92 38.5Z" />
+    <path fill-rule="evenodd" d="M590.274 49.398L617.714 103.398A7.5 7.5 0 0 0 631.086 96.602L603.646 42.602A7.5 7.5 0 0 1 590.274 49.398Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#FAF6F3"></i><b>bg</b><code>#FAF6F3</code></span><span class="swatch"><i style="background:#23161F"></i><b>ink</b><code>#23161F</code></span><span class="swatch"><i style="background:#6B2C5F"></i><b>brand</b><code>#6B2C5F</code></span><span class="swatch"><i style="background:#8A5A00"></i><b>accent</b><code>#8A5A00</code></span></div>
+    <p class="plate-note">Lowest pair <b>5.52:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+        <article class="plate dark" style="--ld-bg:#1A1017;--ld-ink:#F3E9F0;--ld-brand:#D59ACB;--ld-accent:#E8B44A;--plate-bg:#1A1017;--plate-ink:#F3E9F0">
+    <div class="plate-head"><span>Primary</span><span class="badge">dark</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.704 1.16" role="img" data-ld="brambler-lockup-horizontal-dark">
+<title>Brambler — small-batch preserves from hedgerow fruit — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="0.901" height="1" viewBox="31 17.5 178 197.5" preserveAspectRatio="xMidYMid meet"><g fill="#D59ACB">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g></svg>
+  <svg x="1.281" y="0.37" width="2.342" height="0.42" viewBox="-7.5 -7.5 641.36 115" preserveAspectRatio="xMidYMid meet"><g fill="#F3E9F0">
+    <path fill-rule="evenodd" d="M-7.5 0L-7.5 100A7.5 7.5 0 0 0 7.5 100L7.5 0A7.5 7.5 0 0 1 -7.5 0Z" />
+    <path fill-rule="evenodd" d="M0 7.5L23.52 7.5A7.5 7.5 0 0 0 23.52 -7.5L0 -7.5A7.5 7.5 0 0 1 0 7.5ZM19.821 6.525L37.461 16.525A7.5 7.5 0 0 0 44.859 3.475L27.219 -6.525A7.5 7.5 0 0 1 19.821 6.525ZM34.245 12.904L40.125 26.904A7.5 7.5 0 0 0 53.955 21.096L48.075 7.096A7.5 7.5 0 0 1 34.245 12.904ZM40.125 21.096L34.245 35.096A7.5 7.5 0 0 0 48.075 40.904L53.955 26.904A7.5 7.5 0 0 1 40.125 21.096ZM37.461 31.475L19.821 41.475A7.5 7.5 0 0 0 27.219 54.525L44.859 44.525A7.5 7.5 0 0 1 37.461 31.475ZM23.52 40.5L0 40.5A7.5 7.5 0 0 0 0 55.5L23.52 55.5A7.5 7.5 0 0 1 23.52 40.5Z" />
+    <path fill-rule="evenodd" d="M0 55.5L27.44 55.5A7.5 7.5 0 0 0 27.44 40.5L0 40.5A7.5 7.5 0 0 1 0 55.5ZM23.524 54.396L43.124 66.396A7.5 7.5 0 0 0 50.956 53.604L31.356 41.604A7.5 7.5 0 0 1 23.524 54.396ZM40 62.587L45.88 78.587A7.5 7.5 0 0 0 59.96 73.413L54.08 57.413A7.5 7.5 0 0 1 40 62.587ZM46.005 73.096L40.125 87.096A7.5 7.5 0 0 0 53.955 92.904L59.835 78.904A7.5 7.5 0 0 1 46.005 73.096ZM43.631 83.319L24.031 93.319A7.5 7.5 0 0 0 30.849 106.681L50.449 96.681A7.5 7.5 0 0 1 43.631 83.319ZM27.44 92.5L0 92.5A7.5 7.5 0 0 0 0 107.5L27.44 107.5A7.5 7.5 0 0 1 27.44 92.5Z" />
+    <path fill-rule="evenodd" d="M72.46 0L72.46 100A7.5 7.5 0 0 0 87.46 100L87.46 0A7.5 7.5 0 0 1 72.46 0Z" />
+    <path fill-rule="evenodd" d="M79.96 7.5L103.48 7.5A7.5 7.5 0 0 0 103.48 -7.5L79.96 -7.5A7.5 7.5 0 0 1 79.96 7.5ZM99.781 6.525L117.421 16.525A7.5 7.5 0 0 0 124.819 3.475L107.179 -6.525A7.5 7.5 0 0 1 99.781 6.525ZM114.205 12.904L120.085 26.904A7.5 7.5 0 0 0 133.915 21.096L128.035 7.096A7.5 7.5 0 0 1 114.205 12.904ZM120.265 20.7L114.385 32.7A7.5 7.5 0 0 0 127.855 39.3L133.735 27.3A7.5 7.5 0 0 1 120.265 20.7ZM117.421 29.475L99.781 39.475A7.5 7.5 0 0 0 107.179 52.525L124.819 42.525A7.5 7.5 0 0 1 117.421 29.475ZM103.48 38.5L79.96 38.5A7.5 7.5 0 0 0 79.96 53.5L103.48 53.5A7.5 7.5 0 0 1 103.48 38.5Z" />
+    <path fill-rule="evenodd" d="M94.834 49.398L122.274 103.398A7.5 7.5 0 0 0 135.646 96.602L108.206 42.602A7.5 7.5 0 0 1 94.834 49.398Z" />
+    <path fill-rule="evenodd" d="M167.076 102.244L198.436 2.244A7.5 7.5 0 0 0 184.124 -2.244L152.764 97.756A7.5 7.5 0 0 1 167.076 102.244ZM184.124 2.244L215.484 102.244A7.5 7.5 0 0 0 229.796 97.756L198.436 -2.244A7.5 7.5 0 0 1 184.124 2.244Z" />
+    <path fill-rule="evenodd" d="M173.64 71.5L208.92 71.5A7.5 7.5 0 0 0 208.92 56.5L173.64 56.5A7.5 7.5 0 0 1 173.64 71.5Z" />
+    <path fill-rule="evenodd" d="M259.14 100L259.14 0A7.5 7.5 0 0 0 244.14 0L244.14 100A7.5 7.5 0 0 1 259.14 100ZM245.089 3.652L277.429 61.652A7.5 7.5 0 0 0 290.531 54.348L258.191 -3.652A7.5 7.5 0 0 1 245.089 3.652ZM290.531 61.652L322.871 3.652A7.5 7.5 0 0 0 309.769 -3.652L277.429 54.348A7.5 7.5 0 0 1 290.531 61.652ZM308.82 0L308.82 100A7.5 7.5 0 0 0 323.82 100L323.82 0A7.5 7.5 0 0 1 308.82 0Z" />
+    <path fill-rule="evenodd" d="M337.82 0L337.82 100A7.5 7.5 0 0 0 352.82 100L352.82 0A7.5 7.5 0 0 1 337.82 0Z" />
+    <path fill-rule="evenodd" d="M345.32 7.5L368.84 7.5A7.5 7.5 0 0 0 368.84 -7.5L345.32 -7.5A7.5 7.5 0 0 1 345.32 7.5ZM365.141 6.525L382.781 16.525A7.5 7.5 0 0 0 390.179 3.475L372.539 -6.525A7.5 7.5 0 0 1 365.141 6.525ZM379.565 12.904L385.445 26.904A7.5 7.5 0 0 0 399.275 21.096L393.395 7.096A7.5 7.5 0 0 1 379.565 12.904ZM385.445 21.096L379.565 35.096A7.5 7.5 0 0 0 393.395 40.904L399.275 26.904A7.5 7.5 0 0 1 385.445 21.096ZM382.781 31.475L365.141 41.475A7.5 7.5 0 0 0 372.539 54.525L390.179 44.525A7.5 7.5 0 0 1 382.781 31.475ZM368.84 40.5L345.32 40.5A7.5 7.5 0 0 0 345.32 55.5L368.84 55.5A7.5 7.5 0 0 1 368.84 40.5Z" />
+    <path fill-rule="evenodd" d="M345.32 55.5L372.76 55.5A7.5 7.5 0 0 0 372.76 40.5L345.32 40.5A7.5 7.5 0 0 1 345.32 55.5ZM368.844 54.396L388.444 66.396A7.5 7.5 0 0 0 396.276 53.604L376.676 41.604A7.5 7.5 0 0 1 368.844 54.396ZM385.32 62.587L391.2 78.587A7.5 7.5 0 0 0 405.28 73.413L399.4 57.413A7.5 7.5 0 0 1 385.32 62.587ZM391.325 73.096L385.445 87.096A7.5 7.5 0 0 0 399.275 92.904L405.155 78.904A7.5 7.5 0 0 1 391.325 73.096ZM388.951 83.319L369.351 93.319A7.5 7.5 0 0 0 376.169 106.681L395.769 96.681A7.5 7.5 0 0 1 388.951 83.319ZM372.76 92.5L345.32 92.5A7.5 7.5 0 0 0 345.32 107.5L372.76 107.5A7.5 7.5 0 0 1 372.76 92.5Z" />
+    <path fill-rule="evenodd" d="M417.78 0L417.78 100A7.5 7.5 0 0 0 432.78 100L432.78 0A7.5 7.5 0 0 1 417.78 0Z" />
+    <path fill-rule="evenodd" d="M425.28 107.5L468.4 107.5A7.5 7.5 0 0 0 468.4 92.5L425.28 92.5A7.5 7.5 0 0 1 425.28 107.5Z" />
+    <path fill-rule="evenodd" d="M491.86 0L491.86 100A7.5 7.5 0 0 0 506.86 100L506.86 0A7.5 7.5 0 0 1 491.86 0Z" />
+    <path fill-rule="evenodd" d="M499.36 7.5L544.44 7.5A7.5 7.5 0 0 0 544.44 -7.5L499.36 -7.5A7.5 7.5 0 0 1 499.36 7.5Z" />
+    <path fill-rule="evenodd" d="M499.36 57.5L534.64 57.5A7.5 7.5 0 0 0 534.64 42.5L499.36 42.5A7.5 7.5 0 0 1 499.36 57.5Z" />
+    <path fill-rule="evenodd" d="M499.36 107.5L544.44 107.5A7.5 7.5 0 0 0 544.44 92.5L499.36 92.5A7.5 7.5 0 0 1 499.36 107.5Z" />
+    <path fill-rule="evenodd" d="M567.9 0L567.9 100A7.5 7.5 0 0 0 582.9 100L582.9 0A7.5 7.5 0 0 1 567.9 0Z" />
+    <path fill-rule="evenodd" d="M575.4 7.5L598.92 7.5A7.5 7.5 0 0 0 598.92 -7.5L575.4 -7.5A7.5 7.5 0 0 1 575.4 7.5ZM595.221 6.525L612.861 16.525A7.5 7.5 0 0 0 620.259 3.475L602.619 -6.525A7.5 7.5 0 0 1 595.221 6.525ZM609.645 12.904L615.525 26.904A7.5 7.5 0 0 0 629.355 21.096L623.475 7.096A7.5 7.5 0 0 1 609.645 12.904ZM615.705 20.7L609.825 32.7A7.5 7.5 0 0 0 623.295 39.3L629.175 27.3A7.5 7.5 0 0 1 615.705 20.7ZM612.861 29.475L595.221 39.475A7.5 7.5 0 0 0 602.619 52.525L620.259 42.525A7.5 7.5 0 0 1 612.861 29.475ZM598.92 38.5L575.4 38.5A7.5 7.5 0 0 0 575.4 53.5L598.92 53.5A7.5 7.5 0 0 1 598.92 38.5Z" />
+    <path fill-rule="evenodd" d="M590.274 49.398L617.714 103.398A7.5 7.5 0 0 0 631.086 96.602L603.646 42.602A7.5 7.5 0 0 1 590.274 49.398Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#1A1017"></i><b>bg</b><code>#1A1017</code></span><span class="swatch"><i style="background:#F3E9F0"></i><b>ink</b><code>#F3E9F0</code></span><span class="swatch"><i style="background:#D59ACB"></i><b>brand</b><code>#D59ACB</code></span><span class="swatch"><i style="background:#E8B44A"></i><b>accent</b><code>#E8B44A</code></span></div>
+    <p class="plate-note">Lowest pair <b>5.52:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+      </div>
+    </div>
+    <div class="palette-group">
+      <div class="palette-title"><b>Moss &amp; clay</b><span>Grounded and botanical. Warm paper, deep green, terracotta accent. · alternate</span></div>
+      <div class="plate-grid">
+        <article class="plate light" style="--ld-bg:#F6F4EC;--ld-ink:#16241D;--ld-brand:#1F6F4A;--ld-accent:#C2542D;--plate-bg:#F6F4EC;--plate-ink:#16241D">
+    <div class="plate-head"><span>Alternate</span><span class="badge">light</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.704 1.16" role="img" data-ld="brambler-lockup-horizontal">
+<title>Brambler — small-batch preserves from hedgerow fruit — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="0.901" height="1" viewBox="31 17.5 178 197.5" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #1F6F4A)">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g></svg>
+  <svg x="1.281" y="0.37" width="2.342" height="0.42" viewBox="-7.5 -7.5 641.36 115" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #16241D)">
+    <path fill-rule="evenodd" d="M-7.5 0L-7.5 100A7.5 7.5 0 0 0 7.5 100L7.5 0A7.5 7.5 0 0 1 -7.5 0Z" />
+    <path fill-rule="evenodd" d="M0 7.5L23.52 7.5A7.5 7.5 0 0 0 23.52 -7.5L0 -7.5A7.5 7.5 0 0 1 0 7.5ZM19.821 6.525L37.461 16.525A7.5 7.5 0 0 0 44.859 3.475L27.219 -6.525A7.5 7.5 0 0 1 19.821 6.525ZM34.245 12.904L40.125 26.904A7.5 7.5 0 0 0 53.955 21.096L48.075 7.096A7.5 7.5 0 0 1 34.245 12.904ZM40.125 21.096L34.245 35.096A7.5 7.5 0 0 0 48.075 40.904L53.955 26.904A7.5 7.5 0 0 1 40.125 21.096ZM37.461 31.475L19.821 41.475A7.5 7.5 0 0 0 27.219 54.525L44.859 44.525A7.5 7.5 0 0 1 37.461 31.475ZM23.52 40.5L0 40.5A7.5 7.5 0 0 0 0 55.5L23.52 55.5A7.5 7.5 0 0 1 23.52 40.5Z" />
+    <path fill-rule="evenodd" d="M0 55.5L27.44 55.5A7.5 7.5 0 0 0 27.44 40.5L0 40.5A7.5 7.5 0 0 1 0 55.5ZM23.524 54.396L43.124 66.396A7.5 7.5 0 0 0 50.956 53.604L31.356 41.604A7.5 7.5 0 0 1 23.524 54.396ZM40 62.587L45.88 78.587A7.5 7.5 0 0 0 59.96 73.413L54.08 57.413A7.5 7.5 0 0 1 40 62.587ZM46.005 73.096L40.125 87.096A7.5 7.5 0 0 0 53.955 92.904L59.835 78.904A7.5 7.5 0 0 1 46.005 73.096ZM43.631 83.319L24.031 93.319A7.5 7.5 0 0 0 30.849 106.681L50.449 96.681A7.5 7.5 0 0 1 43.631 83.319ZM27.44 92.5L0 92.5A7.5 7.5 0 0 0 0 107.5L27.44 107.5A7.5 7.5 0 0 1 27.44 92.5Z" />
+    <path fill-rule="evenodd" d="M72.46 0L72.46 100A7.5 7.5 0 0 0 87.46 100L87.46 0A7.5 7.5 0 0 1 72.46 0Z" />
+    <path fill-rule="evenodd" d="M79.96 7.5L103.48 7.5A7.5 7.5 0 0 0 103.48 -7.5L79.96 -7.5A7.5 7.5 0 0 1 79.96 7.5ZM99.781 6.525L117.421 16.525A7.5 7.5 0 0 0 124.819 3.475L107.179 -6.525A7.5 7.5 0 0 1 99.781 6.525ZM114.205 12.904L120.085 26.904A7.5 7.5 0 0 0 133.915 21.096L128.035 7.096A7.5 7.5 0 0 1 114.205 12.904ZM120.265 20.7L114.385 32.7A7.5 7.5 0 0 0 127.855 39.3L133.735 27.3A7.5 7.5 0 0 1 120.265 20.7ZM117.421 29.475L99.781 39.475A7.5 7.5 0 0 0 107.179 52.525L124.819 42.525A7.5 7.5 0 0 1 117.421 29.475ZM103.48 38.5L79.96 38.5A7.5 7.5 0 0 0 79.96 53.5L103.48 53.5A7.5 7.5 0 0 1 103.48 38.5Z" />
+    <path fill-rule="evenodd" d="M94.834 49.398L122.274 103.398A7.5 7.5 0 0 0 135.646 96.602L108.206 42.602A7.5 7.5 0 0 1 94.834 49.398Z" />
+    <path fill-rule="evenodd" d="M167.076 102.244L198.436 2.244A7.5 7.5 0 0 0 184.124 -2.244L152.764 97.756A7.5 7.5 0 0 1 167.076 102.244ZM184.124 2.244L215.484 102.244A7.5 7.5 0 0 0 229.796 97.756L198.436 -2.244A7.5 7.5 0 0 1 184.124 2.244Z" />
+    <path fill-rule="evenodd" d="M173.64 71.5L208.92 71.5A7.5 7.5 0 0 0 208.92 56.5L173.64 56.5A7.5 7.5 0 0 1 173.64 71.5Z" />
+    <path fill-rule="evenodd" d="M259.14 100L259.14 0A7.5 7.5 0 0 0 244.14 0L244.14 100A7.5 7.5 0 0 1 259.14 100ZM245.089 3.652L277.429 61.652A7.5 7.5 0 0 0 290.531 54.348L258.191 -3.652A7.5 7.5 0 0 1 245.089 3.652ZM290.531 61.652L322.871 3.652A7.5 7.5 0 0 0 309.769 -3.652L277.429 54.348A7.5 7.5 0 0 1 290.531 61.652ZM308.82 0L308.82 100A7.5 7.5 0 0 0 323.82 100L323.82 0A7.5 7.5 0 0 1 308.82 0Z" />
+    <path fill-rule="evenodd" d="M337.82 0L337.82 100A7.5 7.5 0 0 0 352.82 100L352.82 0A7.5 7.5 0 0 1 337.82 0Z" />
+    <path fill-rule="evenodd" d="M345.32 7.5L368.84 7.5A7.5 7.5 0 0 0 368.84 -7.5L345.32 -7.5A7.5 7.5 0 0 1 345.32 7.5ZM365.141 6.525L382.781 16.525A7.5 7.5 0 0 0 390.179 3.475L372.539 -6.525A7.5 7.5 0 0 1 365.141 6.525ZM379.565 12.904L385.445 26.904A7.5 7.5 0 0 0 399.275 21.096L393.395 7.096A7.5 7.5 0 0 1 379.565 12.904ZM385.445 21.096L379.565 35.096A7.5 7.5 0 0 0 393.395 40.904L399.275 26.904A7.5 7.5 0 0 1 385.445 21.096ZM382.781 31.475L365.141 41.475A7.5 7.5 0 0 0 372.539 54.525L390.179 44.525A7.5 7.5 0 0 1 382.781 31.475ZM368.84 40.5L345.32 40.5A7.5 7.5 0 0 0 345.32 55.5L368.84 55.5A7.5 7.5 0 0 1 368.84 40.5Z" />
+    <path fill-rule="evenodd" d="M345.32 55.5L372.76 55.5A7.5 7.5 0 0 0 372.76 40.5L345.32 40.5A7.5 7.5 0 0 1 345.32 55.5ZM368.844 54.396L388.444 66.396A7.5 7.5 0 0 0 396.276 53.604L376.676 41.604A7.5 7.5 0 0 1 368.844 54.396ZM385.32 62.587L391.2 78.587A7.5 7.5 0 0 0 405.28 73.413L399.4 57.413A7.5 7.5 0 0 1 385.32 62.587ZM391.325 73.096L385.445 87.096A7.5 7.5 0 0 0 399.275 92.904L405.155 78.904A7.5 7.5 0 0 1 391.325 73.096ZM388.951 83.319L369.351 93.319A7.5 7.5 0 0 0 376.169 106.681L395.769 96.681A7.5 7.5 0 0 1 388.951 83.319ZM372.76 92.5L345.32 92.5A7.5 7.5 0 0 0 345.32 107.5L372.76 107.5A7.5 7.5 0 0 1 372.76 92.5Z" />
+    <path fill-rule="evenodd" d="M417.78 0L417.78 100A7.5 7.5 0 0 0 432.78 100L432.78 0A7.5 7.5 0 0 1 417.78 0Z" />
+    <path fill-rule="evenodd" d="M425.28 107.5L468.4 107.5A7.5 7.5 0 0 0 468.4 92.5L425.28 92.5A7.5 7.5 0 0 1 425.28 107.5Z" />
+    <path fill-rule="evenodd" d="M491.86 0L491.86 100A7.5 7.5 0 0 0 506.86 100L506.86 0A7.5 7.5 0 0 1 491.86 0Z" />
+    <path fill-rule="evenodd" d="M499.36 7.5L544.44 7.5A7.5 7.5 0 0 0 544.44 -7.5L499.36 -7.5A7.5 7.5 0 0 1 499.36 7.5Z" />
+    <path fill-rule="evenodd" d="M499.36 57.5L534.64 57.5A7.5 7.5 0 0 0 534.64 42.5L499.36 42.5A7.5 7.5 0 0 1 499.36 57.5Z" />
+    <path fill-rule="evenodd" d="M499.36 107.5L544.44 107.5A7.5 7.5 0 0 0 544.44 92.5L499.36 92.5A7.5 7.5 0 0 1 499.36 107.5Z" />
+    <path fill-rule="evenodd" d="M567.9 0L567.9 100A7.5 7.5 0 0 0 582.9 100L582.9 0A7.5 7.5 0 0 1 567.9 0Z" />
+    <path fill-rule="evenodd" d="M575.4 7.5L598.92 7.5A7.5 7.5 0 0 0 598.92 -7.5L575.4 -7.5A7.5 7.5 0 0 1 575.4 7.5ZM595.221 6.525L612.861 16.525A7.5 7.5 0 0 0 620.259 3.475L602.619 -6.525A7.5 7.5 0 0 1 595.221 6.525ZM609.645 12.904L615.525 26.904A7.5 7.5 0 0 0 629.355 21.096L623.475 7.096A7.5 7.5 0 0 1 609.645 12.904ZM615.705 20.7L609.825 32.7A7.5 7.5 0 0 0 623.295 39.3L629.175 27.3A7.5 7.5 0 0 1 615.705 20.7ZM612.861 29.475L595.221 39.475A7.5 7.5 0 0 0 602.619 52.525L620.259 42.525A7.5 7.5 0 0 1 612.861 29.475ZM598.92 38.5L575.4 38.5A7.5 7.5 0 0 0 575.4 53.5L598.92 53.5A7.5 7.5 0 0 1 598.92 38.5Z" />
+    <path fill-rule="evenodd" d="M590.274 49.398L617.714 103.398A7.5 7.5 0 0 0 631.086 96.602L603.646 42.602A7.5 7.5 0 0 1 590.274 49.398Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#F6F4EC"></i><b>bg</b><code>#F6F4EC</code></span><span class="swatch"><i style="background:#16241D"></i><b>ink</b><code>#16241D</code></span><span class="swatch"><i style="background:#1F6F4A"></i><b>brand</b><code>#1F6F4A</code></span><span class="swatch"><i style="background:#C2542D"></i><b>accent</b><code>#C2542D</code></span></div>
+    <p class="plate-note">Lowest pair <b>4.15:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+        <article class="plate dark" style="--ld-bg:#101A16;--ld-ink:#EAF2EC;--ld-brand:#64C79A;--ld-accent:#F08A5D;--plate-bg:#101A16;--plate-ink:#EAF2EC">
+    <div class="plate-head"><span>Alternate</span><span class="badge">dark</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.704 1.16" role="img" data-ld="brambler-lockup-horizontal-dark">
+<title>Brambler — small-batch preserves from hedgerow fruit — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="0.901" height="1" viewBox="31 17.5 178 197.5" preserveAspectRatio="xMidYMid meet"><g fill="#64C79A">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g></svg>
+  <svg x="1.281" y="0.37" width="2.342" height="0.42" viewBox="-7.5 -7.5 641.36 115" preserveAspectRatio="xMidYMid meet"><g fill="#EAF2EC">
+    <path fill-rule="evenodd" d="M-7.5 0L-7.5 100A7.5 7.5 0 0 0 7.5 100L7.5 0A7.5 7.5 0 0 1 -7.5 0Z" />
+    <path fill-rule="evenodd" d="M0 7.5L23.52 7.5A7.5 7.5 0 0 0 23.52 -7.5L0 -7.5A7.5 7.5 0 0 1 0 7.5ZM19.821 6.525L37.461 16.525A7.5 7.5 0 0 0 44.859 3.475L27.219 -6.525A7.5 7.5 0 0 1 19.821 6.525ZM34.245 12.904L40.125 26.904A7.5 7.5 0 0 0 53.955 21.096L48.075 7.096A7.5 7.5 0 0 1 34.245 12.904ZM40.125 21.096L34.245 35.096A7.5 7.5 0 0 0 48.075 40.904L53.955 26.904A7.5 7.5 0 0 1 40.125 21.096ZM37.461 31.475L19.821 41.475A7.5 7.5 0 0 0 27.219 54.525L44.859 44.525A7.5 7.5 0 0 1 37.461 31.475ZM23.52 40.5L0 40.5A7.5 7.5 0 0 0 0 55.5L23.52 55.5A7.5 7.5 0 0 1 23.52 40.5Z" />
+    <path fill-rule="evenodd" d="M0 55.5L27.44 55.5A7.5 7.5 0 0 0 27.44 40.5L0 40.5A7.5 7.5 0 0 1 0 55.5ZM23.524 54.396L43.124 66.396A7.5 7.5 0 0 0 50.956 53.604L31.356 41.604A7.5 7.5 0 0 1 23.524 54.396ZM40 62.587L45.88 78.587A7.5 7.5 0 0 0 59.96 73.413L54.08 57.413A7.5 7.5 0 0 1 40 62.587ZM46.005 73.096L40.125 87.096A7.5 7.5 0 0 0 53.955 92.904L59.835 78.904A7.5 7.5 0 0 1 46.005 73.096ZM43.631 83.319L24.031 93.319A7.5 7.5 0 0 0 30.849 106.681L50.449 96.681A7.5 7.5 0 0 1 43.631 83.319ZM27.44 92.5L0 92.5A7.5 7.5 0 0 0 0 107.5L27.44 107.5A7.5 7.5 0 0 1 27.44 92.5Z" />
+    <path fill-rule="evenodd" d="M72.46 0L72.46 100A7.5 7.5 0 0 0 87.46 100L87.46 0A7.5 7.5 0 0 1 72.46 0Z" />
+    <path fill-rule="evenodd" d="M79.96 7.5L103.48 7.5A7.5 7.5 0 0 0 103.48 -7.5L79.96 -7.5A7.5 7.5 0 0 1 79.96 7.5ZM99.781 6.525L117.421 16.525A7.5 7.5 0 0 0 124.819 3.475L107.179 -6.525A7.5 7.5 0 0 1 99.781 6.525ZM114.205 12.904L120.085 26.904A7.5 7.5 0 0 0 133.915 21.096L128.035 7.096A7.5 7.5 0 0 1 114.205 12.904ZM120.265 20.7L114.385 32.7A7.5 7.5 0 0 0 127.855 39.3L133.735 27.3A7.5 7.5 0 0 1 120.265 20.7ZM117.421 29.475L99.781 39.475A7.5 7.5 0 0 0 107.179 52.525L124.819 42.525A7.5 7.5 0 0 1 117.421 29.475ZM103.48 38.5L79.96 38.5A7.5 7.5 0 0 0 79.96 53.5L103.48 53.5A7.5 7.5 0 0 1 103.48 38.5Z" />
+    <path fill-rule="evenodd" d="M94.834 49.398L122.274 103.398A7.5 7.5 0 0 0 135.646 96.602L108.206 42.602A7.5 7.5 0 0 1 94.834 49.398Z" />
+    <path fill-rule="evenodd" d="M167.076 102.244L198.436 2.244A7.5 7.5 0 0 0 184.124 -2.244L152.764 97.756A7.5 7.5 0 0 1 167.076 102.244ZM184.124 2.244L215.484 102.244A7.5 7.5 0 0 0 229.796 97.756L198.436 -2.244A7.5 7.5 0 0 1 184.124 2.244Z" />
+    <path fill-rule="evenodd" d="M173.64 71.5L208.92 71.5A7.5 7.5 0 0 0 208.92 56.5L173.64 56.5A7.5 7.5 0 0 1 173.64 71.5Z" />
+    <path fill-rule="evenodd" d="M259.14 100L259.14 0A7.5 7.5 0 0 0 244.14 0L244.14 100A7.5 7.5 0 0 1 259.14 100ZM245.089 3.652L277.429 61.652A7.5 7.5 0 0 0 290.531 54.348L258.191 -3.652A7.5 7.5 0 0 1 245.089 3.652ZM290.531 61.652L322.871 3.652A7.5 7.5 0 0 0 309.769 -3.652L277.429 54.348A7.5 7.5 0 0 1 290.531 61.652ZM308.82 0L308.82 100A7.5 7.5 0 0 0 323.82 100L323.82 0A7.5 7.5 0 0 1 308.82 0Z" />
+    <path fill-rule="evenodd" d="M337.82 0L337.82 100A7.5 7.5 0 0 0 352.82 100L352.82 0A7.5 7.5 0 0 1 337.82 0Z" />
+    <path fill-rule="evenodd" d="M345.32 7.5L368.84 7.5A7.5 7.5 0 0 0 368.84 -7.5L345.32 -7.5A7.5 7.5 0 0 1 345.32 7.5ZM365.141 6.525L382.781 16.525A7.5 7.5 0 0 0 390.179 3.475L372.539 -6.525A7.5 7.5 0 0 1 365.141 6.525ZM379.565 12.904L385.445 26.904A7.5 7.5 0 0 0 399.275 21.096L393.395 7.096A7.5 7.5 0 0 1 379.565 12.904ZM385.445 21.096L379.565 35.096A7.5 7.5 0 0 0 393.395 40.904L399.275 26.904A7.5 7.5 0 0 1 385.445 21.096ZM382.781 31.475L365.141 41.475A7.5 7.5 0 0 0 372.539 54.525L390.179 44.525A7.5 7.5 0 0 1 382.781 31.475ZM368.84 40.5L345.32 40.5A7.5 7.5 0 0 0 345.32 55.5L368.84 55.5A7.5 7.5 0 0 1 368.84 40.5Z" />
+    <path fill-rule="evenodd" d="M345.32 55.5L372.76 55.5A7.5 7.5 0 0 0 372.76 40.5L345.32 40.5A7.5 7.5 0 0 1 345.32 55.5ZM368.844 54.396L388.444 66.396A7.5 7.5 0 0 0 396.276 53.604L376.676 41.604A7.5 7.5 0 0 1 368.844 54.396ZM385.32 62.587L391.2 78.587A7.5 7.5 0 0 0 405.28 73.413L399.4 57.413A7.5 7.5 0 0 1 385.32 62.587ZM391.325 73.096L385.445 87.096A7.5 7.5 0 0 0 399.275 92.904L405.155 78.904A7.5 7.5 0 0 1 391.325 73.096ZM388.951 83.319L369.351 93.319A7.5 7.5 0 0 0 376.169 106.681L395.769 96.681A7.5 7.5 0 0 1 388.951 83.319ZM372.76 92.5L345.32 92.5A7.5 7.5 0 0 0 345.32 107.5L372.76 107.5A7.5 7.5 0 0 1 372.76 92.5Z" />
+    <path fill-rule="evenodd" d="M417.78 0L417.78 100A7.5 7.5 0 0 0 432.78 100L432.78 0A7.5 7.5 0 0 1 417.78 0Z" />
+    <path fill-rule="evenodd" d="M425.28 107.5L468.4 107.5A7.5 7.5 0 0 0 468.4 92.5L425.28 92.5A7.5 7.5 0 0 1 425.28 107.5Z" />
+    <path fill-rule="evenodd" d="M491.86 0L491.86 100A7.5 7.5 0 0 0 506.86 100L506.86 0A7.5 7.5 0 0 1 491.86 0Z" />
+    <path fill-rule="evenodd" d="M499.36 7.5L544.44 7.5A7.5 7.5 0 0 0 544.44 -7.5L499.36 -7.5A7.5 7.5 0 0 1 499.36 7.5Z" />
+    <path fill-rule="evenodd" d="M499.36 57.5L534.64 57.5A7.5 7.5 0 0 0 534.64 42.5L499.36 42.5A7.5 7.5 0 0 1 499.36 57.5Z" />
+    <path fill-rule="evenodd" d="M499.36 107.5L544.44 107.5A7.5 7.5 0 0 0 544.44 92.5L499.36 92.5A7.5 7.5 0 0 1 499.36 107.5Z" />
+    <path fill-rule="evenodd" d="M567.9 0L567.9 100A7.5 7.5 0 0 0 582.9 100L582.9 0A7.5 7.5 0 0 1 567.9 0Z" />
+    <path fill-rule="evenodd" d="M575.4 7.5L598.92 7.5A7.5 7.5 0 0 0 598.92 -7.5L575.4 -7.5A7.5 7.5 0 0 1 575.4 7.5ZM595.221 6.525L612.861 16.525A7.5 7.5 0 0 0 620.259 3.475L602.619 -6.525A7.5 7.5 0 0 1 595.221 6.525ZM609.645 12.904L615.525 26.904A7.5 7.5 0 0 0 629.355 21.096L623.475 7.096A7.5 7.5 0 0 1 609.645 12.904ZM615.705 20.7L609.825 32.7A7.5 7.5 0 0 0 623.295 39.3L629.175 27.3A7.5 7.5 0 0 1 615.705 20.7ZM612.861 29.475L595.221 39.475A7.5 7.5 0 0 0 602.619 52.525L620.259 42.525A7.5 7.5 0 0 1 612.861 29.475ZM598.92 38.5L575.4 38.5A7.5 7.5 0 0 0 575.4 53.5L598.92 53.5A7.5 7.5 0 0 1 598.92 38.5Z" />
+    <path fill-rule="evenodd" d="M590.274 49.398L617.714 103.398A7.5 7.5 0 0 0 631.086 96.602L603.646 42.602A7.5 7.5 0 0 1 590.274 49.398Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#101A16"></i><b>bg</b><code>#101A16</code></span><span class="swatch"><i style="background:#EAF2EC"></i><b>ink</b><code>#EAF2EC</code></span><span class="swatch"><i style="background:#64C79A"></i><b>brand</b><code>#64C79A</code></span><span class="swatch"><i style="background:#F08A5D"></i><b>accent</b><code>#F08A5D</code></span></div>
+    <p class="plate-note">Lowest pair <b>4.15:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>Contrast, measured</h3>
+      <table>
+        <thead><tr><th>Mode</th><th>Pair</th><th>Ratio</th><th>Status</th></tr></thead>
+        <tbody><tr><td>light</td><td>brand / bg</td><td>9.09:1</td><td class="pass">pass</td></tr><tr><td>light</td><td>ink / bg</td><td>16.2:1</td><td class="pass">pass</td></tr><tr><td>light</td><td>accent / bg</td><td>5.52:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>brand / bg</td><td>8.24:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>ink / bg</td><td>15.68:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>accent / bg</td><td>9.78:1</td><td class="pass">pass</td></tr></tbody>
+      </table>
+      <p class="plate-note" style="color:var(--ink-soft)">Alternate moss-clay: lowest 4.15:1 (accent / bg, light).</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>One line</h2><p>The same theme contract in HTML, CSS or React. Change a token, rebuild, and every variant follows.</p></div>
+    <div class="grid grid-2">
+      <pre class="code">&lt;svg class="logo" style="--ld-brand:#6B2C5F; --ld-accent:#8A5A00"&gt;…&lt;/svg&gt;
+
+&lt;BramblerLogo type="horizontal" /&gt;
+
+:root {
+  --ld-brand: #6B2C5F;
+  --ld-accent: #8A5A00;
+}</pre>
+      <div class="card">
+        <h3>What is in the folder</h3>
+        <p class="plate-note" style="color:var(--ink-soft);font-size:13px">Fifteen SVG variants, a favicon, two app icons, tokens, palette CSS, a control-sheet preview and a typed React component. The alternate palette is built from the same masters.</p>
+        <details class="files"><summary>Primary deck · 19 files</summary><ul><li><code>dist/brambler-app-icon-maskable.svg</code></li><li><code>dist/brambler-app-icon.svg</code></li><li><code>dist/brambler-favicon.svg</code></li><li><code>dist/brambler-lockup-horizontal-dark.svg</code></li><li><code>dist/brambler-lockup-horizontal-mono.svg</code></li><li><code>dist/brambler-lockup-horizontal.svg</code></li><li><code>dist/brambler-lockup-stacked-dark.svg</code></li><li><code>dist/brambler-lockup-stacked-mono.svg</code></li><li><code>dist/brambler-lockup-stacked.svg</code></li><li><code>dist/brambler-palette.css</code></li><li><code>dist/brambler-preview.html</code></li><li><code>dist/brambler-symbol-dark.svg</code></li><li><code>dist/brambler-symbol-mono.svg</code></li><li><code>dist/brambler-symbol.svg</code></li><li><code>dist/brambler-tokens.json</code></li><li><code>dist/brambler-wordmark-dark.svg</code></li><li><code>dist/brambler-wordmark-mono.svg</code></li><li><code>dist/brambler-wordmark.svg</code></li><li><code>dist/brambler.tsx</code></li></ul></details>
+        <details class="files"><summary>Alternate deck · 19 files</summary><ul><li><code>dist-alt/brambler-app-icon-maskable.svg</code></li><li><code>dist-alt/brambler-app-icon.svg</code></li><li><code>dist-alt/brambler-favicon.svg</code></li><li><code>dist-alt/brambler-lockup-horizontal-dark.svg</code></li><li><code>dist-alt/brambler-lockup-horizontal-mono.svg</code></li><li><code>dist-alt/brambler-lockup-horizontal.svg</code></li><li><code>dist-alt/brambler-lockup-stacked-dark.svg</code></li><li><code>dist-alt/brambler-lockup-stacked-mono.svg</code></li><li><code>dist-alt/brambler-lockup-stacked.svg</code></li><li><code>dist-alt/brambler-palette.css</code></li><li><code>dist-alt/brambler-preview.html</code></li><li><code>dist-alt/brambler-symbol-dark.svg</code></li><li><code>dist-alt/brambler-symbol-mono.svg</code></li><li><code>dist-alt/brambler-symbol.svg</code></li><li><code>dist-alt/brambler-tokens.json</code></li><li><code>dist-alt/brambler-wordmark-dark.svg</code></li><li><code>dist-alt/brambler-wordmark-mono.svg</code></li><li><code>dist-alt/brambler-wordmark.svg</code></li><li><code>dist-alt/brambler.tsx</code></li></ul></details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Brambler is a fictional brand drawn for this repository. No third-party mark, font or photograph is used.</span>
+    <span>MIT · generated by logodeck · Brambler — small-batch preserves from hedgerow fruit</span>
+  </footer>
+</div>
+<script>
+  const root = document.documentElement;
+  document.getElementById("theme").addEventListener("click", () => {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+  });
+</script>
+</body>
+</html>

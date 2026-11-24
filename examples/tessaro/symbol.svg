@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="30 30 196 196">
+  <g fill="var(--ld-brand, #2A1E17)">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g>
+</svg>

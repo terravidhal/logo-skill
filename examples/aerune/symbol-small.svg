@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 26 202 188">
+  <g fill="var(--ld-brand, #18202B)">
+    <path d="M20 186C34 98 100 40 222 26C154 60 104 112 82 190C64 160 40 162 20 186Z" />
+    <circle cx="156" cy="198" r="16" />
+  </g>
+</svg>

@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Velluma — notes that keep the shape of a book — logodeck preview</title>
+<style>
+  :root {
+    --ld-bg: #FAF6F3;
+    --ld-ink: #23161F;
+    --ld-brand: #6B2C5F;
+    --ld-accent: #8A5A00;
+    --ld-bg-dark: #1A1017;
+    --ld-ink-dark: #F3E9F0;
+    --ld-brand-dark: #D59ACB;
+    --ld-accent-dark: #E8B44A;
+    --ld-on-dark: #F3E9F0;
+    --ld-surface: #ffffff;
+    --ld-line: rgba(20, 20, 20, 0.12);
+    --ld-muted: rgba(20, 20, 20, 0.62);
+    color-scheme: light;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  html[data-theme="dark"] {
+    --ld-bg: var(--ld-bg-dark);
+    --ld-ink: var(--ld-ink-dark);
+    --ld-brand: var(--ld-brand-dark);
+    --ld-accent: var(--ld-accent-dark);
+    --ld-surface: #1b2220;
+    --ld-line: rgba(255, 255, 255, 0.14);
+    --ld-muted: rgba(255, 255, 255, 0.64);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ld-bg);
+    color: var(--ld-ink);
+    transition: background 160ms ease, color 160ms ease;
+  }
+  .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 40px 0 72px; }
+  header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+  .brandline { min-height: 72px; }
+  .tagline { margin: 12px 0 0; color: var(--ld-muted); max-width: 46ch; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  button, input[type="color"] { font: inherit; }
+  button {
+    border: 1px solid var(--ld-line); background: var(--ld-surface); color: var(--ld-ink);
+    border-radius: 999px; padding: 8px 14px; cursor: pointer;
+  }
+  .grid { display: grid; gap: 16px; }
+  .cards { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+  .card {
+    border: 1px solid var(--ld-line); border-radius: 20px; background: var(--ld-surface);
+    padding: 20px; display: flex; flex-direction: column; gap: 18px; min-height: 190px;
+  }
+  .card h3 { margin: 0; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ld-muted); }
+  .center { flex: 1; display: grid; place-items: center; }
+  .card svg, .brandline svg { display: block; max-width: 100%; }
+  .darkcard { background: #101a16; color: #eaf2ec; border-color: transparent; }
+  html[data-theme="dark"] .darkcard { background: #0b1210; }
+  .size-row { display: flex; align-items: flex-end; gap: 22px; flex-wrap: wrap; }
+  .size-row figure { margin: 0; text-align: center; color: var(--ld-muted); font-size: 12px; }
+  .size-row svg { display: block; margin: 0 auto 6px; }
+  .swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+  .swatch { border: 1px solid var(--ld-line); border-radius: 14px; overflow: hidden; min-width: 112px; }
+  .chip { height: 58px; }
+  .swatch span { display: block; padding: 8px 10px; font-size: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  h2 { margin: 40px 0 14px; font-size: 18px; }
+  .split { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 16px; }
+  @media (max-width: 820px) { .split { grid-template-columns: 1fr; } header { flex-direction: column; } }
+  .code {
+    margin: 0; padding: 18px; border-radius: 16px; background: #101a16; color: #eaf2ec;
+    overflow: auto; font: 12px/1.7 ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--ld-line); }
+  th { color: var(--ld-muted); font-weight: 600; }
+  .files { columns: 2; gap: 24px; font-size: 13px; }
+  .files li { margin: 0 0 6px; break-inside: avoid; }
+  .tab { display: flex; align-items: center; gap: 10px; border: 1px solid var(--ld-line); border-radius: 12px 12px 0 0; padding: 10px 14px; background: var(--ld-surface); width: max-content; }
+  .tab .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ld-brand); }
+  .muted { color: var(--ld-muted); }
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--ld-line); color: var(--ld-muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="brandline"><svg style="height:76px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.619 1.16" role="img" data-ld="velluma-lockup-horizontal">
+<title>Velluma — notes that keep the shape of a book — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1.022" height="1" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+  <svg x="1.402" y="0.37" width="2.137" height="0.42" viewBox="-7 -7 580 114" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g></svg>
+</svg>
+</div>
+      <p class="tagline">Velluma — notes that keep the shape of a book. One manifest, one geometry, every file.</p>
+    </div>
+    <div class="toolbar">
+      <button type="button" id="theme">Toggle dark</button>
+      <button type="button" id="reset">Reset colours</button>
+    </div>
+  </header>
+
+  <h2>Palette</h2>
+  <div class="split">
+    <div class="card">
+      <div class="swatches">
+        <label class="swatch"><div class="chip" style="background:#6B2C5F"></div><span>brand #6B2C5F</span></label>
+        <label class="swatch"><div class="chip" style="background:#8A5A00"></div><span>accent #8A5A00</span></label>
+        <label class="swatch"><div class="chip" style="background:#23161F"></div><span>ink #23161F</span></label>
+        <label class="swatch"><div class="chip" style="background:#FAF6F3; border-bottom:1px solid var(--ld-line)"></div><span>bg #FAF6F3</span></label>
+      </div>
+      <div class="toolbar">
+        <label>Brand <input type="color" id="c-brand" value="#6B2C5F" /></label>
+        <label>Accent <input type="color" id="c-accent" value="#8A5A00" /></label>
+        <label>Ink <input type="color" id="c-ink" value="#23161F" /></label>
+        <label>Background <input type="color" id="c-bg" value="#FAF6F3" /></label>
+      </div>
+      <p class="muted">The colour inputs rewrite the CSS custom properties on <code>:root</code>. Every themed SVG and the React component follow.</p>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Mode</th><th>Pair</th><th>Ratio</th><th>Status</th></tr></thead>
+        <tbody><tr><td>light</td><td>brand / bg</td><td>9.09:1</td><td>pass</td></tr><tr><td>light</td><td>ink / bg</td><td>16.2:1</td><td>pass</td></tr><tr><td>light</td><td>accent / bg</td><td>5.52:1</td><td>pass</td></tr><tr><td>dark</td><td>brand / bg</td><td>8.24:1</td><td>pass</td></tr><tr><td>dark</td><td>ink / bg</td><td>15.68:1</td><td>pass</td></tr><tr><td>dark</td><td>accent / bg</td><td>9.78:1</td><td>pass</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2>Family</h2>
+  <div class="grid cards">
+    <div class="card"><h3>Symbol</h3><div class="center"><svg style="height:104px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="28 28 184 180" role="img" data-ld="velluma-symbol">
+<title>Velluma — notes that keep the shape of a book — symbol</title>
+<g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g>
+</svg>
+</div></div>
+    <div class="card"><h3>Symbol mono</h3><div class="center"><svg style="height:104px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="28 28 184 180" role="img" data-ld="velluma-symbol-mono">
+<title>Velluma — notes that keep the shape of a book — mono symbol</title>
+<g fill="currentColor">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g>
+</svg>
+</div></div>
+    <div class="card darkcard"><h3 style="color:rgba(255,255,255,.62)">Symbol dark</h3><div class="center"><svg style="height:104px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="28 28 184 180" role="img" data-ld="velluma-symbol-dark">
+<title>Velluma — notes that keep the shape of a book — symbol, dark background</title>
+<g fill="#D59ACB">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g>
+</svg>
+</div></div>
+    <div class="card"><h3>Wordmark</h3><div class="center"><svg style="height:56px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 580 114" role="img" data-ld="velluma-wordmark">
+<title>Velluma — notes that keep the shape of a book — wordmark</title>
+<g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g>
+</svg>
+</div></div>
+    <div class="card darkcard"><h3 style="color:rgba(255,255,255,.62)">Wordmark dark</h3><div class="center"><svg style="height:56px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 580 114" role="img" data-ld="velluma-wordmark-dark">
+<title>Velluma — notes that keep the shape of a book — wordmark, dark background</title>
+<g fill="#F3E9F0">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g>
+</svg>
+</div></div>
+    <div class="card"><h3>Lockup horizontal</h3><div class="center"><svg style="height:72px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.619 1.16" role="img" data-ld="velluma-lockup-horizontal">
+<title>Velluma — notes that keep the shape of a book — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1.022" height="1" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+  <svg x="1.402" y="0.37" width="2.137" height="0.42" viewBox="-7 -7 580 114" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g></svg>
+</svg>
+</div></div>
+    <div class="card"><h3>Lockup stacked</h3><div class="center"><svg style="height:78px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.297 1.8" role="img" data-ld="velluma-lockup-stacked">
+<title>Velluma — notes that keep the shape of a book — stacked lockup</title>
+<svg x="0.637" y="0.08" width="1.022" height="1" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="2.137" height="0.42" viewBox="-7 -7 580 114" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g></svg>
+</svg>
+</div></div>
+    <div class="card"><h3>Favicon</h3><div class="center"><svg style="height:64px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="velluma-favicon">
+<title>Velluma — notes that keep the shape of a book — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#6B2C5F"/>
+<svg x="10.684" y="10.24" width="42.632" height="43.52" viewBox="24 20 192 196" preserveAspectRatio="xMidYMid meet"><g fill="#FAF6F3">
+    <path d="M24 20 L120 216 L216 20 L150 20 L120 146 L90 20 Z" />
+  </g></svg>
+</svg>
+</div></div>
+    <div class="card"><h3>App icon</h3><div class="center"><svg style="height:96px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="velluma-app-icon">
+<title>Velluma — notes that keep the shape of a book — app-icon</title>
+<rect width="512" height="512" rx="115.2" fill="#6B2C5F"/>
+<svg x="93.753" y="97.28" width="324.494" height="317.44" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="#FAF6F3">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+</svg>
+</div></div>
+    <div class="card"><h3>Maskable</h3><div class="center"><svg style="height:96px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="velluma-app-icon-maskable">
+<title>Velluma — notes that keep the shape of a book — app-icon-maskable</title>
+<rect width="512" height="512" rx="0" fill="#6B2C5F"/>
+<svg x="125.156" y="128" width="261.689" height="256" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="#FAF6F3">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+</svg>
+</div></div>
+  </div>
+
+  <h2>Small sizes</h2>
+  <div class="card">
+    <div class="size-row">
+      <figure><svg style="width:64px;height:64px" xmlns="http://www.w3.org/2000/svg" viewBox="28 28 184 180" role="img" data-ld="velluma-symbol">
+<title>Velluma — notes that keep the shape of a book — symbol</title>
+<g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g>
+</svg>
+<figcaption>64px</figcaption></figure>
+      <figure><svg style="width:40px;height:40px" xmlns="http://www.w3.org/2000/svg" viewBox="28 28 184 180" role="img" data-ld="velluma-symbol">
+<title>Velluma — notes that keep the shape of a book — symbol</title>
+<g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g>
+</svg>
+<figcaption>40px</figcaption></figure>
+      <figure><svg style="width:24px;height:24px" xmlns="http://www.w3.org/2000/svg" viewBox="28 28 184 180" role="img" data-ld="velluma-symbol">
+<title>Velluma — notes that keep the shape of a book — symbol</title>
+<g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g>
+</svg>
+<figcaption>24px</figcaption></figure>
+      <figure><svg style="width:16px;height:16px" xmlns="http://www.w3.org/2000/svg" viewBox="28 28 184 180" role="img" data-ld="velluma-symbol">
+<title>Velluma — notes that keep the shape of a book — symbol</title>
+<g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g>
+</svg>
+<figcaption>16px</figcaption></figure>
+      <div class="tab"><span class="dot"></span><span>Velluma</span></div>
+    </div>
+  </div>
+
+  <h2>One line</h2>
+  <div class="split">
+    <div class="card">
+      <pre class="code">&lt;svg style="--ld-brand: #6B2C5F; --ld-accent: #8A5A00"&gt;
+  …
+&lt;/svg&gt;
+
+&lt;VellumaLogo type="horizontal" /&gt;</pre>
+    </div>
+    <div class="card">
+      <div class="center"><svg style="height:78px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.297 1.8" role="img" data-ld="velluma-lockup-stacked">
+<title>Velluma — notes that keep the shape of a book — stacked lockup</title>
+<svg x="0.637" y="0.08" width="1.022" height="1" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="2.137" height="0.42" viewBox="-7 -7 580 114" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g></svg>
+</svg>
+</div>
+      <div class="center"><svg style="height:96px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="velluma-app-icon">
+<title>Velluma — notes that keep the shape of a book — app-icon</title>
+<rect width="512" height="512" rx="115.2" fill="#6B2C5F"/>
+<svg x="93.753" y="97.28" width="324.494" height="317.44" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="#FAF6F3">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+</svg>
+</div>
+    </div>
+  </div>
+
+  <h2>Files</h2>
+  <ul class="files"><li><code>velluma-symbol.svg</code></li><li><code>velluma-symbol-mono.svg</code></li><li><code>velluma-symbol-dark.svg</code></li><li><code>velluma-wordmark.svg</code></li><li><code>velluma-wordmark-mono.svg</code></li><li><code>velluma-wordmark-dark.svg</code></li><li><code>velluma-lockup-horizontal.svg</code></li><li><code>velluma-lockup-horizontal-mono.svg</code></li><li><code>velluma-lockup-horizontal-dark.svg</code></li><li><code>velluma-lockup-stacked.svg</code></li><li><code>velluma-lockup-stacked-mono.svg</code></li><li><code>velluma-lockup-stacked-dark.svg</code></li><li><code>velluma-favicon.svg</code></li><li><code>velluma-app-icon.svg</code></li><li><code>velluma-app-icon-maskable.svg</code></li><li><code>velluma.tsx</code></li><li><code>velluma-tokens.json</code></li><li><code>velluma-palette.css</code></li></ul>
+
+  <footer>
+    Built by logodeck from one manifest and two masters. 3.619 × 1.16
+    horizontal ratio. No raster, no filter, no <code>&lt;text&gt;</code> in any logo file.
+  </footer>
+</div>
+<script>
+  const root = document.documentElement;
+  const keys = ["brand", "accent", "ink", "bg"];
+  const state = {
+    light: {
+      brand: "#6B2C5F",
+      accent: "#8A5A00",
+      ink: "#23161F",
+      bg: "#FAF6F3",
+    },
+    dark: {
+      brand: "#D59ACB",
+      accent: "#E8B44A",
+      ink: "#F3E9F0",
+      bg: "#1A1017",
+    },
+  };
+  function activeMode() {
+    return root.dataset.theme === "dark" ? "dark" : "light";
+  }
+  function varName(key, mode) {
+    return mode === "dark" ? "--ld-" + key + "-dark" : "--ld-" + key;
+  }
+  function syncInputs() {
+    const mode = activeMode();
+    for (const key of keys) {
+      const input = document.getElementById("c-" + key);
+      if (input) input.value = state[mode][key];
+    }
+  }
+  function apply(key, value) {
+    const mode = activeMode();
+    state[mode][key] = value;
+    root.style.setProperty(varName(key, mode), value);
+  }
+  for (const key of keys) {
+    document.getElementById("c-" + key).addEventListener("input", (event) => {
+      apply(key, event.target.value);
+    });
+  }
+  document.getElementById("theme").addEventListener("click", () => {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+    syncInputs();
+  });
+  document.getElementById("reset").addEventListener("click", () => {
+    for (const mode of ["light", "dark"]) {
+      for (const key of keys) root.style.removeProperty(varName(key, mode));
+    }
+    state.light = {
+      brand: "#6B2C5F",
+      accent: "#8A5A00",
+      ink: "#23161F",
+      bg: "#FAF6F3",
+    };
+    state.dark = {
+      brand: "#D59ACB",
+      accent: "#E8B44A",
+      ink: "#F3E9F0",
+      bg: "#1A1017",
+    };
+    syncInputs();
+  });
+</script>
+</body>
+</html>

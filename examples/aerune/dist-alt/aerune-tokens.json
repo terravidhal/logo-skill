@@ -1,0 +1,62 @@
+{
+  "name": "midnight-rose",
+  "label": "Midnight & rose",
+  "note": "Expressive contrast. Deep rose brand, indigo accent, soft ink on dark.",
+  "light": {
+    "bg": "#F7F4F6",
+    "ink": "#1B1720",
+    "brand": "#8A1F4E",
+    "accent": "#3B4FA8"
+  },
+  "dark": {
+    "bg": "#120E15",
+    "ink": "#F2EAF0",
+    "brand": "#F08CB6",
+    "accent": "#9AA9F5"
+  },
+  "contrast": [
+    {
+      "mode": "light",
+      "pair": "brand / bg",
+      "ratio": 8.06,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "pair": "ink / bg",
+      "ratio": 16.16,
+      "min": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "pair": "accent / bg",
+      "ratio": 6.7,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "brand / bg",
+      "ratio": 8.31,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "ink / bg",
+      "ratio": 16.19,
+      "min": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "accent / bg",
+      "ratio": 8.52,
+      "min": 3,
+      "pass": true
+    }
+  ],
+  "generatedBy": "logodeck"
+}

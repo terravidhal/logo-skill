@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-brand="velluma">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Velluma — logodeck identity plate</title>
+<style>
+  :root {
+    --ld-bg:#FAF6F3;--ld-ink:#23161F;--ld-brand:#6B2C5F;--ld-accent:#8A5A00;--plate-bg:#FAF6F3;--plate-ink:#23161F;
+    --ink-soft: color-mix(in srgb, var(--ld-ink) 64%, transparent);
+    --line: color-mix(in srgb, var(--ld-ink) 15%, transparent);
+    --surface: color-mix(in srgb, var(--ld-bg) 88%, white);
+    --shadow: 0 28px 70px rgba(10, 20, 15, .12);
+    color-scheme: light;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  html[data-theme="dark"] {
+    --ld-bg:#1A1017;--ld-ink:#F3E9F0;--ld-brand:#D59ACB;--ld-accent:#E8B44A;--plate-bg:#1A1017;--plate-ink:#F3E9F0;
+    --ink-soft: color-mix(in srgb, var(--ld-ink) 66%, transparent);
+    --line: color-mix(in srgb, var(--ld-ink) 20%, transparent);
+    --surface: color-mix(in srgb, var(--ld-bg) 90%, white);
+    --shadow: 0 28px 70px rgba(0, 0, 0, .4);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ld-bg); color: var(--ld-ink); transition: background 170ms ease, color 170ms ease; }
+  a { color: inherit; }
+  .wrap { width: min(1240px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 72px; }
+  nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 26px; }
+  nav .crumb { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  nav .tools { display: flex; gap: 8px; flex-wrap: wrap; }
+  button, .button { font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ld-ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+  .hero { display: grid; grid-template-columns: 1.3fr .7fr; gap: 28px; align-items: stretch; padding: 24px 0 22px; }
+  .hero-main { display: flex; flex-direction: column; justify-content: space-between; gap: 30px; }
+  .eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+  h1 { font-size: clamp(56px, 8vw, 118px); line-height: .88; letter-spacing: -.045em; margin: 14px 0 18px; font-weight: 650; }
+  .promise { font-size: clamp(18px, 2.1vw, 26px); line-height: 1.35; max-width: 28ch; margin: 0; }
+  .idea { margin: 24px 0 0; font-size: 14px; line-height: 1.7; color: var(--ink-soft); max-width: 52ch; }
+  .hero-lockup { border: 1px solid var(--line); border-radius: 30px; background: var(--surface); box-shadow: var(--shadow); padding: 40px; display: grid; place-items: center; min-height: 250px; }
+  .hero-lockup svg { width: min(100%, 430px); height: auto; display: block; }
+  .dark-panel { border-radius: 30px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; box-shadow: var(--shadow); }
+  .dark-panel .eyebrow { color: color-mix(in srgb, currentColor 62%, transparent); }
+  .dark-panel svg { width: min(100%, 260px); height: auto; display: block; }
+  .section { margin-top: 52px; }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 20px; }
+  h2 { margin: 0; font-size: 15px; letter-spacing: .13em; text-transform: uppercase; font-weight: 600; }
+  .section-head p { margin: 0; color: var(--ink-soft); font-size: 13px; max-width: 52ch; }
+  .grid { display: grid; gap: 16px; }
+  .grid-5 { grid-template-columns: repeat(5, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .card { border: 1px solid var(--line); border-radius: 22px; background: var(--surface); padding: 22px; display: flex; flex-direction: column; gap: 16px; min-height: 176px; }
+  .card h3 { margin: 0; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  .card .art { flex: 1; display: grid; place-items: center; }
+  .card .art svg { display: block; max-width: 100%; height: auto; }
+  .art.symbol svg { width: 118px; height: 118px; }
+  .art.word svg { width: min(100%, 250px); height: auto; }
+  .art.lockup svg { width: min(100%, 330px); height: auto; }
+  .art.app svg { width: 92px; height: 92px; }
+  .mono { color: var(--ld-ink); }
+  .darkcard { border-color: transparent; }
+  .darkcard h3 { color: color-mix(in srgb, currentColor 62%, transparent); }
+  .darkcard .mono { color: inherit; }
+  .favicons { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; }
+  .favicons figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 7px; color: var(--ink-soft); font-size: 11px; }
+  .favicons svg, .favicons span svg { display: block; width: 100%; height: 100%; }
+  .palette-group { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 22px; }
+  .palette-group:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+  .palette-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .palette-title b { font-size: 17px; }
+  .palette-title span { color: var(--ink-soft); font-size: 13px; }
+  .plate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .plate { border-radius: 20px; padding: 18px; background: var(--plate-bg); color: var(--plate-ink); border: 1px solid color-mix(in srgb, var(--plate-ink) 14%, transparent); display: flex; flex-direction: column; gap: 13px; }
+  .plate.dark { border-color: rgba(255, 255, 255, .12); }
+  .plate-head { display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--plate-ink) 62%, transparent); }
+  .badge { border: 1px solid currentColor; border-radius: 999px; padding: 3px 8px; letter-spacing: .06em; }
+  .plate-lockup { min-height: 68px; display: flex; align-items: center; }
+  .plate-lockup svg { width: min(100%, 300px); height: auto; display: block; }
+  .swatch-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .swatch { display: flex; flex-direction: column; gap: 5px; font-size: 10px; min-width: 0; }
+  .swatch i { display: block; height: 30px; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--plate-ink) 18%, transparent); }
+  .swatch b { font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: color-mix(in srgb, var(--plate-ink) 65%, transparent); }
+  .swatch code { font: 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; opacity: .8; }
+  .plate-note { margin: 0; font-size: 11px; line-height: 1.5; color: color-mix(in srgb, var(--plate-ink) 66%, transparent); }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--ink-soft); font-weight: 600; }
+  td.pass { color: var(--ld-brand); font-weight: 600; }
+  td.fail { color: #B42318; font-weight: 600; }
+  .code { margin: 0; padding: 18px; border-radius: 18px; background: #0E1713; color: #E9F2EC; border: 1px solid rgba(255, 255, 255, .08); overflow: auto; font: 12px/1.8 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .files { border-top: 1px solid var(--line); padding: 10px 0; font-size: 12px; }
+  .files summary { cursor: pointer; color: var(--ink-soft); }
+  .files ul { columns: 2; gap: 20px; margin: 10px 0 0; padding: 0; list-style: none; }
+  .files li { break-inside: avoid; margin-bottom: 5px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  footer { margin-top: 54px; border-top: 1px solid var(--line); padding-top: 18px; display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; color: var(--ink-soft); font-size: 12px; }
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; }
+    .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3, .grid-2, .plate-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .wrap { width: calc(100% - 28px); padding-top: 16px; }
+    .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .hero-lockup { padding: 22px; }
+    .plate { padding: 14px; }
+    .swatch-row { grid-template-columns: repeat(2, 1fr); }
+    .files ul { columns: 1; }
+    h1 { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <span class="crumb"><a href="../site/index.html">logodeck</a> / identity plate / velluma</span>
+    <span class="tools">
+      <button type="button" id="theme">Toggle dark</button>
+      <a class="button" href="dist/velluma-preview.html">Open the preview</a>
+    </span>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-main">
+      <div>
+        <div class="eyebrow">Reading · productivity · fictional brand · palette plum-gold</div>
+        <h1>Velluma</h1>
+        <p class="promise">Notes that keep the shape of a book.</p>
+        <p class="idea"><b>Idea.</b> Two page-arms fold into a V; the open top keeps the shape of a book.</p>
+      </div>
+      <div class="hero-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.619 1.16" role="img" data-ld="velluma-lockup-horizontal">
+<title>Velluma — notes that keep the shape of a book — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1.022" height="1" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+  <svg x="1.402" y="0.37" width="2.137" height="0.42" viewBox="-7 -7 580 114" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g></svg>
+</svg>
+</div>
+    </div>
+    <aside class="dark-panel" style="background:#1A1017;color:#F3E9F0">
+      <div class="eyebrow">On dark</div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.297 1.8" role="img" data-ld="velluma-lockup-stacked-dark">
+<title>Velluma — notes that keep the shape of a book — stacked lockup, dark background</title>
+<svg x="0.637" y="0.08" width="1.022" height="1" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="#D59ACB">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="2.137" height="0.42" viewBox="-7 -7 580 114" preserveAspectRatio="xMidYMid meet"><g fill="#F3E9F0">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g></svg>
+</svg>
+
+      <div class="eyebrow">5.52:1 lowest pair</div>
+    </aside>
+  </header>
+
+  <section class="section">
+    <div class="section-head"><h2>The mark</h2><p>One drawing, then the whole family: mono for one colour, a simplified favicon, a tile and a maskable icon.</p></div>
+    <div class="grid grid-5">
+      <div class="card"><h3>Symbol</h3><div class="art symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 28 184 180" role="img" data-ld="velluma-symbol">
+<title>Velluma — notes that keep the shape of a book — symbol</title>
+<g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Symbol mono</h3><div class="art symbol mono"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 28 184 180" role="img" data-ld="velluma-symbol-mono">
+<title>Velluma — notes that keep the shape of a book — mono symbol</title>
+<g fill="currentColor">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g>
+</svg>
+</div></div>
+      <div class="card darkcard" style="background:#1A1017;color:#F3E9F0"><h3>Symbol dark</h3><div class="art symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 28 184 180" role="img" data-ld="velluma-symbol-dark">
+<title>Velluma — notes that keep the shape of a book — symbol, dark background</title>
+<g fill="#D59ACB">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Favicon</h3><div class="art"><div class="favicons">
+        <figure><span style="display:block;width:32px;height:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="velluma-favicon">
+<title>Velluma — notes that keep the shape of a book — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#6B2C5F"/>
+<svg x="10.684" y="10.24" width="42.632" height="43.52" viewBox="24 20 192 196" preserveAspectRatio="xMidYMid meet"><g fill="#FAF6F3">
+    <path d="M24 20 L120 216 L216 20 L150 20 L120 146 L90 20 Z" />
+  </g></svg>
+</svg>
+</span><figcaption>32</figcaption></figure>
+        <figure><span style="display:block;width:16px;height:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="velluma-favicon">
+<title>Velluma — notes that keep the shape of a book — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#6B2C5F"/>
+<svg x="10.684" y="10.24" width="42.632" height="43.52" viewBox="24 20 192 196" preserveAspectRatio="xMidYMid meet"><g fill="#FAF6F3">
+    <path d="M24 20 L120 216 L216 20 L150 20 L120 146 L90 20 Z" />
+  </g></svg>
+</svg>
+</span><figcaption>16</figcaption></figure>
+      </div></div></div>
+      <div class="card"><h3>App icon</h3><div class="art app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="velluma-app-icon">
+<title>Velluma — notes that keep the shape of a book — app-icon</title>
+<rect width="512" height="512" rx="115.2" fill="#6B2C5F"/>
+<svg x="93.753" y="97.28" width="324.494" height="317.44" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="#FAF6F3">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+</svg>
+</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Wordmark & lockups</h2><p>The name is drawn as paths. The lockups are composed from the same two masters, never retouched.</p></div>
+    <div class="grid grid-3">
+      <div class="card"><h3>Wordmark</h3><div class="art word"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 580 114" role="img" data-ld="velluma-wordmark">
+<title>Velluma — notes that keep the shape of a book — wordmark</title>
+<g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Horizontal</h3><div class="art lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.619 1.16" role="img" data-ld="velluma-lockup-horizontal">
+<title>Velluma — notes that keep the shape of a book — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1.022" height="1" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+  <svg x="1.402" y="0.37" width="2.137" height="0.42" viewBox="-7 -7 580 114" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g></svg>
+</svg>
+</div></div>
+      <div class="card darkcard" style="background:#1A1017;color:#F3E9F0"><h3>Stacked dark</h3><div class="art lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.297 1.8" role="img" data-ld="velluma-lockup-stacked-dark">
+<title>Velluma — notes that keep the shape of a book — stacked lockup, dark background</title>
+<svg x="0.637" y="0.08" width="1.022" height="1" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="#D59ACB">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="2.137" height="0.42" viewBox="-7 -7 580 114" preserveAspectRatio="xMidYMid meet"><g fill="#F3E9F0">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g></svg>
+</svg>
+</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Two palettes</h2><p>Every pair is measured in light and dark. The drawing never changes; only the tokens do.</p></div>
+    <div class="palette-group">
+      <div class="palette-title"><b>Plum &amp; gold</b><span>Editorial and confident. Suits culture, publishing and premium services. · primary</span></div>
+      <div class="plate-grid">
+        <article class="plate light" style="--ld-bg:#FAF6F3;--ld-ink:#23161F;--ld-brand:#6B2C5F;--ld-accent:#8A5A00;--plate-bg:#FAF6F3;--plate-ink:#23161F">
+    <div class="plate-head"><span>Primary</span><span class="badge">light</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.619 1.16" role="img" data-ld="velluma-lockup-horizontal">
+<title>Velluma — notes that keep the shape of a book — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1.022" height="1" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+  <svg x="1.402" y="0.37" width="2.137" height="0.42" viewBox="-7 -7 580 114" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #23161F)">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#FAF6F3"></i><b>bg</b><code>#FAF6F3</code></span><span class="swatch"><i style="background:#23161F"></i><b>ink</b><code>#23161F</code></span><span class="swatch"><i style="background:#6B2C5F"></i><b>brand</b><code>#6B2C5F</code></span><span class="swatch"><i style="background:#8A5A00"></i><b>accent</b><code>#8A5A00</code></span></div>
+    <p class="plate-note">Lowest pair <b>5.52:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+        <article class="plate dark" style="--ld-bg:#1A1017;--ld-ink:#F3E9F0;--ld-brand:#D59ACB;--ld-accent:#E8B44A;--plate-bg:#1A1017;--plate-ink:#F3E9F0">
+    <div class="plate-head"><span>Primary</span><span class="badge">dark</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.619 1.16" role="img" data-ld="velluma-lockup-horizontal-dark">
+<title>Velluma — notes that keep the shape of a book — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="1.022" height="1" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="#D59ACB">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+  <svg x="1.402" y="0.37" width="2.137" height="0.42" viewBox="-7 -7 580 114" preserveAspectRatio="xMidYMid meet"><g fill="#F3E9F0">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#1A1017"></i><b>bg</b><code>#1A1017</code></span><span class="swatch"><i style="background:#F3E9F0"></i><b>ink</b><code>#F3E9F0</code></span><span class="swatch"><i style="background:#D59ACB"></i><b>brand</b><code>#D59ACB</code></span><span class="swatch"><i style="background:#E8B44A"></i><b>accent</b><code>#E8B44A</code></span></div>
+    <p class="plate-note">Lowest pair <b>5.52:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+      </div>
+    </div>
+    <div class="palette-group">
+      <div class="palette-title"><b>Clay &amp; cream</b><span>Earthy and tactile. Terracotta brand with an olive accent. · alternate</span></div>
+      <div class="plate-grid">
+        <article class="plate light" style="--ld-bg:#FBF6EE;--ld-ink:#2A1E17;--ld-brand:#8A3B22;--ld-accent:#4A6B2A;--plate-bg:#FBF6EE;--plate-ink:#2A1E17">
+    <div class="plate-head"><span>Alternate</span><span class="badge">light</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.619 1.16" role="img" data-ld="velluma-lockup-horizontal">
+<title>Velluma — notes that keep the shape of a book — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1.022" height="1" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #8A3B22)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+  <svg x="1.402" y="0.37" width="2.137" height="0.42" viewBox="-7 -7 580 114" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #2A1E17)">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#FBF6EE"></i><b>bg</b><code>#FBF6EE</code></span><span class="swatch"><i style="background:#2A1E17"></i><b>ink</b><code>#2A1E17</code></span><span class="swatch"><i style="background:#8A3B22"></i><b>brand</b><code>#8A3B22</code></span><span class="swatch"><i style="background:#4A6B2A"></i><b>accent</b><code>#4A6B2A</code></span></div>
+    <p class="plate-note">Lowest pair <b>5.69:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+        <article class="plate dark" style="--ld-bg:#1B120D;--ld-ink:#F4E8DA;--ld-brand:#E59A78;--ld-accent:#A9C77A;--plate-bg:#1B120D;--plate-ink:#F4E8DA">
+    <div class="plate-head"><span>Alternate</span><span class="badge">dark</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.619 1.16" role="img" data-ld="velluma-lockup-horizontal-dark">
+<title>Velluma — notes that keep the shape of a book — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="1.022" height="1" viewBox="28 28 184 180" preserveAspectRatio="xMidYMid meet"><g fill="#E59A78">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g></svg>
+  <svg x="1.402" y="0.37" width="2.137" height="0.42" viewBox="-7 -7 580 114" preserveAspectRatio="xMidYMid meet"><g fill="#F4E8DA">
+    <path fill-rule="evenodd" d="M-6.723 1.95L22.277 101.95A7 7 0 0 0 35.723 98.05L6.723 -1.95A7 7 0 0 1 -6.723 1.95ZM35.723 101.95L64.723 1.95A7 7 0 0 0 51.277 -1.95L22.277 98.05A7 7 0 0 1 35.723 101.95Z" />
+    <path fill-rule="evenodd" d="M81 0L81 100A7 7 0 0 0 95 100L95 0A7 7 0 0 1 81 0Z" />
+    <path fill-rule="evenodd" d="M88 7L134 7A7 7 0 0 0 134 -7L88 -7A7 7 0 0 1 88 7Z" />
+    <path fill-rule="evenodd" d="M88 57L124 57A7 7 0 0 0 124 43L88 43A7 7 0 0 1 88 57Z" />
+    <path fill-rule="evenodd" d="M88 107L134 107A7 7 0 0 0 134 93L88 93A7 7 0 0 1 88 107Z" />
+    <path fill-rule="evenodd" d="M159 0L159 100A7 7 0 0 0 173 100L173 0A7 7 0 0 1 159 0Z" />
+    <path fill-rule="evenodd" d="M166 107L210 107A7 7 0 0 0 210 93L166 93A7 7 0 0 1 166 107Z" />
+    <path fill-rule="evenodd" d="M235 0L235 100A7 7 0 0 0 249 100L249 0A7 7 0 0 1 235 0Z" />
+    <path fill-rule="evenodd" d="M242 107L286 107A7 7 0 0 0 286 93L242 93A7 7 0 0 1 242 107Z" />
+    <path fill-rule="evenodd" d="M311 0L311 76A7 7 0 0 0 325 76L325 0A7 7 0 0 1 311 0ZM311.739 79.13L319.739 95.13A7 7 0 0 0 332.261 88.87L324.261 72.87A7 7 0 0 1 311.739 79.13ZM323.157 98.397L341.157 106.397A7 7 0 0 0 346.843 93.603L328.843 85.603A7 7 0 0 1 323.157 98.397ZM344 107L350 107A7 7 0 0 0 350 93L344 93A7 7 0 0 1 344 107ZM352.843 106.397L370.843 98.397A7 7 0 0 0 365.157 85.603L347.157 93.603A7 7 0 0 1 352.843 106.397ZM374.261 95.13L382.261 79.13A7 7 0 0 0 369.739 72.87L361.739 88.87A7 7 0 0 1 374.261 95.13ZM383 76L383 0A7 7 0 0 0 369 0L369 76A7 7 0 0 1 383 76Z" />
+    <path fill-rule="evenodd" d="M413 100L413 0A7 7 0 0 0 399 0L399 100A7 7 0 0 1 413 100ZM399.916 3.462L432.916 61.462A7 7 0 0 0 445.084 54.538L412.084 -3.462A7 7 0 0 1 399.916 3.462ZM445.084 61.462L478.084 3.462A7 7 0 0 0 465.916 -3.462L432.916 54.538A7 7 0 0 1 445.084 61.462ZM465 0L465 100A7 7 0 0 0 479 100L479 0A7 7 0 0 1 465 0Z" />
+    <path fill-rule="evenodd" d="M508.667 102.133L540.667 2.133A7 7 0 0 0 527.333 -2.133L495.333 97.867A7 7 0 0 1 508.667 102.133ZM527.333 2.133L559.333 102.133A7 7 0 0 0 572.667 97.867L540.667 -2.133A7 7 0 0 1 527.333 2.133Z" />
+    <path fill-rule="evenodd" d="M516 71L552 71A7 7 0 0 0 552 57L516 57A7 7 0 0 1 516 71Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#1B120D"></i><b>bg</b><code>#1B120D</code></span><span class="swatch"><i style="background:#F4E8DA"></i><b>ink</b><code>#F4E8DA</code></span><span class="swatch"><i style="background:#E59A78"></i><b>brand</b><code>#E59A78</code></span><span class="swatch"><i style="background:#A9C77A"></i><b>accent</b><code>#A9C77A</code></span></div>
+    <p class="plate-note">Lowest pair <b>5.69:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>Contrast, measured</h3>
+      <table>
+        <thead><tr><th>Mode</th><th>Pair</th><th>Ratio</th><th>Status</th></tr></thead>
+        <tbody><tr><td>light</td><td>brand / bg</td><td>9.09:1</td><td class="pass">pass</td></tr><tr><td>light</td><td>ink / bg</td><td>16.2:1</td><td class="pass">pass</td></tr><tr><td>light</td><td>accent / bg</td><td>5.52:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>brand / bg</td><td>8.24:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>ink / bg</td><td>15.68:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>accent / bg</td><td>9.78:1</td><td class="pass">pass</td></tr></tbody>
+      </table>
+      <p class="plate-note" style="color:var(--ink-soft)">Alternate clay-cream: lowest 5.69:1 (accent / bg, light).</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>One line</h2><p>The same theme contract in HTML, CSS or React. Change a token, rebuild, and every variant follows.</p></div>
+    <div class="grid grid-2">
+      <pre class="code">&lt;svg class="logo" style="--ld-brand:#6B2C5F; --ld-accent:#8A5A00"&gt;…&lt;/svg&gt;
+
+&lt;VellumaLogo type="horizontal" /&gt;
+
+:root {
+  --ld-brand: #6B2C5F;
+  --ld-accent: #8A5A00;
+}</pre>
+      <div class="card">
+        <h3>What is in the folder</h3>
+        <p class="plate-note" style="color:var(--ink-soft);font-size:13px">Fifteen SVG variants, a favicon, two app icons, tokens, palette CSS, a control-sheet preview and a typed React component. The alternate palette is built from the same masters.</p>
+        <details class="files"><summary>Primary deck · 19 files</summary><ul><li><code>dist/velluma-app-icon-maskable.svg</code></li><li><code>dist/velluma-app-icon.svg</code></li><li><code>dist/velluma-favicon.svg</code></li><li><code>dist/velluma-lockup-horizontal-dark.svg</code></li><li><code>dist/velluma-lockup-horizontal-mono.svg</code></li><li><code>dist/velluma-lockup-horizontal.svg</code></li><li><code>dist/velluma-lockup-stacked-dark.svg</code></li><li><code>dist/velluma-lockup-stacked-mono.svg</code></li><li><code>dist/velluma-lockup-stacked.svg</code></li><li><code>dist/velluma-palette.css</code></li><li><code>dist/velluma-preview.html</code></li><li><code>dist/velluma-symbol-dark.svg</code></li><li><code>dist/velluma-symbol-mono.svg</code></li><li><code>dist/velluma-symbol.svg</code></li><li><code>dist/velluma-tokens.json</code></li><li><code>dist/velluma-wordmark-dark.svg</code></li><li><code>dist/velluma-wordmark-mono.svg</code></li><li><code>dist/velluma-wordmark.svg</code></li><li><code>dist/velluma.tsx</code></li></ul></details>
+        <details class="files"><summary>Alternate deck · 19 files</summary><ul><li><code>dist-alt/velluma-app-icon-maskable.svg</code></li><li><code>dist-alt/velluma-app-icon.svg</code></li><li><code>dist-alt/velluma-favicon.svg</code></li><li><code>dist-alt/velluma-lockup-horizontal-dark.svg</code></li><li><code>dist-alt/velluma-lockup-horizontal-mono.svg</code></li><li><code>dist-alt/velluma-lockup-horizontal.svg</code></li><li><code>dist-alt/velluma-lockup-stacked-dark.svg</code></li><li><code>dist-alt/velluma-lockup-stacked-mono.svg</code></li><li><code>dist-alt/velluma-lockup-stacked.svg</code></li><li><code>dist-alt/velluma-palette.css</code></li><li><code>dist-alt/velluma-preview.html</code></li><li><code>dist-alt/velluma-symbol-dark.svg</code></li><li><code>dist-alt/velluma-symbol-mono.svg</code></li><li><code>dist-alt/velluma-symbol.svg</code></li><li><code>dist-alt/velluma-tokens.json</code></li><li><code>dist-alt/velluma-wordmark-dark.svg</code></li><li><code>dist-alt/velluma-wordmark-mono.svg</code></li><li><code>dist-alt/velluma-wordmark.svg</code></li><li><code>dist-alt/velluma.tsx</code></li></ul></details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Velluma is a fictional brand drawn for this repository. No third-party mark, font or photograph is used.</span>
+    <span>MIT · generated by logodeck · Velluma — notes that keep the shape of a book</span>
+  </footer>
+</div>
+<script>
+  const root = document.documentElement;
+  document.getElementById("theme").addEventListener("click", () => {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+  });
+</script>
+</body>
+</html>

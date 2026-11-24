@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="tessaro-app-icon-maskable">
+<title>Tessaro — modular architecture for tight city plots — app-icon-maskable</title>
+<rect width="512" height="512" rx="0" fill="#1D4ED8"/>
+<svg x="128" y="128" width="256" height="256" viewBox="30 30 196 196" preserveAspectRatio="xMidYMid meet"><g fill="#F3F6FB">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g></svg>
+</svg>

@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-brand="aerune">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aerune — logodeck identity plate</title>
+<style>
+  :root {
+    --ld-bg:#F4F6F8;--ld-ink:#18202B;--ld-brand:#2B5B84;--ld-accent:#B45309;--plate-bg:#F4F6F8;--plate-ink:#18202B;
+    --ink-soft: color-mix(in srgb, var(--ld-ink) 64%, transparent);
+    --line: color-mix(in srgb, var(--ld-ink) 15%, transparent);
+    --surface: color-mix(in srgb, var(--ld-bg) 88%, white);
+    --shadow: 0 28px 70px rgba(10, 20, 15, .12);
+    color-scheme: light;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  html[data-theme="dark"] {
+    --ld-bg:#0E151D;--ld-ink:#E8EFF6;--ld-brand:#82B7E8;--ld-accent:#F0A35E;--plate-bg:#0E151D;--plate-ink:#E8EFF6;
+    --ink-soft: color-mix(in srgb, var(--ld-ink) 66%, transparent);
+    --line: color-mix(in srgb, var(--ld-ink) 20%, transparent);
+    --surface: color-mix(in srgb, var(--ld-bg) 90%, white);
+    --shadow: 0 28px 70px rgba(0, 0, 0, .4);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ld-bg); color: var(--ld-ink); transition: background 170ms ease, color 170ms ease; }
+  a { color: inherit; }
+  .wrap { width: min(1240px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 72px; }
+  nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 26px; }
+  nav .crumb { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  nav .tools { display: flex; gap: 8px; flex-wrap: wrap; }
+  button, .button { font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ld-ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+  .hero { display: grid; grid-template-columns: 1.3fr .7fr; gap: 28px; align-items: stretch; padding: 24px 0 22px; }
+  .hero-main { display: flex; flex-direction: column; justify-content: space-between; gap: 30px; }
+  .eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+  h1 { font-size: clamp(56px, 8vw, 118px); line-height: .88; letter-spacing: -.045em; margin: 14px 0 18px; font-weight: 650; }
+  .promise { font-size: clamp(18px, 2.1vw, 26px); line-height: 1.35; max-width: 28ch; margin: 0; }
+  .idea { margin: 24px 0 0; font-size: 14px; line-height: 1.7; color: var(--ink-soft); max-width: 52ch; }
+  .hero-lockup { border: 1px solid var(--line); border-radius: 30px; background: var(--surface); box-shadow: var(--shadow); padding: 40px; display: grid; place-items: center; min-height: 250px; }
+  .hero-lockup svg { width: min(100%, 430px); height: auto; display: block; }
+  .dark-panel { border-radius: 30px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; box-shadow: var(--shadow); }
+  .dark-panel .eyebrow { color: color-mix(in srgb, currentColor 62%, transparent); }
+  .dark-panel svg { width: min(100%, 260px); height: auto; display: block; }
+  .section { margin-top: 52px; }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 20px; }
+  h2 { margin: 0; font-size: 15px; letter-spacing: .13em; text-transform: uppercase; font-weight: 600; }
+  .section-head p { margin: 0; color: var(--ink-soft); font-size: 13px; max-width: 52ch; }
+  .grid { display: grid; gap: 16px; }
+  .grid-5 { grid-template-columns: repeat(5, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .card { border: 1px solid var(--line); border-radius: 22px; background: var(--surface); padding: 22px; display: flex; flex-direction: column; gap: 16px; min-height: 176px; }
+  .card h3 { margin: 0; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  .card .art { flex: 1; display: grid; place-items: center; }
+  .card .art svg { display: block; max-width: 100%; height: auto; }
+  .art.symbol svg { width: 118px; height: 118px; }
+  .art.word svg { width: min(100%, 250px); height: auto; }
+  .art.lockup svg { width: min(100%, 330px); height: auto; }
+  .art.app svg { width: 92px; height: 92px; }
+  .mono { color: var(--ld-ink); }
+  .darkcard { border-color: transparent; }
+  .darkcard h3 { color: color-mix(in srgb, currentColor 62%, transparent); }
+  .darkcard .mono { color: inherit; }
+  .favicons { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; }
+  .favicons figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 7px; color: var(--ink-soft); font-size: 11px; }
+  .favicons svg, .favicons span svg { display: block; width: 100%; height: 100%; }
+  .palette-group { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 22px; }
+  .palette-group:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+  .palette-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .palette-title b { font-size: 17px; }
+  .palette-title span { color: var(--ink-soft); font-size: 13px; }
+  .plate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .plate { border-radius: 20px; padding: 18px; background: var(--plate-bg); color: var(--plate-ink); border: 1px solid color-mix(in srgb, var(--plate-ink) 14%, transparent); display: flex; flex-direction: column; gap: 13px; }
+  .plate.dark { border-color: rgba(255, 255, 255, .12); }
+  .plate-head { display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--plate-ink) 62%, transparent); }
+  .badge { border: 1px solid currentColor; border-radius: 999px; padding: 3px 8px; letter-spacing: .06em; }
+  .plate-lockup { min-height: 68px; display: flex; align-items: center; }
+  .plate-lockup svg { width: min(100%, 300px); height: auto; display: block; }
+  .swatch-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .swatch { display: flex; flex-direction: column; gap: 5px; font-size: 10px; min-width: 0; }
+  .swatch i { display: block; height: 30px; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--plate-ink) 18%, transparent); }
+  .swatch b { font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: color-mix(in srgb, var(--plate-ink) 65%, transparent); }
+  .swatch code { font: 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; opacity: .8; }
+  .plate-note { margin: 0; font-size: 11px; line-height: 1.5; color: color-mix(in srgb, var(--plate-ink) 66%, transparent); }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--ink-soft); font-weight: 600; }
+  td.pass { color: var(--ld-brand); font-weight: 600; }
+  td.fail { color: #B42318; font-weight: 600; }
+  .code { margin: 0; padding: 18px; border-radius: 18px; background: #0E1713; color: #E9F2EC; border: 1px solid rgba(255, 255, 255, .08); overflow: auto; font: 12px/1.8 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .files { border-top: 1px solid var(--line); padding: 10px 0; font-size: 12px; }
+  .files summary { cursor: pointer; color: var(--ink-soft); }
+  .files ul { columns: 2; gap: 20px; margin: 10px 0 0; padding: 0; list-style: none; }
+  .files li { break-inside: avoid; margin-bottom: 5px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  footer { margin-top: 54px; border-top: 1px solid var(--line); padding-top: 18px; display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; color: var(--ink-soft); font-size: 12px; }
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; }
+    .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3, .grid-2, .plate-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .wrap { width: calc(100% - 28px); padding-top: 16px; }
+    .grid-5 { grid-template-columns: repeat(2, 1fr); }
+    .hero-lockup { padding: 22px; }
+    .plate { padding: 14px; }
+    .swatch-row { grid-template-columns: repeat(2, 1fr); }
+    .files ul { columns: 1; }
+    h1 { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <span class="crumb"><a href="../site/index.html">logodeck</a> / identity plate / aerune</span>
+    <span class="tools">
+      <button type="button" id="theme">Toggle dark</button>
+      <a class="button" href="dist/aerune-preview.html">Open the preview</a>
+    </span>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-main">
+      <div>
+        <div class="eyebrow">Outdoor · weather · fictional brand · palette slate-sky</div>
+        <h1>Aerune</h1>
+        <p class="promise">Weather windows for paragliding pilots.</p>
+        <p class="idea"><b>Idea.</b> A paraglider canopy, tilted into a wind-cut wing, with the pilot as a single dot.</p>
+      </div>
+      <div class="hero-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.528 1.16" role="img" data-ld="aerune-lockup-horizontal">
+<title>Aerune — weather windows for paragliding pilots — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1.101" height="1" viewBox="22 30 196 178" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #2B5B84)">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g></svg>
+  <svg x="1.481" y="0.37" width="1.967" height="0.42" viewBox="-6.5 -6.5 529.12 113" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #18202B)">
+    <path fill-rule="evenodd" d="M6.167 102.053L39.447 2.053A6.5 6.5 0 0 0 27.113 -2.053L-6.167 97.947A6.5 6.5 0 0 1 6.167 102.053ZM27.113 2.053L60.393 102.053A6.5 6.5 0 0 0 72.727 97.947L39.447 -2.053A6.5 6.5 0 0 1 27.113 2.053Z" />
+    <path fill-rule="evenodd" d="M14.56 70.5L52 70.5A6.5 6.5 0 0 0 52 57.5L14.56 57.5A6.5 6.5 0 0 1 14.56 70.5Z" />
+    <path fill-rule="evenodd" d="M95.06 0L95.06 100A6.5 6.5 0 0 0 108.06 100L108.06 0A6.5 6.5 0 0 1 95.06 0Z" />
+    <path fill-rule="evenodd" d="M101.56 6.5L149.4 6.5A6.5 6.5 0 0 0 149.4 -6.5L101.56 -6.5A6.5 6.5 0 0 1 101.56 6.5Z" />
+    <path fill-rule="evenodd" d="M101.56 56.5L139 56.5A6.5 6.5 0 0 0 139 43.5L101.56 43.5A6.5 6.5 0 0 1 101.56 56.5Z" />
+    <path fill-rule="evenodd" d="M101.56 106.5L149.4 106.5A6.5 6.5 0 0 0 149.4 93.5L101.56 93.5A6.5 6.5 0 0 1 101.56 106.5Z" />
+    <path fill-rule="evenodd" d="M179.98 0L179.98 100A6.5 6.5 0 0 0 192.98 100L192.98 0A6.5 6.5 0 0 1 179.98 0Z" />
+    <path fill-rule="evenodd" d="M186.48 6.5L211.44 6.5A6.5 6.5 0 0 0 211.44 -6.5L186.48 -6.5A6.5 6.5 0 0 1 186.48 6.5ZM208.377 5.733L227.097 15.733A6.5 6.5 0 0 0 233.223 4.267L214.503 -5.733A6.5 6.5 0 0 1 208.377 5.733ZM224.223 12.646L230.463 26.646A6.5 6.5 0 0 0 242.337 21.354L236.097 7.354A6.5 6.5 0 0 1 224.223 12.646ZM230.633 21.001L224.393 33.001A6.5 6.5 0 0 0 235.927 38.999L242.167 26.999A6.5 6.5 0 0 1 230.633 21.001ZM227.097 30.267L208.377 40.267A6.5 6.5 0 0 0 214.503 51.733L233.223 41.733A6.5 6.5 0 0 1 227.097 30.267ZM211.44 39.5L186.48 39.5A6.5 6.5 0 0 0 186.48 52.5L211.44 52.5A6.5 6.5 0 0 1 211.44 39.5Z" />
+    <path fill-rule="evenodd" d="M203.639 49.085L232.759 103.085A6.5 6.5 0 0 0 244.201 96.915L215.081 42.915A6.5 6.5 0 0 1 203.639 49.085Z" />
+    <path fill-rule="evenodd" d="M269.06 0L269.06 76A6.5 6.5 0 0 0 282.06 76L282.06 0A6.5 6.5 0 0 1 269.06 0ZM269.793 78.999L278.113 94.999A6.5 6.5 0 0 0 289.647 89.001L281.327 73.001A6.5 6.5 0 0 1 269.793 78.999ZM281.326 97.977L300.046 105.977A6.5 6.5 0 0 0 305.154 94.023L286.434 86.023A6.5 6.5 0 0 1 281.326 97.977ZM302.6 106.5L308.84 106.5A6.5 6.5 0 0 0 308.84 93.5L302.6 93.5A6.5 6.5 0 0 1 302.6 106.5ZM311.394 105.977L330.114 97.977A6.5 6.5 0 0 0 325.006 86.023L306.286 94.023A6.5 6.5 0 0 1 311.394 105.977ZM333.327 94.999L341.647 78.999A6.5 6.5 0 0 0 330.113 73.001L321.793 89.001A6.5 6.5 0 0 1 333.327 94.999ZM342.38 76L342.38 0A6.5 6.5 0 0 0 329.38 0L329.38 76A6.5 6.5 0 0 1 342.38 76Z" />
+    <path fill-rule="evenodd" d="M377.38 100L377.38 0A6.5 6.5 0 0 0 364.38 0L364.38 100A6.5 6.5 0 0 1 377.38 100ZM365.314 3.357L425.634 103.357A6.5 6.5 0 0 0 436.766 96.643L376.446 -3.357A6.5 6.5 0 0 1 365.314 3.357ZM437.7 100L437.7 0A6.5 6.5 0 0 0 424.7 0L424.7 100A6.5 6.5 0 0 1 437.7 100Z" />
+    <path fill-rule="evenodd" d="M459.7 0L459.7 100A6.5 6.5 0 0 0 472.7 100L472.7 0A6.5 6.5 0 0 1 459.7 0Z" />
+    <path fill-rule="evenodd" d="M466.2 6.5L514.04 6.5A6.5 6.5 0 0 0 514.04 -6.5L466.2 -6.5A6.5 6.5 0 0 1 466.2 6.5Z" />
+    <path fill-rule="evenodd" d="M466.2 56.5L503.64 56.5A6.5 6.5 0 0 0 503.64 43.5L466.2 43.5A6.5 6.5 0 0 1 466.2 56.5Z" />
+    <path fill-rule="evenodd" d="M466.2 106.5L514.04 106.5A6.5 6.5 0 0 0 514.04 93.5L466.2 93.5A6.5 6.5 0 0 1 466.2 106.5Z" />
+  </g></svg>
+</svg>
+</div>
+    </div>
+    <aside class="dark-panel" style="background:#0E151D;color:#E8EFF6">
+      <div class="eyebrow">On dark</div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.127 1.8" role="img" data-ld="aerune-lockup-stacked-dark">
+<title>Aerune — weather windows for paragliding pilots — stacked lockup, dark background</title>
+<svg x="0.513" y="0.08" width="1.101" height="1" viewBox="22 30 196 178" preserveAspectRatio="xMidYMid meet"><g fill="#82B7E8">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="1.967" height="0.42" viewBox="-6.5 -6.5 529.12 113" preserveAspectRatio="xMidYMid meet"><g fill="#E8EFF6">
+    <path fill-rule="evenodd" d="M6.167 102.053L39.447 2.053A6.5 6.5 0 0 0 27.113 -2.053L-6.167 97.947A6.5 6.5 0 0 1 6.167 102.053ZM27.113 2.053L60.393 102.053A6.5 6.5 0 0 0 72.727 97.947L39.447 -2.053A6.5 6.5 0 0 1 27.113 2.053Z" />
+    <path fill-rule="evenodd" d="M14.56 70.5L52 70.5A6.5 6.5 0 0 0 52 57.5L14.56 57.5A6.5 6.5 0 0 1 14.56 70.5Z" />
+    <path fill-rule="evenodd" d="M95.06 0L95.06 100A6.5 6.5 0 0 0 108.06 100L108.06 0A6.5 6.5 0 0 1 95.06 0Z" />
+    <path fill-rule="evenodd" d="M101.56 6.5L149.4 6.5A6.5 6.5 0 0 0 149.4 -6.5L101.56 -6.5A6.5 6.5 0 0 1 101.56 6.5Z" />
+    <path fill-rule="evenodd" d="M101.56 56.5L139 56.5A6.5 6.5 0 0 0 139 43.5L101.56 43.5A6.5 6.5 0 0 1 101.56 56.5Z" />
+    <path fill-rule="evenodd" d="M101.56 106.5L149.4 106.5A6.5 6.5 0 0 0 149.4 93.5L101.56 93.5A6.5 6.5 0 0 1 101.56 106.5Z" />
+    <path fill-rule="evenodd" d="M179.98 0L179.98 100A6.5 6.5 0 0 0 192.98 100L192.98 0A6.5 6.5 0 0 1 179.98 0Z" />
+    <path fill-rule="evenodd" d="M186.48 6.5L211.44 6.5A6.5 6.5 0 0 0 211.44 -6.5L186.48 -6.5A6.5 6.5 0 0 1 186.48 6.5ZM208.377 5.733L227.097 15.733A6.5 6.5 0 0 0 233.223 4.267L214.503 -5.733A6.5 6.5 0 0 1 208.377 5.733ZM224.223 12.646L230.463 26.646A6.5 6.5 0 0 0 242.337 21.354L236.097 7.354A6.5 6.5 0 0 1 224.223 12.646ZM230.633 21.001L224.393 33.001A6.5 6.5 0 0 0 235.927 38.999L242.167 26.999A6.5 6.5 0 0 1 230.633 21.001ZM227.097 30.267L208.377 40.267A6.5 6.5 0 0 0 214.503 51.733L233.223 41.733A6.5 6.5 0 0 1 227.097 30.267ZM211.44 39.5L186.48 39.5A6.5 6.5 0 0 0 186.48 52.5L211.44 52.5A6.5 6.5 0 0 1 211.44 39.5Z" />
+    <path fill-rule="evenodd" d="M203.639 49.085L232.759 103.085A6.5 6.5 0 0 0 244.201 96.915L215.081 42.915A6.5 6.5 0 0 1 203.639 49.085Z" />
+    <path fill-rule="evenodd" d="M269.06 0L269.06 76A6.5 6.5 0 0 0 282.06 76L282.06 0A6.5 6.5 0 0 1 269.06 0ZM269.793 78.999L278.113 94.999A6.5 6.5 0 0 0 289.647 89.001L281.327 73.001A6.5 6.5 0 0 1 269.793 78.999ZM281.326 97.977L300.046 105.977A6.5 6.5 0 0 0 305.154 94.023L286.434 86.023A6.5 6.5 0 0 1 281.326 97.977ZM302.6 106.5L308.84 106.5A6.5 6.5 0 0 0 308.84 93.5L302.6 93.5A6.5 6.5 0 0 1 302.6 106.5ZM311.394 105.977L330.114 97.977A6.5 6.5 0 0 0 325.006 86.023L306.286 94.023A6.5 6.5 0 0 1 311.394 105.977ZM333.327 94.999L341.647 78.999A6.5 6.5 0 0 0 330.113 73.001L321.793 89.001A6.5 6.5 0 0 1 333.327 94.999ZM342.38 76L342.38 0A6.5 6.5 0 0 0 329.38 0L329.38 76A6.5 6.5 0 0 1 342.38 76Z" />
+    <path fill-rule="evenodd" d="M377.38 100L377.38 0A6.5 6.5 0 0 0 364.38 0L364.38 100A6.5 6.5 0 0 1 377.38 100ZM365.314 3.357L425.634 103.357A6.5 6.5 0 0 0 436.766 96.643L376.446 -3.357A6.5 6.5 0 0 1 365.314 3.357ZM437.7 100L437.7 0A6.5 6.5 0 0 0 424.7 0L424.7 100A6.5 6.5 0 0 1 437.7 100Z" />
+    <path fill-rule="evenodd" d="M459.7 0L459.7 100A6.5 6.5 0 0 0 472.7 100L472.7 0A6.5 6.5 0 0 1 459.7 0Z" />
+    <path fill-rule="evenodd" d="M466.2 6.5L514.04 6.5A6.5 6.5 0 0 0 514.04 -6.5L466.2 -6.5A6.5 6.5 0 0 1 466.2 6.5Z" />
+    <path fill-rule="evenodd" d="M466.2 56.5L503.64 56.5A6.5 6.5 0 0 0 503.64 43.5L466.2 43.5A6.5 6.5 0 0 1 466.2 56.5Z" />
+    <path fill-rule="evenodd" d="M466.2 106.5L514.04 106.5A6.5 6.5 0 0 0 514.04 93.5L466.2 93.5A6.5 6.5 0 0 1 466.2 106.5Z" />
+  </g></svg>
+</svg>
+
+      <div class="eyebrow">4.64:1 lowest pair</div>
+    </aside>
+  </header>
+
+  <section class="section">
+    <div class="section-head"><h2>The mark</h2><p>One drawing, then the whole family: mono for one colour, a simplified favicon, a tile and a maskable icon.</p></div>
+    <div class="grid grid-5">
+      <div class="card"><h3>Symbol</h3><div class="art symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="22 30 196 178" role="img" data-ld="aerune-symbol">
+<title>Aerune — weather windows for paragliding pilots — symbol</title>
+<g fill="var(--ld-brand, #2B5B84)">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Symbol mono</h3><div class="art symbol mono"><svg xmlns="http://www.w3.org/2000/svg" viewBox="22 30 196 178" role="img" data-ld="aerune-symbol-mono">
+<title>Aerune — weather windows for paragliding pilots — mono symbol</title>
+<g fill="currentColor">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g>
+</svg>
+</div></div>
+      <div class="card darkcard" style="background:#0E151D;color:#E8EFF6"><h3>Symbol dark</h3><div class="art symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="22 30 196 178" role="img" data-ld="aerune-symbol-dark">
+<title>Aerune — weather windows for paragliding pilots — symbol, dark background</title>
+<g fill="#82B7E8">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Favicon</h3><div class="art"><div class="favicons">
+        <figure><span style="display:block;width:32px;height:32px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="aerune-favicon">
+<title>Aerune — weather windows for paragliding pilots — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#2B5B84"/>
+<svg x="8.62" y="10.24" width="46.761" height="43.52" viewBox="20 26 202 188" preserveAspectRatio="xMidYMid meet"><g fill="#F4F6F8">
+    <path d="M20 186C34 98 100 40 222 26C154 60 104 112 82 190C64 160 40 162 20 186Z" />
+    <circle cx="156" cy="198" r="16" />
+  </g></svg>
+</svg>
+</span><figcaption>32</figcaption></figure>
+        <figure><span style="display:block;width:16px;height:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="aerune-favicon">
+<title>Aerune — weather windows for paragliding pilots — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#2B5B84"/>
+<svg x="8.62" y="10.24" width="46.761" height="43.52" viewBox="20 26 202 188" preserveAspectRatio="xMidYMid meet"><g fill="#F4F6F8">
+    <path d="M20 186C34 98 100 40 222 26C154 60 104 112 82 190C64 160 40 162 20 186Z" />
+    <circle cx="156" cy="198" r="16" />
+  </g></svg>
+</svg>
+</span><figcaption>16</figcaption></figure>
+      </div></div></div>
+      <div class="card"><h3>App icon</h3><div class="art app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="aerune-app-icon">
+<title>Aerune — weather windows for paragliding pilots — app-icon</title>
+<rect width="512" height="512" rx="115.2" fill="#2B5B84"/>
+<svg x="81.23" y="97.28" width="349.541" height="317.44" viewBox="22 30 196 178" preserveAspectRatio="xMidYMid meet"><g fill="#F4F6F8">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g></svg>
+</svg>
+</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Wordmark & lockups</h2><p>The name is drawn as paths. The lockups are composed from the same two masters, never retouched.</p></div>
+    <div class="grid grid-3">
+      <div class="card"><h3>Wordmark</h3><div class="art word"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-6.5 -6.5 529.12 113" role="img" data-ld="aerune-wordmark">
+<title>Aerune — weather windows for paragliding pilots — wordmark</title>
+<g fill="var(--ld-ink, #18202B)">
+    <path fill-rule="evenodd" d="M6.167 102.053L39.447 2.053A6.5 6.5 0 0 0 27.113 -2.053L-6.167 97.947A6.5 6.5 0 0 1 6.167 102.053ZM27.113 2.053L60.393 102.053A6.5 6.5 0 0 0 72.727 97.947L39.447 -2.053A6.5 6.5 0 0 1 27.113 2.053Z" />
+    <path fill-rule="evenodd" d="M14.56 70.5L52 70.5A6.5 6.5 0 0 0 52 57.5L14.56 57.5A6.5 6.5 0 0 1 14.56 70.5Z" />
+    <path fill-rule="evenodd" d="M95.06 0L95.06 100A6.5 6.5 0 0 0 108.06 100L108.06 0A6.5 6.5 0 0 1 95.06 0Z" />
+    <path fill-rule="evenodd" d="M101.56 6.5L149.4 6.5A6.5 6.5 0 0 0 149.4 -6.5L101.56 -6.5A6.5 6.5 0 0 1 101.56 6.5Z" />
+    <path fill-rule="evenodd" d="M101.56 56.5L139 56.5A6.5 6.5 0 0 0 139 43.5L101.56 43.5A6.5 6.5 0 0 1 101.56 56.5Z" />
+    <path fill-rule="evenodd" d="M101.56 106.5L149.4 106.5A6.5 6.5 0 0 0 149.4 93.5L101.56 93.5A6.5 6.5 0 0 1 101.56 106.5Z" />
+    <path fill-rule="evenodd" d="M179.98 0L179.98 100A6.5 6.5 0 0 0 192.98 100L192.98 0A6.5 6.5 0 0 1 179.98 0Z" />
+    <path fill-rule="evenodd" d="M186.48 6.5L211.44 6.5A6.5 6.5 0 0 0 211.44 -6.5L186.48 -6.5A6.5 6.5 0 0 1 186.48 6.5ZM208.377 5.733L227.097 15.733A6.5 6.5 0 0 0 233.223 4.267L214.503 -5.733A6.5 6.5 0 0 1 208.377 5.733ZM224.223 12.646L230.463 26.646A6.5 6.5 0 0 0 242.337 21.354L236.097 7.354A6.5 6.5 0 0 1 224.223 12.646ZM230.633 21.001L224.393 33.001A6.5 6.5 0 0 0 235.927 38.999L242.167 26.999A6.5 6.5 0 0 1 230.633 21.001ZM227.097 30.267L208.377 40.267A6.5 6.5 0 0 0 214.503 51.733L233.223 41.733A6.5 6.5 0 0 1 227.097 30.267ZM211.44 39.5L186.48 39.5A6.5 6.5 0 0 0 186.48 52.5L211.44 52.5A6.5 6.5 0 0 1 211.44 39.5Z" />
+    <path fill-rule="evenodd" d="M203.639 49.085L232.759 103.085A6.5 6.5 0 0 0 244.201 96.915L215.081 42.915A6.5 6.5 0 0 1 203.639 49.085Z" />
+    <path fill-rule="evenodd" d="M269.06 0L269.06 76A6.5 6.5 0 0 0 282.06 76L282.06 0A6.5 6.5 0 0 1 269.06 0ZM269.793 78.999L278.113 94.999A6.5 6.5 0 0 0 289.647 89.001L281.327 73.001A6.5 6.5 0 0 1 269.793 78.999ZM281.326 97.977L300.046 105.977A6.5 6.5 0 0 0 305.154 94.023L286.434 86.023A6.5 6.5 0 0 1 281.326 97.977ZM302.6 106.5L308.84 106.5A6.5 6.5 0 0 0 308.84 93.5L302.6 93.5A6.5 6.5 0 0 1 302.6 106.5ZM311.394 105.977L330.114 97.977A6.5 6.5 0 0 0 325.006 86.023L306.286 94.023A6.5 6.5 0 0 1 311.394 105.977ZM333.327 94.999L341.647 78.999A6.5 6.5 0 0 0 330.113 73.001L321.793 89.001A6.5 6.5 0 0 1 333.327 94.999ZM342.38 76L342.38 0A6.5 6.5 0 0 0 329.38 0L329.38 76A6.5 6.5 0 0 1 342.38 76Z" />
+    <path fill-rule="evenodd" d="M377.38 100L377.38 0A6.5 6.5 0 0 0 364.38 0L364.38 100A6.5 6.5 0 0 1 377.38 100ZM365.314 3.357L425.634 103.357A6.5 6.5 0 0 0 436.766 96.643L376.446 -3.357A6.5 6.5 0 0 1 365.314 3.357ZM437.7 100L437.7 0A6.5 6.5 0 0 0 424.7 0L424.7 100A6.5 6.5 0 0 1 437.7 100Z" />
+    <path fill-rule="evenodd" d="M459.7 0L459.7 100A6.5 6.5 0 0 0 472.7 100L472.7 0A6.5 6.5 0 0 1 459.7 0Z" />
+    <path fill-rule="evenodd" d="M466.2 6.5L514.04 6.5A6.5 6.5 0 0 0 514.04 -6.5L466.2 -6.5A6.5 6.5 0 0 1 466.2 6.5Z" />
+    <path fill-rule="evenodd" d="M466.2 56.5L503.64 56.5A6.5 6.5 0 0 0 503.64 43.5L466.2 43.5A6.5 6.5 0 0 1 466.2 56.5Z" />
+    <path fill-rule="evenodd" d="M466.2 106.5L514.04 106.5A6.5 6.5 0 0 0 514.04 93.5L466.2 93.5A6.5 6.5 0 0 1 466.2 106.5Z" />
+  </g>
+</svg>
+</div></div>
+      <div class="card"><h3>Horizontal</h3><div class="art lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.528 1.16" role="img" data-ld="aerune-lockup-horizontal">
+<title>Aerune — weather windows for paragliding pilots — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1.101" height="1" viewBox="22 30 196 178" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #2B5B84)">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g></svg>
+  <svg x="1.481" y="0.37" width="1.967" height="0.42" viewBox="-6.5 -6.5 529.12 113" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #18202B)">
+    <path fill-rule="evenodd" d="M6.167 102.053L39.447 2.053A6.5 6.5 0 0 0 27.113 -2.053L-6.167 97.947A6.5 6.5 0 0 1 6.167 102.053ZM27.113 2.053L60.393 102.053A6.5 6.5 0 0 0 72.727 97.947L39.447 -2.053A6.5 6.5 0 0 1 27.113 2.053Z" />
+    <path fill-rule="evenodd" d="M14.56 70.5L52 70.5A6.5 6.5 0 0 0 52 57.5L14.56 57.5A6.5 6.5 0 0 1 14.56 70.5Z" />
+    <path fill-rule="evenodd" d="M95.06 0L95.06 100A6.5 6.5 0 0 0 108.06 100L108.06 0A6.5 6.5 0 0 1 95.06 0Z" />
+    <path fill-rule="evenodd" d="M101.56 6.5L149.4 6.5A6.5 6.5 0 0 0 149.4 -6.5L101.56 -6.5A6.5 6.5 0 0 1 101.56 6.5Z" />
+    <path fill-rule="evenodd" d="M101.56 56.5L139 56.5A6.5 6.5 0 0 0 139 43.5L101.56 43.5A6.5 6.5 0 0 1 101.56 56.5Z" />
+    <path fill-rule="evenodd" d="M101.56 106.5L149.4 106.5A6.5 6.5 0 0 0 149.4 93.5L101.56 93.5A6.5 6.5 0 0 1 101.56 106.5Z" />
+    <path fill-rule="evenodd" d="M179.98 0L179.98 100A6.5 6.5 0 0 0 192.98 100L192.98 0A6.5 6.5 0 0 1 179.98 0Z" />
+    <path fill-rule="evenodd" d="M186.48 6.5L211.44 6.5A6.5 6.5 0 0 0 211.44 -6.5L186.48 -6.5A6.5 6.5 0 0 1 186.48 6.5ZM208.377 5.733L227.097 15.733A6.5 6.5 0 0 0 233.223 4.267L214.503 -5.733A6.5 6.5 0 0 1 208.377 5.733ZM224.223 12.646L230.463 26.646A6.5 6.5 0 0 0 242.337 21.354L236.097 7.354A6.5 6.5 0 0 1 224.223 12.646ZM230.633 21.001L224.393 33.001A6.5 6.5 0 0 0 235.927 38.999L242.167 26.999A6.5 6.5 0 0 1 230.633 21.001ZM227.097 30.267L208.377 40.267A6.5 6.5 0 0 0 214.503 51.733L233.223 41.733A6.5 6.5 0 0 1 227.097 30.267ZM211.44 39.5L186.48 39.5A6.5 6.5 0 0 0 186.48 52.5L211.44 52.5A6.5 6.5 0 0 1 211.44 39.5Z" />
+    <path fill-rule="evenodd" d="M203.639 49.085L232.759 103.085A6.5 6.5 0 0 0 244.201 96.915L215.081 42.915A6.5 6.5 0 0 1 203.639 49.085Z" />
+    <path fill-rule="evenodd" d="M269.06 0L269.06 76A6.5 6.5 0 0 0 282.06 76L282.06 0A6.5 6.5 0 0 1 269.06 0ZM269.793 78.999L278.113 94.999A6.5 6.5 0 0 0 289.647 89.001L281.327 73.001A6.5 6.5 0 0 1 269.793 78.999ZM281.326 97.977L300.046 105.977A6.5 6.5 0 0 0 305.154 94.023L286.434 86.023A6.5 6.5 0 0 1 281.326 97.977ZM302.6 106.5L308.84 106.5A6.5 6.5 0 0 0 308.84 93.5L302.6 93.5A6.5 6.5 0 0 1 302.6 106.5ZM311.394 105.977L330.114 97.977A6.5 6.5 0 0 0 325.006 86.023L306.286 94.023A6.5 6.5 0 0 1 311.394 105.977ZM333.327 94.999L341.647 78.999A6.5 6.5 0 0 0 330.113 73.001L321.793 89.001A6.5 6.5 0 0 1 333.327 94.999ZM342.38 76L342.38 0A6.5 6.5 0 0 0 329.38 0L329.38 76A6.5 6.5 0 0 1 342.38 76Z" />
+    <path fill-rule="evenodd" d="M377.38 100L377.38 0A6.5 6.5 0 0 0 364.38 0L364.38 100A6.5 6.5 0 0 1 377.38 100ZM365.314 3.357L425.634 103.357A6.5 6.5 0 0 0 436.766 96.643L376.446 -3.357A6.5 6.5 0 0 1 365.314 3.357ZM437.7 100L437.7 0A6.5 6.5 0 0 0 424.7 0L424.7 100A6.5 6.5 0 0 1 437.7 100Z" />
+    <path fill-rule="evenodd" d="M459.7 0L459.7 100A6.5 6.5 0 0 0 472.7 100L472.7 0A6.5 6.5 0 0 1 459.7 0Z" />
+    <path fill-rule="evenodd" d="M466.2 6.5L514.04 6.5A6.5 6.5 0 0 0 514.04 -6.5L466.2 -6.5A6.5 6.5 0 0 1 466.2 6.5Z" />
+    <path fill-rule="evenodd" d="M466.2 56.5L503.64 56.5A6.5 6.5 0 0 0 503.64 43.5L466.2 43.5A6.5 6.5 0 0 1 466.2 56.5Z" />
+    <path fill-rule="evenodd" d="M466.2 106.5L514.04 106.5A6.5 6.5 0 0 0 514.04 93.5L466.2 93.5A6.5 6.5 0 0 1 466.2 106.5Z" />
+  </g></svg>
+</svg>
+</div></div>
+      <div class="card darkcard" style="background:#0E151D;color:#E8EFF6"><h3>Stacked dark</h3><div class="art lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.127 1.8" role="img" data-ld="aerune-lockup-stacked-dark">
+<title>Aerune — weather windows for paragliding pilots — stacked lockup, dark background</title>
+<svg x="0.513" y="0.08" width="1.101" height="1" viewBox="22 30 196 178" preserveAspectRatio="xMidYMid meet"><g fill="#82B7E8">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="1.967" height="0.42" viewBox="-6.5 -6.5 529.12 113" preserveAspectRatio="xMidYMid meet"><g fill="#E8EFF6">
+    <path fill-rule="evenodd" d="M6.167 102.053L39.447 2.053A6.5 6.5 0 0 0 27.113 -2.053L-6.167 97.947A6.5 6.5 0 0 1 6.167 102.053ZM27.113 2.053L60.393 102.053A6.5 6.5 0 0 0 72.727 97.947L39.447 -2.053A6.5 6.5 0 0 1 27.113 2.053Z" />
+    <path fill-rule="evenodd" d="M14.56 70.5L52 70.5A6.5 6.5 0 0 0 52 57.5L14.56 57.5A6.5 6.5 0 0 1 14.56 70.5Z" />
+    <path fill-rule="evenodd" d="M95.06 0L95.06 100A6.5 6.5 0 0 0 108.06 100L108.06 0A6.5 6.5 0 0 1 95.06 0Z" />
+    <path fill-rule="evenodd" d="M101.56 6.5L149.4 6.5A6.5 6.5 0 0 0 149.4 -6.5L101.56 -6.5A6.5 6.5 0 0 1 101.56 6.5Z" />
+    <path fill-rule="evenodd" d="M101.56 56.5L139 56.5A6.5 6.5 0 0 0 139 43.5L101.56 43.5A6.5 6.5 0 0 1 101.56 56.5Z" />
+    <path fill-rule="evenodd" d="M101.56 106.5L149.4 106.5A6.5 6.5 0 0 0 149.4 93.5L101.56 93.5A6.5 6.5 0 0 1 101.56 106.5Z" />
+    <path fill-rule="evenodd" d="M179.98 0L179.98 100A6.5 6.5 0 0 0 192.98 100L192.98 0A6.5 6.5 0 0 1 179.98 0Z" />
+    <path fill-rule="evenodd" d="M186.48 6.5L211.44 6.5A6.5 6.5 0 0 0 211.44 -6.5L186.48 -6.5A6.5 6.5 0 0 1 186.48 6.5ZM208.377 5.733L227.097 15.733A6.5 6.5 0 0 0 233.223 4.267L214.503 -5.733A6.5 6.5 0 0 1 208.377 5.733ZM224.223 12.646L230.463 26.646A6.5 6.5 0 0 0 242.337 21.354L236.097 7.354A6.5 6.5 0 0 1 224.223 12.646ZM230.633 21.001L224.393 33.001A6.5 6.5 0 0 0 235.927 38.999L242.167 26.999A6.5 6.5 0 0 1 230.633 21.001ZM227.097 30.267L208.377 40.267A6.5 6.5 0 0 0 214.503 51.733L233.223 41.733A6.5 6.5 0 0 1 227.097 30.267ZM211.44 39.5L186.48 39.5A6.5 6.5 0 0 0 186.48 52.5L211.44 52.5A6.5 6.5 0 0 1 211.44 39.5Z" />
+    <path fill-rule="evenodd" d="M203.639 49.085L232.759 103.085A6.5 6.5 0 0 0 244.201 96.915L215.081 42.915A6.5 6.5 0 0 1 203.639 49.085Z" />
+    <path fill-rule="evenodd" d="M269.06 0L269.06 76A6.5 6.5 0 0 0 282.06 76L282.06 0A6.5 6.5 0 0 1 269.06 0ZM269.793 78.999L278.113 94.999A6.5 6.5 0 0 0 289.647 89.001L281.327 73.001A6.5 6.5 0 0 1 269.793 78.999ZM281.326 97.977L300.046 105.977A6.5 6.5 0 0 0 305.154 94.023L286.434 86.023A6.5 6.5 0 0 1 281.326 97.977ZM302.6 106.5L308.84 106.5A6.5 6.5 0 0 0 308.84 93.5L302.6 93.5A6.5 6.5 0 0 1 302.6 106.5ZM311.394 105.977L330.114 97.977A6.5 6.5 0 0 0 325.006 86.023L306.286 94.023A6.5 6.5 0 0 1 311.394 105.977ZM333.327 94.999L341.647 78.999A6.5 6.5 0 0 0 330.113 73.001L321.793 89.001A6.5 6.5 0 0 1 333.327 94.999ZM342.38 76L342.38 0A6.5 6.5 0 0 0 329.38 0L329.38 76A6.5 6.5 0 0 1 342.38 76Z" />
+    <path fill-rule="evenodd" d="M377.38 100L377.38 0A6.5 6.5 0 0 0 364.38 0L364.38 100A6.5 6.5 0 0 1 377.38 100ZM365.314 3.357L425.634 103.357A6.5 6.5 0 0 0 436.766 96.643L376.446 -3.357A6.5 6.5 0 0 1 365.314 3.357ZM437.7 100L437.7 0A6.5 6.5 0 0 0 424.7 0L424.7 100A6.5 6.5 0 0 1 437.7 100Z" />
+    <path fill-rule="evenodd" d="M459.7 0L459.7 100A6.5 6.5 0 0 0 472.7 100L472.7 0A6.5 6.5 0 0 1 459.7 0Z" />
+    <path fill-rule="evenodd" d="M466.2 6.5L514.04 6.5A6.5 6.5 0 0 0 514.04 -6.5L466.2 -6.5A6.5 6.5 0 0 1 466.2 6.5Z" />
+    <path fill-rule="evenodd" d="M466.2 56.5L503.64 56.5A6.5 6.5 0 0 0 503.64 43.5L466.2 43.5A6.5 6.5 0 0 1 466.2 56.5Z" />
+    <path fill-rule="evenodd" d="M466.2 106.5L514.04 106.5A6.5 6.5 0 0 0 514.04 93.5L466.2 93.5A6.5 6.5 0 0 1 466.2 106.5Z" />
+  </g></svg>
+</svg>
+</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Two palettes</h2><p>Every pair is measured in light and dark. The drawing never changes; only the tokens do.</p></div>
+    <div class="palette-group">
+      <div class="palette-title"><b>Slate &amp; sky</b><span>Calm infrastructure palette. Blue-grey brand, amber accent. · primary</span></div>
+      <div class="plate-grid">
+        <article class="plate light" style="--ld-bg:#F4F6F8;--ld-ink:#18202B;--ld-brand:#2B5B84;--ld-accent:#B45309;--plate-bg:#F4F6F8;--plate-ink:#18202B">
+    <div class="plate-head"><span>Primary</span><span class="badge">light</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.528 1.16" role="img" data-ld="aerune-lockup-horizontal">
+<title>Aerune — weather windows for paragliding pilots — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1.101" height="1" viewBox="22 30 196 178" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #2B5B84)">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g></svg>
+  <svg x="1.481" y="0.37" width="1.967" height="0.42" viewBox="-6.5 -6.5 529.12 113" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #18202B)">
+    <path fill-rule="evenodd" d="M6.167 102.053L39.447 2.053A6.5 6.5 0 0 0 27.113 -2.053L-6.167 97.947A6.5 6.5 0 0 1 6.167 102.053ZM27.113 2.053L60.393 102.053A6.5 6.5 0 0 0 72.727 97.947L39.447 -2.053A6.5 6.5 0 0 1 27.113 2.053Z" />
+    <path fill-rule="evenodd" d="M14.56 70.5L52 70.5A6.5 6.5 0 0 0 52 57.5L14.56 57.5A6.5 6.5 0 0 1 14.56 70.5Z" />
+    <path fill-rule="evenodd" d="M95.06 0L95.06 100A6.5 6.5 0 0 0 108.06 100L108.06 0A6.5 6.5 0 0 1 95.06 0Z" />
+    <path fill-rule="evenodd" d="M101.56 6.5L149.4 6.5A6.5 6.5 0 0 0 149.4 -6.5L101.56 -6.5A6.5 6.5 0 0 1 101.56 6.5Z" />
+    <path fill-rule="evenodd" d="M101.56 56.5L139 56.5A6.5 6.5 0 0 0 139 43.5L101.56 43.5A6.5 6.5 0 0 1 101.56 56.5Z" />
+    <path fill-rule="evenodd" d="M101.56 106.5L149.4 106.5A6.5 6.5 0 0 0 149.4 93.5L101.56 93.5A6.5 6.5 0 0 1 101.56 106.5Z" />
+    <path fill-rule="evenodd" d="M179.98 0L179.98 100A6.5 6.5 0 0 0 192.98 100L192.98 0A6.5 6.5 0 0 1 179.98 0Z" />
+    <path fill-rule="evenodd" d="M186.48 6.5L211.44 6.5A6.5 6.5 0 0 0 211.44 -6.5L186.48 -6.5A6.5 6.5 0 0 1 186.48 6.5ZM208.377 5.733L227.097 15.733A6.5 6.5 0 0 0 233.223 4.267L214.503 -5.733A6.5 6.5 0 0 1 208.377 5.733ZM224.223 12.646L230.463 26.646A6.5 6.5 0 0 0 242.337 21.354L236.097 7.354A6.5 6.5 0 0 1 224.223 12.646ZM230.633 21.001L224.393 33.001A6.5 6.5 0 0 0 235.927 38.999L242.167 26.999A6.5 6.5 0 0 1 230.633 21.001ZM227.097 30.267L208.377 40.267A6.5 6.5 0 0 0 214.503 51.733L233.223 41.733A6.5 6.5 0 0 1 227.097 30.267ZM211.44 39.5L186.48 39.5A6.5 6.5 0 0 0 186.48 52.5L211.44 52.5A6.5 6.5 0 0 1 211.44 39.5Z" />
+    <path fill-rule="evenodd" d="M203.639 49.085L232.759 103.085A6.5 6.5 0 0 0 244.201 96.915L215.081 42.915A6.5 6.5 0 0 1 203.639 49.085Z" />
+    <path fill-rule="evenodd" d="M269.06 0L269.06 76A6.5 6.5 0 0 0 282.06 76L282.06 0A6.5 6.5 0 0 1 269.06 0ZM269.793 78.999L278.113 94.999A6.5 6.5 0 0 0 289.647 89.001L281.327 73.001A6.5 6.5 0 0 1 269.793 78.999ZM281.326 97.977L300.046 105.977A6.5 6.5 0 0 0 305.154 94.023L286.434 86.023A6.5 6.5 0 0 1 281.326 97.977ZM302.6 106.5L308.84 106.5A6.5 6.5 0 0 0 308.84 93.5L302.6 93.5A6.5 6.5 0 0 1 302.6 106.5ZM311.394 105.977L330.114 97.977A6.5 6.5 0 0 0 325.006 86.023L306.286 94.023A6.5 6.5 0 0 1 311.394 105.977ZM333.327 94.999L341.647 78.999A6.5 6.5 0 0 0 330.113 73.001L321.793 89.001A6.5 6.5 0 0 1 333.327 94.999ZM342.38 76L342.38 0A6.5 6.5 0 0 0 329.38 0L329.38 76A6.5 6.5 0 0 1 342.38 76Z" />
+    <path fill-rule="evenodd" d="M377.38 100L377.38 0A6.5 6.5 0 0 0 364.38 0L364.38 100A6.5 6.5 0 0 1 377.38 100ZM365.314 3.357L425.634 103.357A6.5 6.5 0 0 0 436.766 96.643L376.446 -3.357A6.5 6.5 0 0 1 365.314 3.357ZM437.7 100L437.7 0A6.5 6.5 0 0 0 424.7 0L424.7 100A6.5 6.5 0 0 1 437.7 100Z" />
+    <path fill-rule="evenodd" d="M459.7 0L459.7 100A6.5 6.5 0 0 0 472.7 100L472.7 0A6.5 6.5 0 0 1 459.7 0Z" />
+    <path fill-rule="evenodd" d="M466.2 6.5L514.04 6.5A6.5 6.5 0 0 0 514.04 -6.5L466.2 -6.5A6.5 6.5 0 0 1 466.2 6.5Z" />
+    <path fill-rule="evenodd" d="M466.2 56.5L503.64 56.5A6.5 6.5 0 0 0 503.64 43.5L466.2 43.5A6.5 6.5 0 0 1 466.2 56.5Z" />
+    <path fill-rule="evenodd" d="M466.2 106.5L514.04 106.5A6.5 6.5 0 0 0 514.04 93.5L466.2 93.5A6.5 6.5 0 0 1 466.2 106.5Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#F4F6F8"></i><b>bg</b><code>#F4F6F8</code></span><span class="swatch"><i style="background:#18202B"></i><b>ink</b><code>#18202B</code></span><span class="swatch"><i style="background:#2B5B84"></i><b>brand</b><code>#2B5B84</code></span><span class="swatch"><i style="background:#B45309"></i><b>accent</b><code>#B45309</code></span></div>
+    <p class="plate-note">Lowest pair <b>4.64:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+        <article class="plate dark" style="--ld-bg:#0E151D;--ld-ink:#E8EFF6;--ld-brand:#82B7E8;--ld-accent:#F0A35E;--plate-bg:#0E151D;--plate-ink:#E8EFF6">
+    <div class="plate-head"><span>Primary</span><span class="badge">dark</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.528 1.16" role="img" data-ld="aerune-lockup-horizontal-dark">
+<title>Aerune — weather windows for paragliding pilots — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="1.101" height="1" viewBox="22 30 196 178" preserveAspectRatio="xMidYMid meet"><g fill="#82B7E8">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g></svg>
+  <svg x="1.481" y="0.37" width="1.967" height="0.42" viewBox="-6.5 -6.5 529.12 113" preserveAspectRatio="xMidYMid meet"><g fill="#E8EFF6">
+    <path fill-rule="evenodd" d="M6.167 102.053L39.447 2.053A6.5 6.5 0 0 0 27.113 -2.053L-6.167 97.947A6.5 6.5 0 0 1 6.167 102.053ZM27.113 2.053L60.393 102.053A6.5 6.5 0 0 0 72.727 97.947L39.447 -2.053A6.5 6.5 0 0 1 27.113 2.053Z" />
+    <path fill-rule="evenodd" d="M14.56 70.5L52 70.5A6.5 6.5 0 0 0 52 57.5L14.56 57.5A6.5 6.5 0 0 1 14.56 70.5Z" />
+    <path fill-rule="evenodd" d="M95.06 0L95.06 100A6.5 6.5 0 0 0 108.06 100L108.06 0A6.5 6.5 0 0 1 95.06 0Z" />
+    <path fill-rule="evenodd" d="M101.56 6.5L149.4 6.5A6.5 6.5 0 0 0 149.4 -6.5L101.56 -6.5A6.5 6.5 0 0 1 101.56 6.5Z" />
+    <path fill-rule="evenodd" d="M101.56 56.5L139 56.5A6.5 6.5 0 0 0 139 43.5L101.56 43.5A6.5 6.5 0 0 1 101.56 56.5Z" />
+    <path fill-rule="evenodd" d="M101.56 106.5L149.4 106.5A6.5 6.5 0 0 0 149.4 93.5L101.56 93.5A6.5 6.5 0 0 1 101.56 106.5Z" />
+    <path fill-rule="evenodd" d="M179.98 0L179.98 100A6.5 6.5 0 0 0 192.98 100L192.98 0A6.5 6.5 0 0 1 179.98 0Z" />
+    <path fill-rule="evenodd" d="M186.48 6.5L211.44 6.5A6.5 6.5 0 0 0 211.44 -6.5L186.48 -6.5A6.5 6.5 0 0 1 186.48 6.5ZM208.377 5.733L227.097 15.733A6.5 6.5 0 0 0 233.223 4.267L214.503 -5.733A6.5 6.5 0 0 1 208.377 5.733ZM224.223 12.646L230.463 26.646A6.5 6.5 0 0 0 242.337 21.354L236.097 7.354A6.5 6.5 0 0 1 224.223 12.646ZM230.633 21.001L224.393 33.001A6.5 6.5 0 0 0 235.927 38.999L242.167 26.999A6.5 6.5 0 0 1 230.633 21.001ZM227.097 30.267L208.377 40.267A6.5 6.5 0 0 0 214.503 51.733L233.223 41.733A6.5 6.5 0 0 1 227.097 30.267ZM211.44 39.5L186.48 39.5A6.5 6.5 0 0 0 186.48 52.5L211.44 52.5A6.5 6.5 0 0 1 211.44 39.5Z" />
+    <path fill-rule="evenodd" d="M203.639 49.085L232.759 103.085A6.5 6.5 0 0 0 244.201 96.915L215.081 42.915A6.5 6.5 0 0 1 203.639 49.085Z" />
+    <path fill-rule="evenodd" d="M269.06 0L269.06 76A6.5 6.5 0 0 0 282.06 76L282.06 0A6.5 6.5 0 0 1 269.06 0ZM269.793 78.999L278.113 94.999A6.5 6.5 0 0 0 289.647 89.001L281.327 73.001A6.5 6.5 0 0 1 269.793 78.999ZM281.326 97.977L300.046 105.977A6.5 6.5 0 0 0 305.154 94.023L286.434 86.023A6.5 6.5 0 0 1 281.326 97.977ZM302.6 106.5L308.84 106.5A6.5 6.5 0 0 0 308.84 93.5L302.6 93.5A6.5 6.5 0 0 1 302.6 106.5ZM311.394 105.977L330.114 97.977A6.5 6.5 0 0 0 325.006 86.023L306.286 94.023A6.5 6.5 0 0 1 311.394 105.977ZM333.327 94.999L341.647 78.999A6.5 6.5 0 0 0 330.113 73.001L321.793 89.001A6.5 6.5 0 0 1 333.327 94.999ZM342.38 76L342.38 0A6.5 6.5 0 0 0 329.38 0L329.38 76A6.5 6.5 0 0 1 342.38 76Z" />
+    <path fill-rule="evenodd" d="M377.38 100L377.38 0A6.5 6.5 0 0 0 364.38 0L364.38 100A6.5 6.5 0 0 1 377.38 100ZM365.314 3.357L425.634 103.357A6.5 6.5 0 0 0 436.766 96.643L376.446 -3.357A6.5 6.5 0 0 1 365.314 3.357ZM437.7 100L437.7 0A6.5 6.5 0 0 0 424.7 0L424.7 100A6.5 6.5 0 0 1 437.7 100Z" />
+    <path fill-rule="evenodd" d="M459.7 0L459.7 100A6.5 6.5 0 0 0 472.7 100L472.7 0A6.5 6.5 0 0 1 459.7 0Z" />
+    <path fill-rule="evenodd" d="M466.2 6.5L514.04 6.5A6.5 6.5 0 0 0 514.04 -6.5L466.2 -6.5A6.5 6.5 0 0 1 466.2 6.5Z" />
+    <path fill-rule="evenodd" d="M466.2 56.5L503.64 56.5A6.5 6.5 0 0 0 503.64 43.5L466.2 43.5A6.5 6.5 0 0 1 466.2 56.5Z" />
+    <path fill-rule="evenodd" d="M466.2 106.5L514.04 106.5A6.5 6.5 0 0 0 514.04 93.5L466.2 93.5A6.5 6.5 0 0 1 466.2 106.5Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#0E151D"></i><b>bg</b><code>#0E151D</code></span><span class="swatch"><i style="background:#E8EFF6"></i><b>ink</b><code>#E8EFF6</code></span><span class="swatch"><i style="background:#82B7E8"></i><b>brand</b><code>#82B7E8</code></span><span class="swatch"><i style="background:#F0A35E"></i><b>accent</b><code>#F0A35E</code></span></div>
+    <p class="plate-note">Lowest pair <b>4.64:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+      </div>
+    </div>
+    <div class="palette-group">
+      <div class="palette-title"><b>Midnight &amp; rose</b><span>Expressive contrast. Deep rose brand, indigo accent, soft ink on dark. · alternate</span></div>
+      <div class="plate-grid">
+        <article class="plate light" style="--ld-bg:#F7F4F6;--ld-ink:#1B1720;--ld-brand:#8A1F4E;--ld-accent:#3B4FA8;--plate-bg:#F7F4F6;--plate-ink:#1B1720">
+    <div class="plate-head"><span>Alternate</span><span class="badge">light</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.528 1.16" role="img" data-ld="aerune-lockup-horizontal">
+<title>Aerune — weather windows for paragliding pilots — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1.101" height="1" viewBox="22 30 196 178" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #8A1F4E)">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g></svg>
+  <svg x="1.481" y="0.37" width="1.967" height="0.42" viewBox="-6.5 -6.5 529.12 113" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #1B1720)">
+    <path fill-rule="evenodd" d="M6.167 102.053L39.447 2.053A6.5 6.5 0 0 0 27.113 -2.053L-6.167 97.947A6.5 6.5 0 0 1 6.167 102.053ZM27.113 2.053L60.393 102.053A6.5 6.5 0 0 0 72.727 97.947L39.447 -2.053A6.5 6.5 0 0 1 27.113 2.053Z" />
+    <path fill-rule="evenodd" d="M14.56 70.5L52 70.5A6.5 6.5 0 0 0 52 57.5L14.56 57.5A6.5 6.5 0 0 1 14.56 70.5Z" />
+    <path fill-rule="evenodd" d="M95.06 0L95.06 100A6.5 6.5 0 0 0 108.06 100L108.06 0A6.5 6.5 0 0 1 95.06 0Z" />
+    <path fill-rule="evenodd" d="M101.56 6.5L149.4 6.5A6.5 6.5 0 0 0 149.4 -6.5L101.56 -6.5A6.5 6.5 0 0 1 101.56 6.5Z" />
+    <path fill-rule="evenodd" d="M101.56 56.5L139 56.5A6.5 6.5 0 0 0 139 43.5L101.56 43.5A6.5 6.5 0 0 1 101.56 56.5Z" />
+    <path fill-rule="evenodd" d="M101.56 106.5L149.4 106.5A6.5 6.5 0 0 0 149.4 93.5L101.56 93.5A6.5 6.5 0 0 1 101.56 106.5Z" />
+    <path fill-rule="evenodd" d="M179.98 0L179.98 100A6.5 6.5 0 0 0 192.98 100L192.98 0A6.5 6.5 0 0 1 179.98 0Z" />
+    <path fill-rule="evenodd" d="M186.48 6.5L211.44 6.5A6.5 6.5 0 0 0 211.44 -6.5L186.48 -6.5A6.5 6.5 0 0 1 186.48 6.5ZM208.377 5.733L227.097 15.733A6.5 6.5 0 0 0 233.223 4.267L214.503 -5.733A6.5 6.5 0 0 1 208.377 5.733ZM224.223 12.646L230.463 26.646A6.5 6.5 0 0 0 242.337 21.354L236.097 7.354A6.5 6.5 0 0 1 224.223 12.646ZM230.633 21.001L224.393 33.001A6.5 6.5 0 0 0 235.927 38.999L242.167 26.999A6.5 6.5 0 0 1 230.633 21.001ZM227.097 30.267L208.377 40.267A6.5 6.5 0 0 0 214.503 51.733L233.223 41.733A6.5 6.5 0 0 1 227.097 30.267ZM211.44 39.5L186.48 39.5A6.5 6.5 0 0 0 186.48 52.5L211.44 52.5A6.5 6.5 0 0 1 211.44 39.5Z" />
+    <path fill-rule="evenodd" d="M203.639 49.085L232.759 103.085A6.5 6.5 0 0 0 244.201 96.915L215.081 42.915A6.5 6.5 0 0 1 203.639 49.085Z" />
+    <path fill-rule="evenodd" d="M269.06 0L269.06 76A6.5 6.5 0 0 0 282.06 76L282.06 0A6.5 6.5 0 0 1 269.06 0ZM269.793 78.999L278.113 94.999A6.5 6.5 0 0 0 289.647 89.001L281.327 73.001A6.5 6.5 0 0 1 269.793 78.999ZM281.326 97.977L300.046 105.977A6.5 6.5 0 0 0 305.154 94.023L286.434 86.023A6.5 6.5 0 0 1 281.326 97.977ZM302.6 106.5L308.84 106.5A6.5 6.5 0 0 0 308.84 93.5L302.6 93.5A6.5 6.5 0 0 1 302.6 106.5ZM311.394 105.977L330.114 97.977A6.5 6.5 0 0 0 325.006 86.023L306.286 94.023A6.5 6.5 0 0 1 311.394 105.977ZM333.327 94.999L341.647 78.999A6.5 6.5 0 0 0 330.113 73.001L321.793 89.001A6.5 6.5 0 0 1 333.327 94.999ZM342.38 76L342.38 0A6.5 6.5 0 0 0 329.38 0L329.38 76A6.5 6.5 0 0 1 342.38 76Z" />
+    <path fill-rule="evenodd" d="M377.38 100L377.38 0A6.5 6.5 0 0 0 364.38 0L364.38 100A6.5 6.5 0 0 1 377.38 100ZM365.314 3.357L425.634 103.357A6.5 6.5 0 0 0 436.766 96.643L376.446 -3.357A6.5 6.5 0 0 1 365.314 3.357ZM437.7 100L437.7 0A6.5 6.5 0 0 0 424.7 0L424.7 100A6.5 6.5 0 0 1 437.7 100Z" />
+    <path fill-rule="evenodd" d="M459.7 0L459.7 100A6.5 6.5 0 0 0 472.7 100L472.7 0A6.5 6.5 0 0 1 459.7 0Z" />
+    <path fill-rule="evenodd" d="M466.2 6.5L514.04 6.5A6.5 6.5 0 0 0 514.04 -6.5L466.2 -6.5A6.5 6.5 0 0 1 466.2 6.5Z" />
+    <path fill-rule="evenodd" d="M466.2 56.5L503.64 56.5A6.5 6.5 0 0 0 503.64 43.5L466.2 43.5A6.5 6.5 0 0 1 466.2 56.5Z" />
+    <path fill-rule="evenodd" d="M466.2 106.5L514.04 106.5A6.5 6.5 0 0 0 514.04 93.5L466.2 93.5A6.5 6.5 0 0 1 466.2 106.5Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#F7F4F6"></i><b>bg</b><code>#F7F4F6</code></span><span class="swatch"><i style="background:#1B1720"></i><b>ink</b><code>#1B1720</code></span><span class="swatch"><i style="background:#8A1F4E"></i><b>brand</b><code>#8A1F4E</code></span><span class="swatch"><i style="background:#3B4FA8"></i><b>accent</b><code>#3B4FA8</code></span></div>
+    <p class="plate-note">Lowest pair <b>6.7:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+        <article class="plate dark" style="--ld-bg:#120E15;--ld-ink:#F2EAF0;--ld-brand:#F08CB6;--ld-accent:#9AA9F5;--plate-bg:#120E15;--plate-ink:#F2EAF0">
+    <div class="plate-head"><span>Alternate</span><span class="badge">dark</span></div>
+    <div class="plate-lockup"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.528 1.16" role="img" data-ld="aerune-lockup-horizontal-dark">
+<title>Aerune — weather windows for paragliding pilots — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="1.101" height="1" viewBox="22 30 196 178" preserveAspectRatio="xMidYMid meet"><g fill="#F08CB6">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g></svg>
+  <svg x="1.481" y="0.37" width="1.967" height="0.42" viewBox="-6.5 -6.5 529.12 113" preserveAspectRatio="xMidYMid meet"><g fill="#F2EAF0">
+    <path fill-rule="evenodd" d="M6.167 102.053L39.447 2.053A6.5 6.5 0 0 0 27.113 -2.053L-6.167 97.947A6.5 6.5 0 0 1 6.167 102.053ZM27.113 2.053L60.393 102.053A6.5 6.5 0 0 0 72.727 97.947L39.447 -2.053A6.5 6.5 0 0 1 27.113 2.053Z" />
+    <path fill-rule="evenodd" d="M14.56 70.5L52 70.5A6.5 6.5 0 0 0 52 57.5L14.56 57.5A6.5 6.5 0 0 1 14.56 70.5Z" />
+    <path fill-rule="evenodd" d="M95.06 0L95.06 100A6.5 6.5 0 0 0 108.06 100L108.06 0A6.5 6.5 0 0 1 95.06 0Z" />
+    <path fill-rule="evenodd" d="M101.56 6.5L149.4 6.5A6.5 6.5 0 0 0 149.4 -6.5L101.56 -6.5A6.5 6.5 0 0 1 101.56 6.5Z" />
+    <path fill-rule="evenodd" d="M101.56 56.5L139 56.5A6.5 6.5 0 0 0 139 43.5L101.56 43.5A6.5 6.5 0 0 1 101.56 56.5Z" />
+    <path fill-rule="evenodd" d="M101.56 106.5L149.4 106.5A6.5 6.5 0 0 0 149.4 93.5L101.56 93.5A6.5 6.5 0 0 1 101.56 106.5Z" />
+    <path fill-rule="evenodd" d="M179.98 0L179.98 100A6.5 6.5 0 0 0 192.98 100L192.98 0A6.5 6.5 0 0 1 179.98 0Z" />
+    <path fill-rule="evenodd" d="M186.48 6.5L211.44 6.5A6.5 6.5 0 0 0 211.44 -6.5L186.48 -6.5A6.5 6.5 0 0 1 186.48 6.5ZM208.377 5.733L227.097 15.733A6.5 6.5 0 0 0 233.223 4.267L214.503 -5.733A6.5 6.5 0 0 1 208.377 5.733ZM224.223 12.646L230.463 26.646A6.5 6.5 0 0 0 242.337 21.354L236.097 7.354A6.5 6.5 0 0 1 224.223 12.646ZM230.633 21.001L224.393 33.001A6.5 6.5 0 0 0 235.927 38.999L242.167 26.999A6.5 6.5 0 0 1 230.633 21.001ZM227.097 30.267L208.377 40.267A6.5 6.5 0 0 0 214.503 51.733L233.223 41.733A6.5 6.5 0 0 1 227.097 30.267ZM211.44 39.5L186.48 39.5A6.5 6.5 0 0 0 186.48 52.5L211.44 52.5A6.5 6.5 0 0 1 211.44 39.5Z" />
+    <path fill-rule="evenodd" d="M203.639 49.085L232.759 103.085A6.5 6.5 0 0 0 244.201 96.915L215.081 42.915A6.5 6.5 0 0 1 203.639 49.085Z" />
+    <path fill-rule="evenodd" d="M269.06 0L269.06 76A6.5 6.5 0 0 0 282.06 76L282.06 0A6.5 6.5 0 0 1 269.06 0ZM269.793 78.999L278.113 94.999A6.5 6.5 0 0 0 289.647 89.001L281.327 73.001A6.5 6.5 0 0 1 269.793 78.999ZM281.326 97.977L300.046 105.977A6.5 6.5 0 0 0 305.154 94.023L286.434 86.023A6.5 6.5 0 0 1 281.326 97.977ZM302.6 106.5L308.84 106.5A6.5 6.5 0 0 0 308.84 93.5L302.6 93.5A6.5 6.5 0 0 1 302.6 106.5ZM311.394 105.977L330.114 97.977A6.5 6.5 0 0 0 325.006 86.023L306.286 94.023A6.5 6.5 0 0 1 311.394 105.977ZM333.327 94.999L341.647 78.999A6.5 6.5 0 0 0 330.113 73.001L321.793 89.001A6.5 6.5 0 0 1 333.327 94.999ZM342.38 76L342.38 0A6.5 6.5 0 0 0 329.38 0L329.38 76A6.5 6.5 0 0 1 342.38 76Z" />
+    <path fill-rule="evenodd" d="M377.38 100L377.38 0A6.5 6.5 0 0 0 364.38 0L364.38 100A6.5 6.5 0 0 1 377.38 100ZM365.314 3.357L425.634 103.357A6.5 6.5 0 0 0 436.766 96.643L376.446 -3.357A6.5 6.5 0 0 1 365.314 3.357ZM437.7 100L437.7 0A6.5 6.5 0 0 0 424.7 0L424.7 100A6.5 6.5 0 0 1 437.7 100Z" />
+    <path fill-rule="evenodd" d="M459.7 0L459.7 100A6.5 6.5 0 0 0 472.7 100L472.7 0A6.5 6.5 0 0 1 459.7 0Z" />
+    <path fill-rule="evenodd" d="M466.2 6.5L514.04 6.5A6.5 6.5 0 0 0 514.04 -6.5L466.2 -6.5A6.5 6.5 0 0 1 466.2 6.5Z" />
+    <path fill-rule="evenodd" d="M466.2 56.5L503.64 56.5A6.5 6.5 0 0 0 503.64 43.5L466.2 43.5A6.5 6.5 0 0 1 466.2 56.5Z" />
+    <path fill-rule="evenodd" d="M466.2 106.5L514.04 106.5A6.5 6.5 0 0 0 514.04 93.5L466.2 93.5A6.5 6.5 0 0 1 466.2 106.5Z" />
+  </g></svg>
+</svg>
+</div>
+    <div class="swatch-row"><span class="swatch"><i style="background:#120E15"></i><b>bg</b><code>#120E15</code></span><span class="swatch"><i style="background:#F2EAF0"></i><b>ink</b><code>#F2EAF0</code></span><span class="swatch"><i style="background:#F08CB6"></i><b>brand</b><code>#F08CB6</code></span><span class="swatch"><i style="background:#9AA9F5"></i><b>accent</b><code>#9AA9F5</code></span></div>
+    <p class="plate-note">Lowest pair <b>6.7:1</b> · accent / bg (light), floor 3:1.</p>
+  </article>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>Contrast, measured</h3>
+      <table>
+        <thead><tr><th>Mode</th><th>Pair</th><th>Ratio</th><th>Status</th></tr></thead>
+        <tbody><tr><td>light</td><td>brand / bg</td><td>6.61:1</td><td class="pass">pass</td></tr><tr><td>light</td><td>ink / bg</td><td>15.14:1</td><td class="pass">pass</td></tr><tr><td>light</td><td>accent / bg</td><td>4.64:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>brand / bg</td><td>8.65:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>ink / bg</td><td>15.83:1</td><td class="pass">pass</td></tr><tr><td>dark</td><td>accent / bg</td><td>8.84:1</td><td class="pass">pass</td></tr></tbody>
+      </table>
+      <p class="plate-note" style="color:var(--ink-soft)">Alternate midnight-rose: lowest 6.7:1 (accent / bg, light).</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>One line</h2><p>The same theme contract in HTML, CSS or React. Change a token, rebuild, and every variant follows.</p></div>
+    <div class="grid grid-2">
+      <pre class="code">&lt;svg class="logo" style="--ld-brand:#2B5B84; --ld-accent:#B45309"&gt;…&lt;/svg&gt;
+
+&lt;AeruneLogo type="horizontal" /&gt;
+
+:root {
+  --ld-brand: #2B5B84;
+  --ld-accent: #B45309;
+}</pre>
+      <div class="card">
+        <h3>What is in the folder</h3>
+        <p class="plate-note" style="color:var(--ink-soft);font-size:13px">Fifteen SVG variants, a favicon, two app icons, tokens, palette CSS, a control-sheet preview and a typed React component. The alternate palette is built from the same masters.</p>
+        <details class="files"><summary>Primary deck · 19 files</summary><ul><li><code>dist/aerune-app-icon-maskable.svg</code></li><li><code>dist/aerune-app-icon.svg</code></li><li><code>dist/aerune-favicon.svg</code></li><li><code>dist/aerune-lockup-horizontal-dark.svg</code></li><li><code>dist/aerune-lockup-horizontal-mono.svg</code></li><li><code>dist/aerune-lockup-horizontal.svg</code></li><li><code>dist/aerune-lockup-stacked-dark.svg</code></li><li><code>dist/aerune-lockup-stacked-mono.svg</code></li><li><code>dist/aerune-lockup-stacked.svg</code></li><li><code>dist/aerune-palette.css</code></li><li><code>dist/aerune-preview.html</code></li><li><code>dist/aerune-symbol-dark.svg</code></li><li><code>dist/aerune-symbol-mono.svg</code></li><li><code>dist/aerune-symbol.svg</code></li><li><code>dist/aerune-tokens.json</code></li><li><code>dist/aerune-wordmark-dark.svg</code></li><li><code>dist/aerune-wordmark-mono.svg</code></li><li><code>dist/aerune-wordmark.svg</code></li><li><code>dist/aerune.tsx</code></li></ul></details>
+        <details class="files"><summary>Alternate deck · 19 files</summary><ul><li><code>dist-alt/aerune-app-icon-maskable.svg</code></li><li><code>dist-alt/aerune-app-icon.svg</code></li><li><code>dist-alt/aerune-favicon.svg</code></li><li><code>dist-alt/aerune-lockup-horizontal-dark.svg</code></li><li><code>dist-alt/aerune-lockup-horizontal-mono.svg</code></li><li><code>dist-alt/aerune-lockup-horizontal.svg</code></li><li><code>dist-alt/aerune-lockup-stacked-dark.svg</code></li><li><code>dist-alt/aerune-lockup-stacked-mono.svg</code></li><li><code>dist-alt/aerune-lockup-stacked.svg</code></li><li><code>dist-alt/aerune-palette.css</code></li><li><code>dist-alt/aerune-preview.html</code></li><li><code>dist-alt/aerune-symbol-dark.svg</code></li><li><code>dist-alt/aerune-symbol-mono.svg</code></li><li><code>dist-alt/aerune-symbol.svg</code></li><li><code>dist-alt/aerune-tokens.json</code></li><li><code>dist-alt/aerune-wordmark-dark.svg</code></li><li><code>dist-alt/aerune-wordmark-mono.svg</code></li><li><code>dist-alt/aerune-wordmark.svg</code></li><li><code>dist-alt/aerune.tsx</code></li></ul></details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Aerune is a fictional brand drawn for this repository. No third-party mark, font or photograph is used.</span>
+    <span>MIT · generated by logodeck · Aerune — weather windows for paragliding pilots</span>
+  </footer>
+</div>
+<script>
+  const root = document.documentElement;
+  document.getElementById("theme").addEventListener("click", () => {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Before and after — logodeck</title>
+<style>
+  :root { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #ECE9E0; color: #18211C; }
+  .page { width: 1600px; min-height: 1040px; padding: 46px 54px 40px; display: flex; flex-direction: column; gap: 26px; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
+  .eyebrow { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: rgba(24,33,28,.55); }
+  h1 { margin: 8px 0 0; font-size: 34px; letter-spacing: -.035em; font-weight: 650; }
+  .legend { display: flex; gap: 18px; font-size: 12px; color: rgba(24,33,28,.6); }
+  .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
+  .split { display: grid; grid-template-columns: 600px 1fr; gap: 22px; flex: 1; }
+  .panel { border-radius: 26px; padding: 24px; display: flex; flex-direction: column; gap: 18px; position: relative; overflow: hidden; }
+  .bad { background: #E3E0D7; border: 1px solid rgba(24,33,28,.12); }
+  .good { background: #FFFDF8; border: 1px solid rgba(24,33,28,.14); box-shadow: 0 24px 60px rgba(20,30,22,.12); }
+  .tag { align-self: flex-start; font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; padding: 5px 9px; border-radius: 999px; }
+  .bad .tag { background: rgba(24,33,28,.08); color: rgba(24,33,28,.6); }
+  .good .tag { background: #1F6F4A; color: #F6F4EC; }
+  .chat { border: 1px solid rgba(24,33,28,.1); background: rgba(255,255,255,.45); border-radius: 14px; padding: 10px 12px; font-size: 12px; line-height: 1.5; color: rgba(24,33,28,.62); max-width: 92%; }
+  .shot { background: #F7F5EF; border-radius: 18px; padding: 16px; display: grid; place-items: center; position: relative; overflow: hidden; }
+  .shot .art { width: 300px; filter: blur(1.15px) saturate(.88) contrast(.92); image-rendering: auto; }
+  .shot .art svg { display: block; width: 100%; height: auto; }
+  .shot .badge { position: absolute; top: 12px; left: 12px; font: 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace; background: rgba(24,33,28,.72); color: #F7F5EF; border-radius: 999px; padding: 5px 8px; }
+  .issues { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; font-size: 12.5px; color: rgba(24,33,28,.7); }
+  .issues li { display: flex; gap: 8px; align-items: flex-start; }
+  .issues b { font-weight: 600; color: rgba(24,33,28,.9); }
+  .x { color: #A43A2A; font-weight: 700; }
+  .bad .filemess { margin-top: auto; border-top: 1px solid rgba(24,33,28,.1); padding-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .bad .filemess span { width: 100%; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: rgba(24,33,28,.5); }
+  .bad .filemess code { font: 10px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; background: rgba(255,255,255,.55); border: 1px solid rgba(24,33,28,.1); border-radius: 5px; padding: 3px 5px; color: rgba(24,33,28,.65); }
+  .bad .filemess p { margin: 4px 0 0; width: 100%; font-size: 11px; color: rgba(24,33,28,.52); }
+  .good .art { width: min(100%, 330px); }
+  .good .hero { display: grid; grid-template-columns: 1fr auto; gap: 22px; align-items: center; border-bottom: 1px solid rgba(24,33,28,.1); padding-bottom: 16px; }
+  .good .hero svg { width: 280px; height: auto; display: block; }
+  .good .ratio { text-align: right; font-size: 11px; color: rgba(24,33,28,.58); line-height: 1.5; }
+  .good .ratio b { display: block; font-size: 20px; color: #1F6F4A; letter-spacing: -.02em; }
+  .variants { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .vcard { border: 1px solid rgba(24,33,28,.1); border-radius: 14px; background: #FFFDF8; padding: 10px; display: flex; flex-direction: column; gap: 8px; min-height: 96px; }
+  .vcard span { font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: rgba(24,33,28,.5); }
+  .vcard .art { flex: 1; display: grid; place-items: center; }
+  .vcard svg { height: 42px; width: auto; max-width: 100%; display: block; }
+  .vcard.dark { background: #101A16; border-color: transparent; }
+  .vcard.dark span { color: rgba(234,242,236,.55); }
+  .vcard.dark svg { height: 42px; }
+  .palette-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .mini { border-radius: 12px; padding: 8px 9px; background: var(--mbg); color: var(--mink); border: 1px solid rgba(24,33,28,.1); min-height: 78px; display: flex; flex-direction: column; gap: 5px; }
+  .mini.dark { border-color: rgba(255,255,255,.12); }
+  .mini span { font-size: 8px; letter-spacing: .09em; text-transform: uppercase; color: color-mix(in srgb, var(--mink) 62%, transparent); }
+  .mini svg { height: 28px; width: auto; max-width: 100%; display: block; margin-top: auto; }
+  .filelist { display: flex; flex-wrap: wrap; gap: 4px; font: 8.5px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .filelist code { background: rgba(24,33,28,.05); border: 1px solid rgba(24,33,28,.08); border-radius: 5px; padding: 2px 4px; color: rgba(24,33,28,.55); }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .chip { display: flex; align-items: center; gap: 7px; border: 1px solid rgba(24,33,28,.1); border-radius: 999px; padding: 5px 9px 5px 6px; font-size: 10px; color: rgba(24,33,28,.64); background: #FFFDF8; }
+  .chip i { width: 16px; height: 16px; border-radius: 50%; display: block; }
+  .good .foot { margin-top: auto; display: flex; justify-content: space-between; gap: 16px; align-items: flex-end; }
+  .good .foot ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 5px; font-size: 11.5px; color: rgba(24,33,28,.68); }
+  .good .foot b { color: #1F6F4A; }
+  .code { font: 10px/1.65 ui-monospace, SFMono-Regular, Menlo, monospace; background: #101A16; color: #E9F2EC; border-radius: 12px; padding: 12px 14px; white-space: pre; }
+  .code em { color: #64C79A; font-style: normal; }
+  footer { display: flex; justify-content: space-between; gap: 20px; font-size: 11px; color: rgba(24,33,28,.5); border-top: 1px solid rgba(24,33,28,.1); padding-top: 12px; }
+  @media (max-width: 900px) {
+    .page { width: 100%; min-height: 0; padding: 20px; }
+    .split { grid-template-columns: 1fr; }
+    .good .hero, .good .foot { grid-template-columns: 1fr; flex-direction: column; align-items: flex-start; }
+    .variants { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <div class="eyebrow">The same brief · two outcomes</div>
+      <h1>One guessed PNG, or a complete identity deck.</h1>
+    </div>
+    <div class="legend"><span><i style="background:#A43A2A"></i>no skill</span><span><i style="background:#1F6F4A"></i>logodeck</span></div>
+  </header>
+
+  <div class="split">
+    <section class="panel bad">
+      <span class="tag">Without the skill</span>
+      <div class="chat">“Make a logo for Novaris, a climate newsletter. Something green and modern.”</div>
+      <div class="shot">
+        <span class="badge">logo-final-v3.png · 512×512</span>
+        <div class="art"><svg viewBox="0 0 300 300" aria-hidden="true">
+  <defs>
+    <linearGradient id="bad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2FA7A0"/><stop offset="1" stop-color="#8FCB5E"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="300" fill="#F2F4EE"/>
+  <circle cx="150" cy="150" r="96" fill="url(#bad)"/>
+  <path d="M82 186C122 124 176 96 228 104C198 154 152 190 86 206Z" fill="#F8F6EE" opacity=".92"/>
+  <path d="M74 214C124 188 170 186 218 202C176 220 126 226 74 214Z" fill="#FFFFFF" opacity=".55"/>
+  <text x="150" y="272" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#3C4A3E" letter-spacing="2">NOVARIS</text>
+</svg></div>
+      </div>
+      <ul class="issues">
+        <li><span class="x">×</span><span><b>One file.</b> No icon, favicon, app icon, mono, dark or lockup.</span></li>
+        <li><span class="x">×</span><span><b>Text baked into the image.</b> It cannot be recoloured or set as paths.</span></li>
+        <li><span class="x">×</span><span><b>Contrast 1.9:1.</b> The mark disappears on the header and at 16 px.</span></li>
+        <li><span class="x">×</span><span><b>No system.</b> The next ask starts from zero.</span></li>
+      </ul>
+      <div class="filemess">
+        <span>Delivered</span>
+        <code>logo-final-v3.png</code><code>logo-final-v3 (1).png</code><code>logo-FINAL.webp</code>
+        <p>Three exports, no source, no tokens, no variants.</p>
+      </div>
+    </section>
+
+    <section class="panel good">
+      <span class="tag">With logodeck</span>
+      <div class="hero">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.092 1.16" role="img" data-ld="loam-lockup-horizontal">
+<title>Loam — soil health for small farms — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="var(--ld-brand, #1F6F4A)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #16241D)">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+
+        <div class="ratio"><b>4.15:1</b>lowest measured pair<br />accent / bg · light<br />all six pairs pass</div>
+      </div>
+      <div class="variants">
+        <div class="vcard"><span>symbol</span><div class="art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 24 200 208" role="img" data-ld="loam-symbol">
+<title>Loam — soil health for small farms — symbol</title>
+<path
+    fill="var(--ld-brand, #1F6F4A)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  />
+</svg>
+</div></div>
+        <div class="vcard"><span>mono</span><div class="art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 24 200 208" role="img" data-ld="loam-symbol-mono">
+<title>Loam — soil health for small farms — mono symbol</title>
+<path
+    fill="currentColor"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  />
+</svg>
+</div></div>
+        <div class="vcard dark"><span>dark</span><div class="art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 24 200 208" role="img" data-ld="loam-symbol-dark">
+<title>Loam — soil health for small farms — symbol, dark background</title>
+<path
+    fill="#64C79A"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  />
+</svg>
+</div></div>
+        <div class="vcard"><span>favicon</span><div class="art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="loam-favicon">
+<title>Loam — soil health for small farms — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#1F6F4A"/>
+<svg x="11.077" y="10.24" width="41.846" height="43.52" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="#F6F4EC"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM116 192L116 140C99 140 85 127 80 111C102 107 116 121 122 138C128 116 147 105 168 109C164 130 149 143 134 143L134 192Z"
+  /></svg>
+</svg>
+</div></div>
+        <div class="vcard"><span>wordmark</span><div class="art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 12 334 88" role="img" data-ld="loam-wordmark">
+<title>Loam — soil health for small farms — wordmark</title>
+<g fill="var(--ld-ink, #16241D)">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g>
+</svg>
+</div></div>
+        <div class="vcard"><span>horizontal</span><div class="art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.092 1.16" role="img" data-ld="loam-lockup-horizontal">
+<title>Loam — soil health for small farms — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="var(--ld-brand, #1F6F4A)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #16241D)">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div></div>
+        <div class="vcard"><span>stacked</span><div class="art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1.83 1.82" role="img" data-ld="loam-lockup-stacked">
+<title>Loam — soil health for small farms — stacked lockup</title>
+<svg x="0.434" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="var(--ld-brand, #1F6F4A)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="0.08" y="1.3" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #16241D)">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div></div>
+        <div class="vcard"><span>app icon</span><div class="art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="loam-app-icon">
+<title>Loam — soil health for small farms — app-icon</title>
+<rect width="512" height="512" rx="115.2" fill="#1F6F4A"/>
+<svg x="103.385" y="97.28" width="305.231" height="317.44" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="#F6F4EC"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+</svg>
+</div></div>
+      </div>
+      <div class="row">
+        <span class="chip"><i style="background:#F6F4EC;border:1px solid rgba(0,0,0,.12)"></i>bg #F6F4EC</span>
+        <span class="chip"><i style="background:#16241D"></i>ink #16241D</span>
+        <span class="chip"><i style="background:#1F6F4A"></i>brand #1F6F4A</span>
+        <span class="chip"><i style="background:#C2542D"></i>accent #C2542D</span>
+        <span class="chip"><i style="background:#8A3B22"></i>alt clay-cream</span>
+      </div>
+      <div class="palette-strip">
+        <div class="mini" style="--mbg:#F6F4EC;--mink:#16241D;--ld-bg:#F6F4EC;--ld-ink:#16241D;--ld-brand:#1F6F4A;--ld-accent:#C2542D"><span>primary · light</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.092 1.16" role="img" data-ld="loam-lockup-horizontal">
+<title>Loam — soil health for small farms — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="var(--ld-brand, #1F6F4A)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #16241D)">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div>
+        <div class="mini dark" style="--mbg:#101A16;--mink:#EAF2EC"><span>primary · dark</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.092 1.16" role="img" data-ld="loam-lockup-horizontal-dark">
+<title>Loam — soil health for small farms — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="#64C79A"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="#EAF2EC">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div>
+        <div class="mini" style="--mbg:#FBF6EE;--mink:#2A1E17;--ld-bg:#FBF6EE;--ld-ink:#2A1E17;--ld-brand:#8A3B22;--ld-accent:#4A6B2A"><span>alternate · light</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.092 1.16" role="img" data-ld="loam-lockup-horizontal">
+<title>Loam — soil health for small farms — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="var(--ld-brand, #8A3B22)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #2A1E17)">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div>
+        <div class="mini dark" style="--mbg:#1B120D;--mink:#F4E8DA"><span>alternate · dark</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3.092 1.16" role="img" data-ld="loam-lockup-horizontal-dark">
+<title>Loam — soil health for small farms — horizontal lockup, dark background</title>
+<svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet"><path
+    fill="#E59A78"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  /></svg>
+  <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet"><g fill="#F4E8DA">
+    <rect x="0" y="12" width="14" height="88" rx="7" />
+    <rect x="0" y="86" width="58" height="14" rx="7" />
+    <path
+      fill-rule="evenodd"
+      d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"
+    />
+    <rect x="200" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="14" height="56" rx="7" />
+    <rect x="276" y="44" width="14" height="56" rx="7" />
+    <rect x="320" y="44" width="14" height="56" rx="7" />
+    <rect x="232" y="44" width="58" height="14" rx="7" />
+    <rect x="276" y="44" width="58" height="14" rx="7" />
+  </g></svg>
+</svg>
+</div>
+      </div>
+      <div class="filelist">
+        <code>symbol.svg</code><code>symbol-mono.svg</code><code>symbol-dark.svg</code><code>wordmark.svg</code><code>wordmark-mono.svg</code><code>wordmark-dark.svg</code><code>lockup-horizontal.svg</code><code>lockup-horizontal-mono.svg</code><code>lockup-horizontal-dark.svg</code><code>lockup-stacked.svg</code><code>lockup-stacked-mono.svg</code><code>lockup-stacked-dark.svg</code><code>favicon.svg</code><code>app-icon.svg</code><code>app-icon-maskable.svg</code><code>loam.tsx</code><code>tokens.json</code><code>palette.css</code><code>preview.html</code>
+      </div>
+      <div class="foot">
+        <ul>
+          <li><b>15 SVG variants</b> + favicon + two app icons</li>
+          <li><b>tokens, palette CSS, preview</b> and a typed React component</li>
+          <li><b>two palettes</b>, 4.15:1 floor, light and dark</li>
+          <li><b>reproducible</b>: one manifest, two masters, no hand edits</li>
+        </ul>
+        <div class="code">&lt;LoamLogo
+  type="horizontal"
+  mode="auto"
+  style={{ "--ld-brand": "#1F6F4A" }}
+/&gt;
+
+<em>// one line changes every file</em></div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <span>Left: an illustrative typical first answer. Right: the actual Loam deck built by this repository.</span>
+    <span>All names and drawings are fictional. MIT.</span>
+  </footer>
+</div>
+</body>
+</html>

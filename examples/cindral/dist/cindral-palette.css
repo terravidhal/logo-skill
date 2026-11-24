@@ -1,0 +1,29 @@
+/* logodeck palette: clay-cream */
+:root {
+  --ld-bg: #FBF6EE;
+  --ld-ink: #2A1E17;
+  --ld-brand: #8A3B22;
+  --ld-accent: #4A6B2A;
+  --ld-bg-dark: #1B120D;
+  --ld-ink-dark: #F4E8DA;
+  --ld-brand-dark: #E59A78;
+  --ld-accent-dark: #A9C77A;
+  --ld-on-dark: #F4E8DA;
+}
+
+:root[data-theme="dark"],
+:root.dark {
+  --ld-bg: var(--ld-bg-dark);
+  --ld-ink: var(--ld-ink-dark);
+  --ld-brand: var(--ld-brand-dark);
+  --ld-accent: var(--ld-accent-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ld-bg: var(--ld-bg-dark);
+    --ld-ink: var(--ld-ink-dark);
+    --ld-brand: var(--ld-brand-dark);
+    --ld-accent: var(--ld-accent-dark);
+  }
+}

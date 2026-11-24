@@ -1,0 +1,62 @@
+{
+  "name": "cobalt-mint",
+  "label": "Cobalt & mint",
+  "note": "Clear and technical without falling back to default blue-on-white.",
+  "light": {
+    "bg": "#F3F6FB",
+    "ink": "#101B2D",
+    "brand": "#1D4ED8",
+    "accent": "#0F8A6E"
+  },
+  "dark": {
+    "bg": "#0A1220",
+    "ink": "#E6EEF9",
+    "brand": "#7EA6FF",
+    "accent": "#57D3B0"
+  },
+  "contrast": [
+    {
+      "mode": "light",
+      "pair": "brand / bg",
+      "ratio": 6.19,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "pair": "ink / bg",
+      "ratio": 15.93,
+      "min": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "pair": "accent / bg",
+      "ratio": 3.97,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "brand / bg",
+      "ratio": 7.84,
+      "min": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "ink / bg",
+      "ratio": 16.03,
+      "min": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "pair": "accent / bg",
+      "ratio": 10.13,
+      "min": 3,
+      "pass": true
+    }
+  ],
+  "generatedBy": "logodeck"
+}

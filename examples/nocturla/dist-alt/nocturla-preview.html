@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nocturla — slow radio for the small hours — logodeck preview</title>
+<style>
+  :root {
+    --ld-bg: #F4F6F8;
+    --ld-ink: #18202B;
+    --ld-brand: #2B5B84;
+    --ld-accent: #B45309;
+    --ld-bg-dark: #0E151D;
+    --ld-ink-dark: #E8EFF6;
+    --ld-brand-dark: #82B7E8;
+    --ld-accent-dark: #F0A35E;
+    --ld-on-dark: #E8EFF6;
+    --ld-surface: #ffffff;
+    --ld-line: rgba(20, 20, 20, 0.12);
+    --ld-muted: rgba(20, 20, 20, 0.62);
+    color-scheme: light;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  html[data-theme="dark"] {
+    --ld-bg: var(--ld-bg-dark);
+    --ld-ink: var(--ld-ink-dark);
+    --ld-brand: var(--ld-brand-dark);
+    --ld-accent: var(--ld-accent-dark);
+    --ld-surface: #1b2220;
+    --ld-line: rgba(255, 255, 255, 0.14);
+    --ld-muted: rgba(255, 255, 255, 0.64);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ld-bg);
+    color: var(--ld-ink);
+    transition: background 160ms ease, color 160ms ease;
+  }
+  .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 40px 0 72px; }
+  header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+  .brandline { min-height: 72px; }
+  .tagline { margin: 12px 0 0; color: var(--ld-muted); max-width: 46ch; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  button, input[type="color"] { font: inherit; }
+  button {
+    border: 1px solid var(--ld-line); background: var(--ld-surface); color: var(--ld-ink);
+    border-radius: 999px; padding: 8px 14px; cursor: pointer;
+  }
+  .grid { display: grid; gap: 16px; }
+  .cards { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+  .card {
+    border: 1px solid var(--ld-line); border-radius: 20px; background: var(--ld-surface);
+    padding: 20px; display: flex; flex-direction: column; gap: 18px; min-height: 190px;
+  }
+  .card h3 { margin: 0; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ld-muted); }
+  .center { flex: 1; display: grid; place-items: center; }
+  .card svg, .brandline svg { display: block; max-width: 100%; }
+  .darkcard { background: #101a16; color: #eaf2ec; border-color: transparent; }
+  html[data-theme="dark"] .darkcard { background: #0b1210; }
+  .size-row { display: flex; align-items: flex-end; gap: 22px; flex-wrap: wrap; }
+  .size-row figure { margin: 0; text-align: center; color: var(--ld-muted); font-size: 12px; }
+  .size-row svg { display: block; margin: 0 auto 6px; }
+  .swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+  .swatch { border: 1px solid var(--ld-line); border-radius: 14px; overflow: hidden; min-width: 112px; }
+  .chip { height: 58px; }
+  .swatch span { display: block; padding: 8px 10px; font-size: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  h2 { margin: 40px 0 14px; font-size: 18px; }
+  .split { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 16px; }
+  @media (max-width: 820px) { .split { grid-template-columns: 1fr; } header { flex-direction: column; } }
+  .code {
+    margin: 0; padding: 18px; border-radius: 16px; background: #101a16; color: #eaf2ec;
+    overflow: auto; font: 12px/1.7 ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--ld-line); }
+  th { color: var(--ld-muted); font-weight: 600; }
+  .files { columns: 2; gap: 24px; font-size: 13px; }
+  .files li { margin: 0 0 6px; break-inside: avoid; }
+  .tab { display: flex; align-items: center; gap: 10px; border: 1px solid var(--ld-line); border-radius: 12px 12px 0 0; padding: 10px 14px; background: var(--ld-surface); width: max-content; }
+  .tab .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ld-brand); }
+  .muted { color: var(--ld-muted); }
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--ld-line); color: var(--ld-muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="brandline"><svg style="height:76px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4.221 1.16" role="img" data-ld="nocturla-lockup-horizontal">
+<title>Nocturla — slow radio for the small hours — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1.073" height="1" viewBox="22 24 206 192" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #2B5B84)">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g></svg>
+  <svg x="1.453" y="0.37" width="2.688" height="0.42" viewBox="-6 -6 716.88 112" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #18202B)">
+    <path fill-rule="evenodd" d="M6 100L6 0A6 6 0 0 0 -6 0L-6 100A6 6 0 0 1 6 100ZM-5.164 3.055L53.996 103.055A6 6 0 0 0 64.324 96.945L5.164 -3.055A6 6 0 0 1 -5.164 3.055ZM65.16 100L65.16 0A6 6 0 0 0 53.16 0L53.16 100A6 6 0 0 1 65.16 100Z" />
+    <path fill-rule="evenodd" d="M95.16 50A29.58 50 0 1 0 154.32 50A29.58 50 0 1 0 95.16 50ZM107.16 50A17.58 38 0 1 1 142.32 50A17.58 38 0 1 1 107.16 50Z" />
+    <path fill-rule="evenodd" d="M243.14 7.407L228.86 -4.593A6 6 0 0 0 221.14 4.593L235.42 16.593A6 6 0 0 1 243.14 7.407ZM225 -6L206.64 -6A6 6 0 0 0 206.64 6L225 6A6 6 0 0 1 225 -6ZM202.44 -4.284L188.16 9.716A6 6 0 0 0 196.56 18.284L210.84 4.284A6 6 0 0 1 202.44 -4.284ZM186.36 14L186.36 86A6 6 0 0 0 198.36 86L198.36 14A6 6 0 0 1 186.36 14ZM188.16 90.284L202.44 104.284A6 6 0 0 0 210.84 95.716L196.56 81.716A6 6 0 0 1 188.16 90.284ZM206.64 106L225 106A6 6 0 0 0 225 94L206.64 94A6 6 0 0 1 206.64 106ZM228.86 104.593L243.14 92.593A6 6 0 0 0 235.42 83.407L221.14 95.407A6 6 0 0 1 228.86 104.593Z" />
+    <path fill-rule="evenodd" d="M281.4 6L336.48 6A6 6 0 0 0 336.48 -6L281.4 -6A6 6 0 0 1 281.4 6Z" />
+    <path fill-rule="evenodd" d="M302.94 0L302.94 100A6 6 0 0 0 314.94 100L314.94 0A6 6 0 0 1 302.94 0Z" />
+    <path fill-rule="evenodd" d="M366.48 0L366.48 76A6 6 0 0 0 378.48 76L378.48 0A6 6 0 0 1 366.48 0ZM367.135 78.726L375.295 94.726A6 6 0 0 0 385.985 89.274L377.825 73.274A6 6 0 0 1 367.135 78.726ZM378.243 97.501L396.603 105.501A6 6 0 0 0 401.397 94.499L383.037 86.499A6 6 0 0 1 378.243 97.501ZM399 106L405.12 106A6 6 0 0 0 405.12 94L399 94A6 6 0 0 1 399 106ZM407.517 105.501L425.877 97.501A6 6 0 0 0 421.083 86.499L402.723 94.499A6 6 0 0 1 407.517 105.501ZM428.825 94.726L436.985 78.726A6 6 0 0 0 426.295 73.274L418.135 89.274A6 6 0 0 1 428.825 94.726ZM437.64 76L437.64 0A6 6 0 0 0 425.64 0L425.64 76A6 6 0 0 1 437.64 76Z" />
+    <path fill-rule="evenodd" d="M461.64 0L461.64 100A6 6 0 0 0 473.64 100L473.64 0A6 6 0 0 1 461.64 0Z" />
+    <path fill-rule="evenodd" d="M467.64 6L492.12 6A6 6 0 0 0 492.12 -6L467.64 -6A6 6 0 0 1 467.64 6ZM489.25 5.269L507.61 15.269A6 6 0 0 0 513.35 4.731L494.99 -5.269A6 6 0 0 1 489.25 5.269ZM504.982 12.403L511.102 26.403A6 6 0 0 0 522.098 21.597L515.978 7.597A6 6 0 0 1 504.982 12.403ZM511.255 21.274L505.135 33.274A6 6 0 0 0 515.825 38.726L521.945 26.726A6 6 0 0 1 511.255 21.274ZM507.61 30.731L489.25 40.731A6 6 0 0 0 494.99 51.269L513.35 41.269A6 6 0 0 1 507.61 30.731ZM492.12 40L467.64 40A6 6 0 0 0 467.64 52L492.12 52A6 6 0 0 1 492.12 40Z" />
+    <path fill-rule="evenodd" d="M484.776 48.805L513.336 102.805A6 6 0 0 0 523.944 97.195L495.384 43.195A6 6 0 0 1 484.776 48.805Z" />
+    <path fill-rule="evenodd" d="M550.68 0L550.68 100A6 6 0 0 0 562.68 100L562.68 0A6 6 0 0 1 550.68 0Z" />
+    <path fill-rule="evenodd" d="M556.68 106L601.56 106A6 6 0 0 0 601.56 94L556.68 94A6 6 0 0 1 556.68 106Z" />
+    <path fill-rule="evenodd" d="M645.304 101.862L677.944 1.862A6 6 0 0 0 666.536 -1.862L633.896 98.138A6 6 0 0 1 645.304 101.862ZM666.536 1.862L699.176 101.862A6 6 0 0 0 710.584 98.138L677.944 -1.862A6 6 0 0 1 666.536 1.862Z" />
+    <path fill-rule="evenodd" d="M653.88 70L690.6 70A6 6 0 0 0 690.6 58L653.88 58A6 6 0 0 1 653.88 70Z" />
+  </g></svg>
+</svg>
+</div>
+      <p class="tagline">Nocturla — slow radio for the small hours. One manifest, one geometry, every file.</p>
+    </div>
+    <div class="toolbar">
+      <button type="button" id="theme">Toggle dark</button>
+      <button type="button" id="reset">Reset colours</button>
+    </div>
+  </header>
+
+  <h2>Palette</h2>
+  <div class="split">
+    <div class="card">
+      <div class="swatches">
+        <label class="swatch"><div class="chip" style="background:#2B5B84"></div><span>brand #2B5B84</span></label>
+        <label class="swatch"><div class="chip" style="background:#B45309"></div><span>accent #B45309</span></label>
+        <label class="swatch"><div class="chip" style="background:#18202B"></div><span>ink #18202B</span></label>
+        <label class="swatch"><div class="chip" style="background:#F4F6F8; border-bottom:1px solid var(--ld-line)"></div><span>bg #F4F6F8</span></label>
+      </div>
+      <div class="toolbar">
+        <label>Brand <input type="color" id="c-brand" value="#2B5B84" /></label>
+        <label>Accent <input type="color" id="c-accent" value="#B45309" /></label>
+        <label>Ink <input type="color" id="c-ink" value="#18202B" /></label>
+        <label>Background <input type="color" id="c-bg" value="#F4F6F8" /></label>
+      </div>
+      <p class="muted">The colour inputs rewrite the CSS custom properties on <code>:root</code>. Every themed SVG and the React component follow.</p>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Mode</th><th>Pair</th><th>Ratio</th><th>Status</th></tr></thead>
+        <tbody><tr><td>light</td><td>brand / bg</td><td>6.61:1</td><td>pass</td></tr><tr><td>light</td><td>ink / bg</td><td>15.14:1</td><td>pass</td></tr><tr><td>light</td><td>accent / bg</td><td>4.64:1</td><td>pass</td></tr><tr><td>dark</td><td>brand / bg</td><td>8.65:1</td><td>pass</td></tr><tr><td>dark</td><td>ink / bg</td><td>15.83:1</td><td>pass</td></tr><tr><td>dark</td><td>accent / bg</td><td>8.84:1</td><td>pass</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2>Family</h2>
+  <div class="grid cards">
+    <div class="card"><h3>Symbol</h3><div class="center"><svg style="height:104px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="22 24 206 192" role="img" data-ld="nocturla-symbol">
+<title>Nocturla — slow radio for the small hours — symbol</title>
+<g fill="var(--ld-brand, #2B5B84)">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g>
+</svg>
+</div></div>
+    <div class="card"><h3>Symbol mono</h3><div class="center"><svg style="height:104px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="22 24 206 192" role="img" data-ld="nocturla-symbol-mono">
+<title>Nocturla — slow radio for the small hours — mono symbol</title>
+<g fill="currentColor">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g>
+</svg>
+</div></div>
+    <div class="card darkcard"><h3 style="color:rgba(255,255,255,.62)">Symbol dark</h3><div class="center"><svg style="height:104px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="22 24 206 192" role="img" data-ld="nocturla-symbol-dark">
+<title>Nocturla — slow radio for the small hours — symbol, dark background</title>
+<g fill="#82B7E8">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g>
+</svg>
+</div></div>
+    <div class="card"><h3>Wordmark</h3><div class="center"><svg style="height:56px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 716.88 112" role="img" data-ld="nocturla-wordmark">
+<title>Nocturla — slow radio for the small hours — wordmark</title>
+<g fill="var(--ld-ink, #18202B)">
+    <path fill-rule="evenodd" d="M6 100L6 0A6 6 0 0 0 -6 0L-6 100A6 6 0 0 1 6 100ZM-5.164 3.055L53.996 103.055A6 6 0 0 0 64.324 96.945L5.164 -3.055A6 6 0 0 1 -5.164 3.055ZM65.16 100L65.16 0A6 6 0 0 0 53.16 0L53.16 100A6 6 0 0 1 65.16 100Z" />
+    <path fill-rule="evenodd" d="M95.16 50A29.58 50 0 1 0 154.32 50A29.58 50 0 1 0 95.16 50ZM107.16 50A17.58 38 0 1 1 142.32 50A17.58 38 0 1 1 107.16 50Z" />
+    <path fill-rule="evenodd" d="M243.14 7.407L228.86 -4.593A6 6 0 0 0 221.14 4.593L235.42 16.593A6 6 0 0 1 243.14 7.407ZM225 -6L206.64 -6A6 6 0 0 0 206.64 6L225 6A6 6 0 0 1 225 -6ZM202.44 -4.284L188.16 9.716A6 6 0 0 0 196.56 18.284L210.84 4.284A6 6 0 0 1 202.44 -4.284ZM186.36 14L186.36 86A6 6 0 0 0 198.36 86L198.36 14A6 6 0 0 1 186.36 14ZM188.16 90.284L202.44 104.284A6 6 0 0 0 210.84 95.716L196.56 81.716A6 6 0 0 1 188.16 90.284ZM206.64 106L225 106A6 6 0 0 0 225 94L206.64 94A6 6 0 0 1 206.64 106ZM228.86 104.593L243.14 92.593A6 6 0 0 0 235.42 83.407L221.14 95.407A6 6 0 0 1 228.86 104.593Z" />
+    <path fill-rule="evenodd" d="M281.4 6L336.48 6A6 6 0 0 0 336.48 -6L281.4 -6A6 6 0 0 1 281.4 6Z" />
+    <path fill-rule="evenodd" d="M302.94 0L302.94 100A6 6 0 0 0 314.94 100L314.94 0A6 6 0 0 1 302.94 0Z" />
+    <path fill-rule="evenodd" d="M366.48 0L366.48 76A6 6 0 0 0 378.48 76L378.48 0A6 6 0 0 1 366.48 0ZM367.135 78.726L375.295 94.726A6 6 0 0 0 385.985 89.274L377.825 73.274A6 6 0 0 1 367.135 78.726ZM378.243 97.501L396.603 105.501A6 6 0 0 0 401.397 94.499L383.037 86.499A6 6 0 0 1 378.243 97.501ZM399 106L405.12 106A6 6 0 0 0 405.12 94L399 94A6 6 0 0 1 399 106ZM407.517 105.501L425.877 97.501A6 6 0 0 0 421.083 86.499L402.723 94.499A6 6 0 0 1 407.517 105.501ZM428.825 94.726L436.985 78.726A6 6 0 0 0 426.295 73.274L418.135 89.274A6 6 0 0 1 428.825 94.726ZM437.64 76L437.64 0A6 6 0 0 0 425.64 0L425.64 76A6 6 0 0 1 437.64 76Z" />
+    <path fill-rule="evenodd" d="M461.64 0L461.64 100A6 6 0 0 0 473.64 100L473.64 0A6 6 0 0 1 461.64 0Z" />
+    <path fill-rule="evenodd" d="M467.64 6L492.12 6A6 6 0 0 0 492.12 -6L467.64 -6A6 6 0 0 1 467.64 6ZM489.25 5.269L507.61 15.269A6 6 0 0 0 513.35 4.731L494.99 -5.269A6 6 0 0 1 489.25 5.269ZM504.982 12.403L511.102 26.403A6 6 0 0 0 522.098 21.597L515.978 7.597A6 6 0 0 1 504.982 12.403ZM511.255 21.274L505.135 33.274A6 6 0 0 0 515.825 38.726L521.945 26.726A6 6 0 0 1 511.255 21.274ZM507.61 30.731L489.25 40.731A6 6 0 0 0 494.99 51.269L513.35 41.269A6 6 0 0 1 507.61 30.731ZM492.12 40L467.64 40A6 6 0 0 0 467.64 52L492.12 52A6 6 0 0 1 492.12 40Z" />
+    <path fill-rule="evenodd" d="M484.776 48.805L513.336 102.805A6 6 0 0 0 523.944 97.195L495.384 43.195A6 6 0 0 1 484.776 48.805Z" />
+    <path fill-rule="evenodd" d="M550.68 0L550.68 100A6 6 0 0 0 562.68 100L562.68 0A6 6 0 0 1 550.68 0Z" />
+    <path fill-rule="evenodd" d="M556.68 106L601.56 106A6 6 0 0 0 601.56 94L556.68 94A6 6 0 0 1 556.68 106Z" />
+    <path fill-rule="evenodd" d="M645.304 101.862L677.944 1.862A6 6 0 0 0 666.536 -1.862L633.896 98.138A6 6 0 0 1 645.304 101.862ZM666.536 1.862L699.176 101.862A6 6 0 0 0 710.584 98.138L677.944 -1.862A6 6 0 0 1 666.536 1.862Z" />
+    <path fill-rule="evenodd" d="M653.88 70L690.6 70A6 6 0 0 0 690.6 58L653.88 58A6 6 0 0 1 653.88 70Z" />
+  </g>
+</svg>
+</div></div>
+    <div class="card darkcard"><h3 style="color:rgba(255,255,255,.62)">Wordmark dark</h3><div class="center"><svg style="height:56px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 716.88 112" role="img" data-ld="nocturla-wordmark-dark">
+<title>Nocturla — slow radio for the small hours — wordmark, dark background</title>
+<g fill="#E8EFF6">
+    <path fill-rule="evenodd" d="M6 100L6 0A6 6 0 0 0 -6 0L-6 100A6 6 0 0 1 6 100ZM-5.164 3.055L53.996 103.055A6 6 0 0 0 64.324 96.945L5.164 -3.055A6 6 0 0 1 -5.164 3.055ZM65.16 100L65.16 0A6 6 0 0 0 53.16 0L53.16 100A6 6 0 0 1 65.16 100Z" />
+    <path fill-rule="evenodd" d="M95.16 50A29.58 50 0 1 0 154.32 50A29.58 50 0 1 0 95.16 50ZM107.16 50A17.58 38 0 1 1 142.32 50A17.58 38 0 1 1 107.16 50Z" />
+    <path fill-rule="evenodd" d="M243.14 7.407L228.86 -4.593A6 6 0 0 0 221.14 4.593L235.42 16.593A6 6 0 0 1 243.14 7.407ZM225 -6L206.64 -6A6 6 0 0 0 206.64 6L225 6A6 6 0 0 1 225 -6ZM202.44 -4.284L188.16 9.716A6 6 0 0 0 196.56 18.284L210.84 4.284A6 6 0 0 1 202.44 -4.284ZM186.36 14L186.36 86A6 6 0 0 0 198.36 86L198.36 14A6 6 0 0 1 186.36 14ZM188.16 90.284L202.44 104.284A6 6 0 0 0 210.84 95.716L196.56 81.716A6 6 0 0 1 188.16 90.284ZM206.64 106L225 106A6 6 0 0 0 225 94L206.64 94A6 6 0 0 1 206.64 106ZM228.86 104.593L243.14 92.593A6 6 0 0 0 235.42 83.407L221.14 95.407A6 6 0 0 1 228.86 104.593Z" />
+    <path fill-rule="evenodd" d="M281.4 6L336.48 6A6 6 0 0 0 336.48 -6L281.4 -6A6 6 0 0 1 281.4 6Z" />
+    <path fill-rule="evenodd" d="M302.94 0L302.94 100A6 6 0 0 0 314.94 100L314.94 0A6 6 0 0 1 302.94 0Z" />
+    <path fill-rule="evenodd" d="M366.48 0L366.48 76A6 6 0 0 0 378.48 76L378.48 0A6 6 0 0 1 366.48 0ZM367.135 78.726L375.295 94.726A6 6 0 0 0 385.985 89.274L377.825 73.274A6 6 0 0 1 367.135 78.726ZM378.243 97.501L396.603 105.501A6 6 0 0 0 401.397 94.499L383.037 86.499A6 6 0 0 1 378.243 97.501ZM399 106L405.12 106A6 6 0 0 0 405.12 94L399 94A6 6 0 0 1 399 106ZM407.517 105.501L425.877 97.501A6 6 0 0 0 421.083 86.499L402.723 94.499A6 6 0 0 1 407.517 105.501ZM428.825 94.726L436.985 78.726A6 6 0 0 0 426.295 73.274L418.135 89.274A6 6 0 0 1 428.825 94.726ZM437.64 76L437.64 0A6 6 0 0 0 425.64 0L425.64 76A6 6 0 0 1 437.64 76Z" />
+    <path fill-rule="evenodd" d="M461.64 0L461.64 100A6 6 0 0 0 473.64 100L473.64 0A6 6 0 0 1 461.64 0Z" />
+    <path fill-rule="evenodd" d="M467.64 6L492.12 6A6 6 0 0 0 492.12 -6L467.64 -6A6 6 0 0 1 467.64 6ZM489.25 5.269L507.61 15.269A6 6 0 0 0 513.35 4.731L494.99 -5.269A6 6 0 0 1 489.25 5.269ZM504.982 12.403L511.102 26.403A6 6 0 0 0 522.098 21.597L515.978 7.597A6 6 0 0 1 504.982 12.403ZM511.255 21.274L505.135 33.274A6 6 0 0 0 515.825 38.726L521.945 26.726A6 6 0 0 1 511.255 21.274ZM507.61 30.731L489.25 40.731A6 6 0 0 0 494.99 51.269L513.35 41.269A6 6 0 0 1 507.61 30.731ZM492.12 40L467.64 40A6 6 0 0 0 467.64 52L492.12 52A6 6 0 0 1 492.12 40Z" />
+    <path fill-rule="evenodd" d="M484.776 48.805L513.336 102.805A6 6 0 0 0 523.944 97.195L495.384 43.195A6 6 0 0 1 484.776 48.805Z" />
+    <path fill-rule="evenodd" d="M550.68 0L550.68 100A6 6 0 0 0 562.68 100L562.68 0A6 6 0 0 1 550.68 0Z" />
+    <path fill-rule="evenodd" d="M556.68 106L601.56 106A6 6 0 0 0 601.56 94L556.68 94A6 6 0 0 1 556.68 106Z" />
+    <path fill-rule="evenodd" d="M645.304 101.862L677.944 1.862A6 6 0 0 0 666.536 -1.862L633.896 98.138A6 6 0 0 1 645.304 101.862ZM666.536 1.862L699.176 101.862A6 6 0 0 0 710.584 98.138L677.944 -1.862A6 6 0 0 1 666.536 1.862Z" />
+    <path fill-rule="evenodd" d="M653.88 70L690.6 70A6 6 0 0 0 690.6 58L653.88 58A6 6 0 0 1 653.88 70Z" />
+  </g>
+</svg>
+</div></div>
+    <div class="card"><h3>Lockup horizontal</h3><div class="center"><svg style="height:72px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4.221 1.16" role="img" data-ld="nocturla-lockup-horizontal">
+<title>Nocturla — slow radio for the small hours — horizontal lockup</title>
+<svg x="0.08" y="0.08" width="1.073" height="1" viewBox="22 24 206 192" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #2B5B84)">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g></svg>
+  <svg x="1.453" y="0.37" width="2.688" height="0.42" viewBox="-6 -6 716.88 112" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #18202B)">
+    <path fill-rule="evenodd" d="M6 100L6 0A6 6 0 0 0 -6 0L-6 100A6 6 0 0 1 6 100ZM-5.164 3.055L53.996 103.055A6 6 0 0 0 64.324 96.945L5.164 -3.055A6 6 0 0 1 -5.164 3.055ZM65.16 100L65.16 0A6 6 0 0 0 53.16 0L53.16 100A6 6 0 0 1 65.16 100Z" />
+    <path fill-rule="evenodd" d="M95.16 50A29.58 50 0 1 0 154.32 50A29.58 50 0 1 0 95.16 50ZM107.16 50A17.58 38 0 1 1 142.32 50A17.58 38 0 1 1 107.16 50Z" />
+    <path fill-rule="evenodd" d="M243.14 7.407L228.86 -4.593A6 6 0 0 0 221.14 4.593L235.42 16.593A6 6 0 0 1 243.14 7.407ZM225 -6L206.64 -6A6 6 0 0 0 206.64 6L225 6A6 6 0 0 1 225 -6ZM202.44 -4.284L188.16 9.716A6 6 0 0 0 196.56 18.284L210.84 4.284A6 6 0 0 1 202.44 -4.284ZM186.36 14L186.36 86A6 6 0 0 0 198.36 86L198.36 14A6 6 0 0 1 186.36 14ZM188.16 90.284L202.44 104.284A6 6 0 0 0 210.84 95.716L196.56 81.716A6 6 0 0 1 188.16 90.284ZM206.64 106L225 106A6 6 0 0 0 225 94L206.64 94A6 6 0 0 1 206.64 106ZM228.86 104.593L243.14 92.593A6 6 0 0 0 235.42 83.407L221.14 95.407A6 6 0 0 1 228.86 104.593Z" />
+    <path fill-rule="evenodd" d="M281.4 6L336.48 6A6 6 0 0 0 336.48 -6L281.4 -6A6 6 0 0 1 281.4 6Z" />
+    <path fill-rule="evenodd" d="M302.94 0L302.94 100A6 6 0 0 0 314.94 100L314.94 0A6 6 0 0 1 302.94 0Z" />
+    <path fill-rule="evenodd" d="M366.48 0L366.48 76A6 6 0 0 0 378.48 76L378.48 0A6 6 0 0 1 366.48 0ZM367.135 78.726L375.295 94.726A6 6 0 0 0 385.985 89.274L377.825 73.274A6 6 0 0 1 367.135 78.726ZM378.243 97.501L396.603 105.501A6 6 0 0 0 401.397 94.499L383.037 86.499A6 6 0 0 1 378.243 97.501ZM399 106L405.12 106A6 6 0 0 0 405.12 94L399 94A6 6 0 0 1 399 106ZM407.517 105.501L425.877 97.501A6 6 0 0 0 421.083 86.499L402.723 94.499A6 6 0 0 1 407.517 105.501ZM428.825 94.726L436.985 78.726A6 6 0 0 0 426.295 73.274L418.135 89.274A6 6 0 0 1 428.825 94.726ZM437.64 76L437.64 0A6 6 0 0 0 425.64 0L425.64 76A6 6 0 0 1 437.64 76Z" />
+    <path fill-rule="evenodd" d="M461.64 0L461.64 100A6 6 0 0 0 473.64 100L473.64 0A6 6 0 0 1 461.64 0Z" />
+    <path fill-rule="evenodd" d="M467.64 6L492.12 6A6 6 0 0 0 492.12 -6L467.64 -6A6 6 0 0 1 467.64 6ZM489.25 5.269L507.61 15.269A6 6 0 0 0 513.35 4.731L494.99 -5.269A6 6 0 0 1 489.25 5.269ZM504.982 12.403L511.102 26.403A6 6 0 0 0 522.098 21.597L515.978 7.597A6 6 0 0 1 504.982 12.403ZM511.255 21.274L505.135 33.274A6 6 0 0 0 515.825 38.726L521.945 26.726A6 6 0 0 1 511.255 21.274ZM507.61 30.731L489.25 40.731A6 6 0 0 0 494.99 51.269L513.35 41.269A6 6 0 0 1 507.61 30.731ZM492.12 40L467.64 40A6 6 0 0 0 467.64 52L492.12 52A6 6 0 0 1 492.12 40Z" />
+    <path fill-rule="evenodd" d="M484.776 48.805L513.336 102.805A6 6 0 0 0 523.944 97.195L495.384 43.195A6 6 0 0 1 484.776 48.805Z" />
+    <path fill-rule="evenodd" d="M550.68 0L550.68 100A6 6 0 0 0 562.68 100L562.68 0A6 6 0 0 1 550.68 0Z" />
+    <path fill-rule="evenodd" d="M556.68 106L601.56 106A6 6 0 0 0 601.56 94L556.68 94A6 6 0 0 1 556.68 106Z" />
+    <path fill-rule="evenodd" d="M645.304 101.862L677.944 1.862A6 6 0 0 0 666.536 -1.862L633.896 98.138A6 6 0 0 1 645.304 101.862ZM666.536 1.862L699.176 101.862A6 6 0 0 0 710.584 98.138L677.944 -1.862A6 6 0 0 1 666.536 1.862Z" />
+    <path fill-rule="evenodd" d="M653.88 70L690.6 70A6 6 0 0 0 690.6 58L653.88 58A6 6 0 0 1 653.88 70Z" />
+  </g></svg>
+</svg>
+</div></div>
+    <div class="card"><h3>Lockup stacked</h3><div class="center"><svg style="height:78px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.848 1.8" role="img" data-ld="nocturla-lockup-stacked">
+<title>Nocturla — slow radio for the small hours — stacked lockup</title>
+<svg x="0.888" y="0.08" width="1.073" height="1" viewBox="22 24 206 192" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #2B5B84)">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="2.688" height="0.42" viewBox="-6 -6 716.88 112" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #18202B)">
+    <path fill-rule="evenodd" d="M6 100L6 0A6 6 0 0 0 -6 0L-6 100A6 6 0 0 1 6 100ZM-5.164 3.055L53.996 103.055A6 6 0 0 0 64.324 96.945L5.164 -3.055A6 6 0 0 1 -5.164 3.055ZM65.16 100L65.16 0A6 6 0 0 0 53.16 0L53.16 100A6 6 0 0 1 65.16 100Z" />
+    <path fill-rule="evenodd" d="M95.16 50A29.58 50 0 1 0 154.32 50A29.58 50 0 1 0 95.16 50ZM107.16 50A17.58 38 0 1 1 142.32 50A17.58 38 0 1 1 107.16 50Z" />
+    <path fill-rule="evenodd" d="M243.14 7.407L228.86 -4.593A6 6 0 0 0 221.14 4.593L235.42 16.593A6 6 0 0 1 243.14 7.407ZM225 -6L206.64 -6A6 6 0 0 0 206.64 6L225 6A6 6 0 0 1 225 -6ZM202.44 -4.284L188.16 9.716A6 6 0 0 0 196.56 18.284L210.84 4.284A6 6 0 0 1 202.44 -4.284ZM186.36 14L186.36 86A6 6 0 0 0 198.36 86L198.36 14A6 6 0 0 1 186.36 14ZM188.16 90.284L202.44 104.284A6 6 0 0 0 210.84 95.716L196.56 81.716A6 6 0 0 1 188.16 90.284ZM206.64 106L225 106A6 6 0 0 0 225 94L206.64 94A6 6 0 0 1 206.64 106ZM228.86 104.593L243.14 92.593A6 6 0 0 0 235.42 83.407L221.14 95.407A6 6 0 0 1 228.86 104.593Z" />
+    <path fill-rule="evenodd" d="M281.4 6L336.48 6A6 6 0 0 0 336.48 -6L281.4 -6A6 6 0 0 1 281.4 6Z" />
+    <path fill-rule="evenodd" d="M302.94 0L302.94 100A6 6 0 0 0 314.94 100L314.94 0A6 6 0 0 1 302.94 0Z" />
+    <path fill-rule="evenodd" d="M366.48 0L366.48 76A6 6 0 0 0 378.48 76L378.48 0A6 6 0 0 1 366.48 0ZM367.135 78.726L375.295 94.726A6 6 0 0 0 385.985 89.274L377.825 73.274A6 6 0 0 1 367.135 78.726ZM378.243 97.501L396.603 105.501A6 6 0 0 0 401.397 94.499L383.037 86.499A6 6 0 0 1 378.243 97.501ZM399 106L405.12 106A6 6 0 0 0 405.12 94L399 94A6 6 0 0 1 399 106ZM407.517 105.501L425.877 97.501A6 6 0 0 0 421.083 86.499L402.723 94.499A6 6 0 0 1 407.517 105.501ZM428.825 94.726L436.985 78.726A6 6 0 0 0 426.295 73.274L418.135 89.274A6 6 0 0 1 428.825 94.726ZM437.64 76L437.64 0A6 6 0 0 0 425.64 0L425.64 76A6 6 0 0 1 437.64 76Z" />
+    <path fill-rule="evenodd" d="M461.64 0L461.64 100A6 6 0 0 0 473.64 100L473.64 0A6 6 0 0 1 461.64 0Z" />
+    <path fill-rule="evenodd" d="M467.64 6L492.12 6A6 6 0 0 0 492.12 -6L467.64 -6A6 6 0 0 1 467.64 6ZM489.25 5.269L507.61 15.269A6 6 0 0 0 513.35 4.731L494.99 -5.269A6 6 0 0 1 489.25 5.269ZM504.982 12.403L511.102 26.403A6 6 0 0 0 522.098 21.597L515.978 7.597A6 6 0 0 1 504.982 12.403ZM511.255 21.274L505.135 33.274A6 6 0 0 0 515.825 38.726L521.945 26.726A6 6 0 0 1 511.255 21.274ZM507.61 30.731L489.25 40.731A6 6 0 0 0 494.99 51.269L513.35 41.269A6 6 0 0 1 507.61 30.731ZM492.12 40L467.64 40A6 6 0 0 0 467.64 52L492.12 52A6 6 0 0 1 492.12 40Z" />
+    <path fill-rule="evenodd" d="M484.776 48.805L513.336 102.805A6 6 0 0 0 523.944 97.195L495.384 43.195A6 6 0 0 1 484.776 48.805Z" />
+    <path fill-rule="evenodd" d="M550.68 0L550.68 100A6 6 0 0 0 562.68 100L562.68 0A6 6 0 0 1 550.68 0Z" />
+    <path fill-rule="evenodd" d="M556.68 106L601.56 106A6 6 0 0 0 601.56 94L556.68 94A6 6 0 0 1 556.68 106Z" />
+    <path fill-rule="evenodd" d="M645.304 101.862L677.944 1.862A6 6 0 0 0 666.536 -1.862L633.896 98.138A6 6 0 0 1 645.304 101.862ZM666.536 1.862L699.176 101.862A6 6 0 0 0 710.584 98.138L677.944 -1.862A6 6 0 0 1 666.536 1.862Z" />
+    <path fill-rule="evenodd" d="M653.88 70L690.6 70A6 6 0 0 0 690.6 58L653.88 58A6 6 0 0 1 653.88 70Z" />
+  </g></svg>
+</svg>
+</div></div>
+    <div class="card"><h3>Favicon</h3><div class="center"><svg style="height:64px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" data-ld="nocturla-favicon">
+<title>Nocturla — slow radio for the small hours — favicon</title>
+<rect width="64" height="64" rx="14.4" fill="#2B5B84"/>
+<svg x="8.653" y="10.24" width="46.693" height="43.52" viewBox="22 24 206 192" preserveAspectRatio="xMidYMid meet"><g fill="#F4F6F8">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="184" y="90" width="30" height="20" rx="10" />
+    <rect x="184" y="126" width="44" height="20" rx="10" />
+  </g></svg>
+</svg>
+</div></div>
+    <div class="card"><h3>App icon</h3><div class="center"><svg style="height:96px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="nocturla-app-icon">
+<title>Nocturla — slow radio for the small hours — app-icon</title>
+<rect width="512" height="512" rx="115.2" fill="#2B5B84"/>
+<svg x="85.707" y="97.28" width="340.587" height="317.44" viewBox="22 24 206 192" preserveAspectRatio="xMidYMid meet"><g fill="#F4F6F8">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g></svg>
+</svg>
+</div></div>
+    <div class="card"><h3>Maskable</h3><div class="center"><svg style="height:96px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="nocturla-app-icon-maskable">
+<title>Nocturla — slow radio for the small hours — app-icon-maskable</title>
+<rect width="512" height="512" rx="0" fill="#2B5B84"/>
+<svg x="118.667" y="128" width="274.667" height="256" viewBox="22 24 206 192" preserveAspectRatio="xMidYMid meet"><g fill="#F4F6F8">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g></svg>
+</svg>
+</div></div>
+  </div>
+
+  <h2>Small sizes</h2>
+  <div class="card">
+    <div class="size-row">
+      <figure><svg style="width:64px;height:64px" xmlns="http://www.w3.org/2000/svg" viewBox="22 24 206 192" role="img" data-ld="nocturla-symbol">
+<title>Nocturla — slow radio for the small hours — symbol</title>
+<g fill="var(--ld-brand, #2B5B84)">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g>
+</svg>
+<figcaption>64px</figcaption></figure>
+      <figure><svg style="width:40px;height:40px" xmlns="http://www.w3.org/2000/svg" viewBox="22 24 206 192" role="img" data-ld="nocturla-symbol">
+<title>Nocturla — slow radio for the small hours — symbol</title>
+<g fill="var(--ld-brand, #2B5B84)">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g>
+</svg>
+<figcaption>40px</figcaption></figure>
+      <figure><svg style="width:24px;height:24px" xmlns="http://www.w3.org/2000/svg" viewBox="22 24 206 192" role="img" data-ld="nocturla-symbol">
+<title>Nocturla — slow radio for the small hours — symbol</title>
+<g fill="var(--ld-brand, #2B5B84)">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g>
+</svg>
+<figcaption>24px</figcaption></figure>
+      <figure><svg style="width:16px;height:16px" xmlns="http://www.w3.org/2000/svg" viewBox="22 24 206 192" role="img" data-ld="nocturla-symbol">
+<title>Nocturla — slow radio for the small hours — symbol</title>
+<g fill="var(--ld-brand, #2B5B84)">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g>
+</svg>
+<figcaption>16px</figcaption></figure>
+      <div class="tab"><span class="dot"></span><span>Nocturla</span></div>
+    </div>
+  </div>
+
+  <h2>One line</h2>
+  <div class="split">
+    <div class="card">
+      <pre class="code">&lt;svg style="--ld-brand: #2B5B84; --ld-accent: #B45309"&gt;
+  …
+&lt;/svg&gt;
+
+&lt;NocturlaLogo type="horizontal" /&gt;</pre>
+    </div>
+    <div class="card">
+      <div class="center"><svg style="height:78px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.848 1.8" role="img" data-ld="nocturla-lockup-stacked">
+<title>Nocturla — slow radio for the small hours — stacked lockup</title>
+<svg x="0.888" y="0.08" width="1.073" height="1" viewBox="22 24 206 192" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-brand, #2B5B84)">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g></svg>
+  <svg x="0.08" y="1.3" width="2.688" height="0.42" viewBox="-6 -6 716.88 112" preserveAspectRatio="xMidYMid meet"><g fill="var(--ld-ink, #18202B)">
+    <path fill-rule="evenodd" d="M6 100L6 0A6 6 0 0 0 -6 0L-6 100A6 6 0 0 1 6 100ZM-5.164 3.055L53.996 103.055A6 6 0 0 0 64.324 96.945L5.164 -3.055A6 6 0 0 1 -5.164 3.055ZM65.16 100L65.16 0A6 6 0 0 0 53.16 0L53.16 100A6 6 0 0 1 65.16 100Z" />
+    <path fill-rule="evenodd" d="M95.16 50A29.58 50 0 1 0 154.32 50A29.58 50 0 1 0 95.16 50ZM107.16 50A17.58 38 0 1 1 142.32 50A17.58 38 0 1 1 107.16 50Z" />
+    <path fill-rule="evenodd" d="M243.14 7.407L228.86 -4.593A6 6 0 0 0 221.14 4.593L235.42 16.593A6 6 0 0 1 243.14 7.407ZM225 -6L206.64 -6A6 6 0 0 0 206.64 6L225 6A6 6 0 0 1 225 -6ZM202.44 -4.284L188.16 9.716A6 6 0 0 0 196.56 18.284L210.84 4.284A6 6 0 0 1 202.44 -4.284ZM186.36 14L186.36 86A6 6 0 0 0 198.36 86L198.36 14A6 6 0 0 1 186.36 14ZM188.16 90.284L202.44 104.284A6 6 0 0 0 210.84 95.716L196.56 81.716A6 6 0 0 1 188.16 90.284ZM206.64 106L225 106A6 6 0 0 0 225 94L206.64 94A6 6 0 0 1 206.64 106ZM228.86 104.593L243.14 92.593A6 6 0 0 0 235.42 83.407L221.14 95.407A6 6 0 0 1 228.86 104.593Z" />
+    <path fill-rule="evenodd" d="M281.4 6L336.48 6A6 6 0 0 0 336.48 -6L281.4 -6A6 6 0 0 1 281.4 6Z" />
+    <path fill-rule="evenodd" d="M302.94 0L302.94 100A6 6 0 0 0 314.94 100L314.94 0A6 6 0 0 1 302.94 0Z" />
+    <path fill-rule="evenodd" d="M366.48 0L366.48 76A6 6 0 0 0 378.48 76L378.48 0A6 6 0 0 1 366.48 0ZM367.135 78.726L375.295 94.726A6 6 0 0 0 385.985 89.274L377.825 73.274A6 6 0 0 1 367.135 78.726ZM378.243 97.501L396.603 105.501A6 6 0 0 0 401.397 94.499L383.037 86.499A6 6 0 0 1 378.243 97.501ZM399 106L405.12 106A6 6 0 0 0 405.12 94L399 94A6 6 0 0 1 399 106ZM407.517 105.501L425.877 97.501A6 6 0 0 0 421.083 86.499L402.723 94.499A6 6 0 0 1 407.517 105.501ZM428.825 94.726L436.985 78.726A6 6 0 0 0 426.295 73.274L418.135 89.274A6 6 0 0 1 428.825 94.726ZM437.64 76L437.64 0A6 6 0 0 0 425.64 0L425.64 76A6 6 0 0 1 437.64 76Z" />
+    <path fill-rule="evenodd" d="M461.64 0L461.64 100A6 6 0 0 0 473.64 100L473.64 0A6 6 0 0 1 461.64 0Z" />
+    <path fill-rule="evenodd" d="M467.64 6L492.12 6A6 6 0 0 0 492.12 -6L467.64 -6A6 6 0 0 1 467.64 6ZM489.25 5.269L507.61 15.269A6 6 0 0 0 513.35 4.731L494.99 -5.269A6 6 0 0 1 489.25 5.269ZM504.982 12.403L511.102 26.403A6 6 0 0 0 522.098 21.597L515.978 7.597A6 6 0 0 1 504.982 12.403ZM511.255 21.274L505.135 33.274A6 6 0 0 0 515.825 38.726L521.945 26.726A6 6 0 0 1 511.255 21.274ZM507.61 30.731L489.25 40.731A6 6 0 0 0 494.99 51.269L513.35 41.269A6 6 0 0 1 507.61 30.731ZM492.12 40L467.64 40A6 6 0 0 0 467.64 52L492.12 52A6 6 0 0 1 492.12 40Z" />
+    <path fill-rule="evenodd" d="M484.776 48.805L513.336 102.805A6 6 0 0 0 523.944 97.195L495.384 43.195A6 6 0 0 1 484.776 48.805Z" />
+    <path fill-rule="evenodd" d="M550.68 0L550.68 100A6 6 0 0 0 562.68 100L562.68 0A6 6 0 0 1 550.68 0Z" />
+    <path fill-rule="evenodd" d="M556.68 106L601.56 106A6 6 0 0 0 601.56 94L556.68 94A6 6 0 0 1 556.68 106Z" />
+    <path fill-rule="evenodd" d="M645.304 101.862L677.944 1.862A6 6 0 0 0 666.536 -1.862L633.896 98.138A6 6 0 0 1 645.304 101.862ZM666.536 1.862L699.176 101.862A6 6 0 0 0 710.584 98.138L677.944 -1.862A6 6 0 0 1 666.536 1.862Z" />
+    <path fill-rule="evenodd" d="M653.88 70L690.6 70A6 6 0 0 0 690.6 58L653.88 58A6 6 0 0 1 653.88 70Z" />
+  </g></svg>
+</svg>
+</div>
+      <div class="center"><svg style="height:96px;width:auto;max-width:100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" data-ld="nocturla-app-icon">
+<title>Nocturla — slow radio for the small hours — app-icon</title>
+<rect width="512" height="512" rx="115.2" fill="#2B5B84"/>
+<svg x="85.707" y="97.28" width="340.587" height="317.44" viewBox="22 24 206 192" preserveAspectRatio="xMidYMid meet"><g fill="#F4F6F8">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g></svg>
+</svg>
+</div>
+    </div>
+  </div>
+
+  <h2>Files</h2>
+  <ul class="files"><li><code>nocturla-symbol.svg</code></li><li><code>nocturla-symbol-mono.svg</code></li><li><code>nocturla-symbol-dark.svg</code></li><li><code>nocturla-wordmark.svg</code></li><li><code>nocturla-wordmark-mono.svg</code></li><li><code>nocturla-wordmark-dark.svg</code></li><li><code>nocturla-lockup-horizontal.svg</code></li><li><code>nocturla-lockup-horizontal-mono.svg</code></li><li><code>nocturla-lockup-horizontal-dark.svg</code></li><li><code>nocturla-lockup-stacked.svg</code></li><li><code>nocturla-lockup-stacked-mono.svg</code></li><li><code>nocturla-lockup-stacked-dark.svg</code></li><li><code>nocturla-favicon.svg</code></li><li><code>nocturla-app-icon.svg</code></li><li><code>nocturla-app-icon-maskable.svg</code></li><li><code>nocturla.tsx</code></li><li><code>nocturla-tokens.json</code></li><li><code>nocturla-palette.css</code></li></ul>
+
+  <footer>
+    Built by logodeck from one manifest and two masters. 4.221 × 1.16
+    horizontal ratio. No raster, no filter, no <code>&lt;text&gt;</code> in any logo file.
+  </footer>
+</div>
+<script>
+  const root = document.documentElement;
+  const keys = ["brand", "accent", "ink", "bg"];
+  const state = {
+    light: {
+      brand: "#2B5B84",
+      accent: "#B45309",
+      ink: "#18202B",
+      bg: "#F4F6F8",
+    },
+    dark: {
+      brand: "#82B7E8",
+      accent: "#F0A35E",
+      ink: "#E8EFF6",
+      bg: "#0E151D",
+    },
+  };
+  function activeMode() {
+    return root.dataset.theme === "dark" ? "dark" : "light";
+  }
+  function varName(key, mode) {
+    return mode === "dark" ? "--ld-" + key + "-dark" : "--ld-" + key;
+  }
+  function syncInputs() {
+    const mode = activeMode();
+    for (const key of keys) {
+      const input = document.getElementById("c-" + key);
+      if (input) input.value = state[mode][key];
+    }
+  }
+  function apply(key, value) {
+    const mode = activeMode();
+    state[mode][key] = value;
+    root.style.setProperty(varName(key, mode), value);
+  }
+  for (const key of keys) {
+    document.getElementById("c-" + key).addEventListener("input", (event) => {
+      apply(key, event.target.value);
+    });
+  }
+  document.getElementById("theme").addEventListener("click", () => {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+    syncInputs();
+  });
+  document.getElementById("reset").addEventListener("click", () => {
+    for (const mode of ["light", "dark"]) {
+      for (const key of keys) root.style.removeProperty(varName(key, mode));
+    }
+    state.light = {
+      brand: "#2B5B84",
+      accent: "#B45309",
+      ink: "#18202B",
+      bg: "#F4F6F8",
+    };
+    state.dark = {
+      brand: "#82B7E8",
+      accent: "#F0A35E",
+      ink: "#E8EFF6",
+      bg: "#0E151D",
+    };
+    syncInputs();
+  });
+</script>
+</body>
+</html>

@@ -36,6 +36,21 @@
       ]
     },
     {
+      "id": "two-palettes",
+      "prompt": "Show the same identity in the moss-clay and clay-cream palettes without redrawing anything.",
+      "must": [
+        "keep one pair of masters and build a second complete deck",
+        "declare the alternate palette in the manifest",
+        "report the measured contrast for both modes of both palettes",
+        "keep mono, dark, lockups, favicon and React consistent across the two decks"
+      ],
+      "mustNot": [
+        "duplicate or recolour the masters by hand",
+        "edit generated SVGs one by one",
+        "ship a second deck that is missing variants"
+      ]
+    },
+    {
       "id": "dark-favicon",
       "prompt": "Give me a proper dark version and a favicon that reads at 16 px.",
       "must": [

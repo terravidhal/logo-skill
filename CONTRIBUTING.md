@@ -5,7 +5,7 @@ Logodeck is a design system with a small, dependency-free engine. Keep it that w
 ## Ground rules
 
 - No runtime dependency. The build, audit and palette scripts run on Node 20+ with the
-  standard library only. Playwright is optional and only used to render PNG captures.
+  standard library only. Chromium is optional and only used to render PNG captures.
 - No brand assets. Do not add a real logo, a trademark, a font file or a screenshot of a
   third-party mark. Every example must be original and fictional.
 - No copied text. Write instructions in your own words. Cite ideas, never paste files.
@@ -14,16 +14,22 @@ Logodeck is a design system with a small, dependency-free engine. Keep it that w
 ## Local checks
 
 ```bash
-npm run lint          # structure, frontmatter, links, JSON, palettes, build, audit
-npm run build:example # rebuild examples/loam/dist
-npm run audit:example # audit every generated SVG
+npm run lint          # structure, frontmatter, links, JSON, palettes, all builds, audits
+npm run build:examples # rebuild every deck, primary and alternate palette
+npm run boards        # regenerate the eight plates and the gallery
+npm run proof         # regenerate the before/after page
+npm run audit:examples # audit the committed decks without rebuilding
 npm run typecheck     # requires typescript, react and @types/react installed
-npm run capture       # requires playwright and a Chromium download
+npm run capture       # requires Chromium; ffmpeg is optional for the GIF
 ```
 
-`npm run lint` rebuilds the example in a temporary directory and compares it with the
-committed deck. If you change the manifest or a master, run `npm run build:example` and
-commit the regenerated files in `examples/loam/dist`.
+`npm run lint` rebuilds every example in a temporary directory and compares it with the
+committed decks. If you change a manifest or a master, run `npm run build:examples`,
+`npm run boards` and `npm run proof`, then commit the regenerated files.
+
+The seven added brands are drawn by `examples/make-masters.mjs`; run `npm run masters` before a
+build if you edit that generator. The script is deterministic and writes only the seven brand
+folders, never the Loam masters.
 
 ## Changing the engine
 
@@ -32,6 +38,8 @@ commit the regenerated files in `examples/loam/dist`.
 - Add or change a palette in `skills/logodeck/assets/palettes.json` and run the palette
   check. A palette that fails contrast is rejected.
 - Update `references/variants.md` and the matrix in `SKILL.md` when the output list changes.
+- The proof captures are the only heavy files in the repository. Do not add more image formats
+  or duplicate captures: the four viewport/theme pairs per plate are the contract.
 
 ## Commits
 

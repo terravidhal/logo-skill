@@ -3,180 +3,281 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Logodeck — a family of files, not a single logo</title>
+<title>logodeck — eight identities, two palettes each</title>
 <style>
   :root {
-    --ld-bg: #F6F4EC;
-    --ld-ink: #16241D;
-    --ld-brand: #1F6F4A;
-    --ld-accent: #C2542D;
-    --ld-bg-dark: #101A16;
-    --ld-ink-dark: #EAF2EC;
-    --ld-brand-dark: #64C79A;
-    --ld-accent-dark: #F08A5D;
-    --surface: #fffdf8;
-    --line: rgba(22, 36, 29, .14);
-    --muted: rgba(22, 36, 29, .64);
+    --bg: #F6F4EC; --ink: #16241D; --brand: #1F6F4A; --accent: #C2542D;
+    --muted: rgba(22, 36, 29, .64); --line: rgba(22, 36, 29, .15); --surface: #FFFDF8;
     color-scheme: light;
     font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   }
   html[data-theme="dark"] {
-    --ld-bg: var(--ld-bg-dark);
-    --ld-ink: var(--ld-ink-dark);
-    --ld-brand: var(--ld-brand-dark);
-    --ld-accent: var(--ld-accent-dark);
-    --surface: #18211d;
-    --line: rgba(234, 242, 236, .16);
-    --muted: rgba(234, 242, 236, .64);
+    --bg: #101A16; --ink: #EAF2EC; --brand: #64C79A; --accent: #F08A5D;
+    --muted: rgba(234, 242, 236, .66); --line: rgba(234, 242, 236, .16); --surface: #18211D;
     color-scheme: dark;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--ld-bg); color: var(--ld-ink); }
-  .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 24px 0 80px; }
-  nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 2px 0 28px; }
-  nav .logo { height: 46px; width: auto; }
-  nav .tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  button, .button { font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ld-ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; text-decoration: none; display: inline-block; }
-  input[type="color"] { inline-size: 34px; block-size: 30px; border: 1px solid var(--line); border-radius: 8px; background: transparent; padding: 2px; }
-  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center; padding: 54px 0 40px; }
-  .hero h1 { font-size: clamp(36px, 5vw, 64px); line-height: 1.02; letter-spacing: -.03em; margin: 0 0 18px; }
-  .hero p { font-size: 18px; line-height: 1.6; color: var(--muted); max-width: 54ch; margin: 0; }
-  .hero .mark { border: 1px solid var(--line); border-radius: 32px; background: var(--surface); padding: 40px; display: grid; place-items: center; min-height: 280px; }
-  .hero .mark svg { width: min(220px, 60%); height: auto; }
-  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
-  .card { border: 1px solid var(--line); border-radius: 20px; background: var(--surface); padding: 22px; }
-  .card h3 { margin: 0 0 8px; font-size: 16px; }
-  .card p { margin: 0; color: var(--muted); line-height: 1.55; font-size: 14px; }
-  .strip { display: flex; align-items: flex-end; gap: 34px; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); padding: 24px; margin-top: 16px; }
-  .strip figure { margin: 0; text-align: center; color: var(--muted); font-size: 12px; }
-  .strip svg { display: block; margin: 0 auto 8px; }
-  .theme-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-top: 20px; }
-  .theme-row label { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); }
-  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; }
-  @media (max-width: 820px) { .hero { grid-template-columns: 1fr; } .cards { grid-template-columns: 1fr; } }
+  body { margin: 0; background: var(--bg); color: var(--ink); transition: background 170ms ease, color 170ms ease; }
+  .wrap { width: min(1240px, calc(100% - 48px)); margin: 0 auto; padding: 30px 0 78px; }
+  nav { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding-bottom: 34px; }
+  nav .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.02em; }
+  nav .brand i { width: 11px; height: 11px; border-radius: 3px; background: var(--brand); display: block; }
+  nav .tools { display: flex; gap: 8px; }
+  button, .button { font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+  .hero { display: grid; grid-template-columns: 1.25fr .75fr; gap: 40px; align-items: end; padding: 30px 0 48px; }
+  .eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-size: clamp(48px, 7vw, 96px); line-height: .93; letter-spacing: -.045em; margin: 16px 0 22px; max-width: 14ch; }
+  .lede { font-size: clamp(17px, 2vw, 22px); line-height: 1.55; color: var(--muted); max-width: 54ch; margin: 0; }
+  .install { margin-top: 24px; display: inline-block; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 12px 16px; font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .hero-side { border: 1px solid var(--line); border-radius: 26px; background: var(--surface); padding: 24px; display: grid; gap: 18px; }
+  .hero-side h2 { margin: 0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .hero-side p { margin: 0; color: var(--muted); line-height: 1.6; font-size: 14px; }
+  .symbol-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .symbol-row span { width: 38px; height: 38px; display: block; padding: 4px; background: rgba(255,255,255,.92); border-radius: 9px; }
+  .symbol-row svg { width: 100%; height: 100%; display: block; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .brand-card { --bg: var(--c-bg-l); --ink: var(--c-ink-l); --brand: var(--c-brand-l); --accent: var(--c-accent-l);
+    --ld-brand: var(--brand); --ld-ink: var(--ink); --ld-accent: var(--accent);
+    display: flex; flex-direction: column; gap: 16px; min-height: 330px; border-radius: 24px; padding: 18px;
+    background: var(--bg); color: var(--ink); border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+    text-decoration: none; transition: transform 160ms ease, box-shadow 160ms ease; }
+  html[data-theme="dark"] .brand-card { --bg: var(--c-bg-d); --ink: var(--c-ink-d); --brand: var(--c-brand-d); --accent: var(--c-accent-d); }
+  .brand-card:hover { transform: translateY(-3px); box-shadow: 0 22px 50px rgba(10, 20, 15, .16); }
+  .card-top { display: flex; justify-content: space-between; gap: 10px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--ink) 62%, transparent); }
+  .card-art { flex: 1; display: grid; place-items: center; padding: 12px 0; }
+  .card-art svg { width: 112px; height: 112px; display: block; }
+  .card-copy h2 { margin: 0 0 5px; font-size: 24px; letter-spacing: -.02em; }
+  .card-copy p { margin: 0; font-size: 13px; line-height: 1.5; color: color-mix(in srgb, var(--ink) 66%, transparent); }
+  .card-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 12px; color: color-mix(in srgb, var(--ink) 62%, transparent); }
+  .dots { display: flex; gap: 5px; } .dots i { width: 10px; height: 10px; border-radius: 50%; display: block; }
+  .note { margin-top: 44px; border-top: 1px solid var(--line); padding-top: 20px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; color: var(--muted); font-size: 13px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  @media (max-width: 1040px) { .grid { grid-template-columns: repeat(2, 1fr); } .hero { grid-template-columns: 1fr; } }
+  @media (max-width: 620px) {
+    .wrap { width: calc(100% - 28px); padding-top: 16px; }
+    .grid { grid-template-columns: 1fr; }
+    .brand-card { min-height: 290px; }
+    .hero { padding-top: 14px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <nav>
-    <svg class="logo" viewBox="0 0 3.092 1.16" role="img" aria-label="Loam">
-      <svg x="0.08" y="0.08" width="0.962" height="1" viewBox="28 24 200 208" preserveAspectRatio="xMidYMid meet">
-        <path fill="var(--ld-brand, #1F6F4A)" fill-rule="evenodd" d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"/>
-      </svg>
-      <svg x="1.342" y="0.36" width="1.67" height="0.44" viewBox="0 12 334 88" preserveAspectRatio="xMidYMid meet">
-        <g fill="var(--ld-ink, #16241D)">
-          <rect x="0" y="12" width="14" height="88" rx="7"/>
-          <rect x="0" y="86" width="58" height="14" rx="7"/>
-          <path fill-rule="evenodd" d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"/>
-          <path fill-rule="evenodd" d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"/>
-          <rect x="200" y="44" width="14" height="56" rx="7"/>
-          <rect x="232" y="44" width="14" height="56" rx="7"/>
-          <rect x="276" y="44" width="14" height="56" rx="7"/>
-          <rect x="320" y="44" width="14" height="56" rx="7"/>
-          <rect x="232" y="44" width="58" height="14" rx="7"/>
-          <rect x="276" y="44" width="58" height="14" rx="7"/>
-        </g>
-      </svg>
-    </svg>
-    <div class="tools">
-      <button type="button" id="theme">Toggle dark</button>
-      <a class="button" href="../loam/dist/loam-preview.html">Open the preview</a>
-    </div>
+    <div class="brand"><i></i>logodeck</div>
+    <div class="tools"><button type="button" id="theme">Toggle dark</button><a class="button" href="../../README.md">README</a></div>
   </nav>
 
-  <section class="hero">
+  <header class="hero">
     <div>
+      <div class="eyebrow">Eight fictional identities · two audited palettes each</div>
       <h1>A logo is a family of files.</h1>
-      <p>Logodeck draws one symbol and one wordmark, then composes the icon, the mono mark, the dark
-      version, the wordmark, both lockups, the favicon, the app icon, the tokens, the preview and a
-      typed React component. One manifest, one geometry, no drift.</p>
-      <div class="theme-row">
-        <label>Brand <input type="color" id="brand" value="#1F6F4A" /></label>
-        <label>Accent <input type="color" id="accent" value="#C2542D" /></label>
-        <label>Ink <input type="color" id="ink" value="#16241D" /></label>
-        <label>Background <input type="color" id="bg" value="#F6F4EC" /></label>
-      </div>
+      <p class="lede">Each plate starts from one symbol and one wordmark, then builds the icon, mono, dark, lockups, favicon, app icon, tokens, preview and a typed React component. Colour changes in one line.</p>
+      <div class="install">npx skills add terravidhal/logodeck</div>
     </div>
-    <div class="mark">
-      <svg viewBox="28 24 200 208" role="img" aria-label="Loam symbol">
-        <path fill="var(--ld-brand, #1F6F4A)" fill-rule="evenodd" d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"/>
-      </svg>
-    </div>
-  </section>
+    <aside class="hero-side">
+      <h2>In this repository</h2>
+      <p>Eight sectors, eight mark types, sixteen complete decks. Open any plate to compare the primary and alternate palettes side by side.</p>
+      <div class="symbol-row"><span title="Aerune"><svg xmlns="http://www.w3.org/2000/svg" viewBox="22 30 196 178" role="img" data-ld="aerune-symbol">
+<title>Aerune — weather windows for paragliding pilots — symbol</title>
+<g fill="var(--ld-brand, #2B5B84)">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g>
+</svg>
+</span><span title="Brambler"><svg xmlns="http://www.w3.org/2000/svg" viewBox="31 17.5 178 197.5" role="img" data-ld="brambler-symbol">
+<title>Brambler — small-batch preserves from hedgerow fruit — symbol</title>
+<g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g>
+</svg>
+</span><span title="Cindral"><svg xmlns="http://www.w3.org/2000/svg" viewBox="44 16 152 208" role="img" data-ld="cindral-symbol">
+<title>Cindral — wood-fired coffee, roasted in small batches — symbol</title>
+<g fill="var(--ld-brand, #8A3B22)">
+    <path fill-rule="evenodd" d="M120 16C158 54 196 92 196 140C196 188 162 224 120 224C78 224 44 188 44 140C44 92 82 54 120 16ZM120 84C150 84 172 106 172 136C172 160 158 180 138 190C120 198 98 192 82 176C66 160 66 132 82 114C94 100 106 86 120 84ZM111.713 106.572L123.713 126.572A5 5 0 0 0 132.287 121.428L120.287 101.428A5 5 0 0 1 111.713 106.572ZM123.904 121.133L109.904 141.133A5 5 0 0 0 118.096 146.867L132.096 126.867A5 5 0 0 1 123.904 121.133ZM109.904 146.867L123.904 166.867A5 5 0 0 0 132.096 161.133L118.096 141.133A5 5 0 0 1 109.904 146.867Z" />
+  </g>
+</svg>
+</span><span title="Loam"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 24 200 208" role="img" data-ld="loam-symbol">
+<title>Loam — soil health for small farms — symbol</title>
+<path
+    fill="var(--ld-brand, #1F6F4A)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  />
+</svg>
+</span><span title="Nocturla"><svg xmlns="http://www.w3.org/2000/svg" viewBox="22 24 206 192" role="img" data-ld="nocturla-symbol">
+<title>Nocturla — slow radio for the small hours — symbol</title>
+<g fill="var(--ld-brand, #8A1F4E)">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g>
+</svg>
+</span><span title="Tandera"><svg xmlns="http://www.w3.org/2000/svg" viewBox="24 24 192 192" role="img" data-ld="tandera-symbol">
+<title>Tandera — quiet cycling routes for two — symbol</title>
+<g fill="var(--ld-brand, #1D4ED8)">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g>
+</svg>
+</span><span title="Tessaro"><svg xmlns="http://www.w3.org/2000/svg" viewBox="30 30 196 196" role="img" data-ld="tessaro-symbol">
+<title>Tessaro — modular architecture for tight city plots — symbol</title>
+<g fill="var(--ld-brand, #8A3B22)">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g>
+</svg>
+</span><span title="Velluma"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 28 184 180" role="img" data-ld="velluma-symbol">
+<title>Velluma — notes that keep the shape of a book — symbol</title>
+<g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g>
+</svg>
+</span></div>
+    </aside>
+  </header>
 
-  <section class="cards">
-    <div class="card">
-      <h3>Every variant, once</h3>
-      <p>15 SVG files, tokens, CSS, a preview and a React component, all from the same masters.</p>
-    </div>
-    <div class="card">
-      <h3>Colour in one line</h3>
-      <p>Seven audited palettes and CSS custom properties. Change <code>--ld-brand</code>, rebuild, done.</p>
-    </div>
-    <div class="card">
-      <h3>React that fits</h3>
-      <p><code>variant</code>, <code>type</code>, <code>mode</code>, <code>title</code>. Auto light/dark without Tailwind.</p>
-    </div>
-  </section>
+  <main class="grid">
+    <a class="brand-card" href="../aerune/board.html" style="
+      --c-bg-l:#F4F6F8;--c-ink-l:#18202B;--c-brand-l:#2B5B84;--c-accent-l:#B45309;
+      --c-bg-d:#0E151D;--c-ink-d:#E8EFF6;--c-brand-d:#82B7E8;--c-accent-d:#F0A35E;">
+      <div class="card-top"><span class="num">01</span><span class="sector">Outdoor · weather</span></div>
+      <div class="card-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="22 30 196 178" role="img" data-ld="aerune-symbol">
+<title>Aerune — weather windows for paragliding pilots — symbol</title>
+<g fill="var(--ld-brand, #2B5B84)">
+    <path d="M22 182C38 104 102 46 218 30C154 62 106 110 86 184C68 160 44 162 22 182Z" />
+    <circle cx="152" cy="196" r="12" />
+  </g>
+</svg>
+</div>
+      <div class="card-copy"><h2>Aerune</h2><p>Weather windows for paragliding pilots.</p></div>
+      <div class="card-foot"><span class="dots" aria-hidden="true"><i style="background:var(--brand)"></i><i style="background:var(--accent)"></i><i style="background:var(--ink)"></i></span><span>Open the plate →</span></div>
+    </a>
+<a class="brand-card" href="../brambler/board.html" style="
+      --c-bg-l:#FAF6F3;--c-ink-l:#23161F;--c-brand-l:#6B2C5F;--c-accent-l:#8A5A00;
+      --c-bg-d:#1A1017;--c-ink-d:#F3E9F0;--c-brand-d:#D59ACB;--c-accent-d:#E8B44A;">
+      <div class="card-top"><span class="num">02</span><span class="sector">Food · pantry</span></div>
+      <div class="card-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="31 17.5 178 197.5" role="img" data-ld="brambler-symbol">
+<title>Brambler — small-batch preserves from hedgerow fruit — symbol</title>
+<g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M120 120C112 88 110 54 120 18C138 54 152 86 154 118C144 124 130 126 120 120ZM120 120C151.713 129.072 182.158 144.34 208.335 171C168.158 168.588 133.445 164.713 104.732 150.445C104.536 138.785 109.804 125.66 120 120ZM120 120C96.287 142.928 67.842 161.66 31.665 171C53.842 137.412 74.555 109.287 101.268 91.555C111.464 97.215 120.196 108.34 120 120Z" />
+    <circle cx="120" cy="196" r="18" />
+  </g>
+</svg>
+</div>
+      <div class="card-copy"><h2>Brambler</h2><p>Small-batch preserves from hedgerow fruit.</p></div>
+      <div class="card-foot"><span class="dots" aria-hidden="true"><i style="background:var(--brand)"></i><i style="background:var(--accent)"></i><i style="background:var(--ink)"></i></span><span>Open the plate →</span></div>
+    </a>
+<a class="brand-card" href="../cindral/board.html" style="
+      --c-bg-l:#FBF6EE;--c-ink-l:#2A1E17;--c-brand-l:#8A3B22;--c-accent-l:#4A6B2A;
+      --c-bg-d:#1B120D;--c-ink-d:#F4E8DA;--c-brand-d:#E59A78;--c-accent-d:#A9C77A;">
+      <div class="card-top"><span class="num">03</span><span class="sector">Coffee · roastery</span></div>
+      <div class="card-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="44 16 152 208" role="img" data-ld="cindral-symbol">
+<title>Cindral — wood-fired coffee, roasted in small batches — symbol</title>
+<g fill="var(--ld-brand, #8A3B22)">
+    <path fill-rule="evenodd" d="M120 16C158 54 196 92 196 140C196 188 162 224 120 224C78 224 44 188 44 140C44 92 82 54 120 16ZM120 84C150 84 172 106 172 136C172 160 158 180 138 190C120 198 98 192 82 176C66 160 66 132 82 114C94 100 106 86 120 84ZM111.713 106.572L123.713 126.572A5 5 0 0 0 132.287 121.428L120.287 101.428A5 5 0 0 1 111.713 106.572ZM123.904 121.133L109.904 141.133A5 5 0 0 0 118.096 146.867L132.096 126.867A5 5 0 0 1 123.904 121.133ZM109.904 146.867L123.904 166.867A5 5 0 0 0 132.096 161.133L118.096 141.133A5 5 0 0 1 109.904 146.867Z" />
+  </g>
+</svg>
+</div>
+      <div class="card-copy"><h2>Cindral</h2><p>Wood-fired coffee, roasted in small batches.</p></div>
+      <div class="card-foot"><span class="dots" aria-hidden="true"><i style="background:var(--brand)"></i><i style="background:var(--accent)"></i><i style="background:var(--ink)"></i></span><span>Open the plate →</span></div>
+    </a>
+<a class="brand-card" href="../loam/board.html" style="
+      --c-bg-l:#F6F4EC;--c-ink-l:#16241D;--c-brand-l:#1F6F4A;--c-accent-l:#C2542D;
+      --c-bg-d:#101A16;--c-ink-d:#EAF2EC;--c-brand-d:#64C79A;--c-accent-d:#F08A5D;">
+      <div class="card-top"><span class="num">04</span><span class="sector">Agritech · soil</span></div>
+      <div class="card-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 24 200 208" role="img" data-ld="loam-symbol">
+<title>Loam — soil health for small farms — symbol</title>
+<path
+    fill="var(--ld-brand, #1F6F4A)"
+    fill-rule="evenodd"
+    d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"
+  />
+</svg>
+</div>
+      <div class="card-copy"><h2>Loam</h2><p>Soil health for small farms.</p></div>
+      <div class="card-foot"><span class="dots" aria-hidden="true"><i style="background:var(--brand)"></i><i style="background:var(--accent)"></i><i style="background:var(--ink)"></i></span><span>Open the plate →</span></div>
+    </a>
+<a class="brand-card" href="../nocturla/board.html" style="
+      --c-bg-l:#F7F4F6;--c-ink-l:#1B1720;--c-brand-l:#8A1F4E;--c-accent-l:#3B4FA8;
+      --c-bg-d:#120E15;--c-ink-d:#F2EAF0;--c-brand-d:#F08CB6;--c-accent-d:#9AA9F5;">
+      <div class="card-top"><span class="num">05</span><span class="sector">Audio · wellbeing</span></div>
+      <div class="card-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="22 24 206 192" role="img" data-ld="nocturla-symbol">
+<title>Nocturla — slow radio for the small hours — symbol</title>
+<g fill="var(--ld-brand, #8A1F4E)">
+    <path d="M112 24C62 24 22 67 22 120C22 173 62 216 112 216C146 216 176 197 194 168C174 180 150 187 128 187C89 187 58 157 58 120C58 83 89 53 128 53C146 53 163 59 177 69C163 42 140 24 112 24Z" />
+    <rect x="190" y="92" width="26" height="15" rx="7.5" />
+    <rect x="190" y="124" width="38" height="15" rx="7.5" />
+  </g>
+</svg>
+</div>
+      <div class="card-copy"><h2>Nocturla</h2><p>Slow radio for the small hours.</p></div>
+      <div class="card-foot"><span class="dots" aria-hidden="true"><i style="background:var(--brand)"></i><i style="background:var(--accent)"></i><i style="background:var(--ink)"></i></span><span>Open the plate →</span></div>
+    </a>
+<a class="brand-card" href="../tandera/board.html" style="
+      --c-bg-l:#F3F6FB;--c-ink-l:#101B2D;--c-brand-l:#1D4ED8;--c-accent-l:#0F8A6E;
+      --c-bg-d:#0A1220;--c-ink-d:#E6EEF9;--c-brand-d:#7EA6FF;--c-accent-d:#57D3B0;">
+      <div class="card-top"><span class="num">06</span><span class="sector">Travel · cycling</span></div>
+      <div class="card-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="24 24 192 192" role="img" data-ld="tandera-symbol">
+<title>Tandera — quiet cycling routes for two — symbol</title>
+<g fill="var(--ld-brand, #1D4ED8)">
+    <path fill-rule="evenodd" d="M24 168A48 48 0 1 0 120 168A48 48 0 1 0 24 168ZM45 168A27 27 0 1 1 99 168A27 27 0 1 1 45 168Z" />
+    <path fill-rule="evenodd" d="M120 72A48 48 0 1 0 216 72A48 48 0 1 0 120 72ZM141 72A27 27 0 1 1 195 72A27 27 0 1 1 141 72Z" />
+    <path d="M81.192 177.192L177.192 81.192A13 13 0 0 0 158.808 62.808L62.808 158.808A13 13 0 0 1 81.192 177.192Z" />
+  </g>
+</svg>
+</div>
+      <div class="card-copy"><h2>Tandera</h2><p>Quiet cycling routes for two.</p></div>
+      <div class="card-foot"><span class="dots" aria-hidden="true"><i style="background:var(--brand)"></i><i style="background:var(--accent)"></i><i style="background:var(--ink)"></i></span><span>Open the plate →</span></div>
+    </a>
+<a class="brand-card" href="../tessaro/board.html" style="
+      --c-bg-l:#FBF6EE;--c-ink-l:#2A1E17;--c-brand-l:#8A3B22;--c-accent-l:#4A6B2A;
+      --c-bg-d:#1B120D;--c-ink-d:#F4E8DA;--c-brand-d:#E59A78;--c-accent-d:#A9C77A;">
+      <div class="card-top"><span class="num">07</span><span class="sector">Architecture · interiors</span></div>
+      <div class="card-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="30 30 196 196" role="img" data-ld="tessaro-symbol">
+<title>Tessaro — modular architecture for tight city plots — symbol</title>
+<g fill="var(--ld-brand, #8A3B22)">
+  <rect x="30" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="30" width="56" height="56" rx="3" />
+  <rect x="170" y="30" width="56" height="56" rx="3" />
+  <rect x="100" y="100" width="56" height="56" rx="3" />
+  <rect x="106" y="170" width="56" height="56" rx="3" />
+  </g>
+</svg>
+</div>
+      <div class="card-copy"><h2>Tessaro</h2><p>Modular architecture for tight city plots.</p></div>
+      <div class="card-foot"><span class="dots" aria-hidden="true"><i style="background:var(--brand)"></i><i style="background:var(--accent)"></i><i style="background:var(--ink)"></i></span><span>Open the plate →</span></div>
+    </a>
+<a class="brand-card" href="../velluma/board.html" style="
+      --c-bg-l:#FAF6F3;--c-ink-l:#23161F;--c-brand-l:#6B2C5F;--c-accent-l:#8A5A00;
+      --c-bg-d:#1A1017;--c-ink-d:#F3E9F0;--c-brand-d:#D59ACB;--c-accent-d:#E8B44A;">
+      <div class="card-top"><span class="num">08</span><span class="sector">Reading · productivity</span></div>
+      <div class="card-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="28 28 184 180" role="img" data-ld="velluma-symbol">
+<title>Velluma — notes that keep the shape of a book — symbol</title>
+<g fill="var(--ld-brand, #6B2C5F)">
+    <path d="M28 28 L120 208 L212 28 L152 28 L120 146 L88 28 Z" />
+  </g>
+</svg>
+</div>
+      <div class="card-copy"><h2>Velluma</h2><p>Notes that keep the shape of a book.</p></div>
+      <div class="card-foot"><span class="dots" aria-hidden="true"><i style="background:var(--brand)"></i><i style="background:var(--accent)"></i><i style="background:var(--ink)"></i></span><span>Open the plate →</span></div>
+    </a>
+  </main>
 
-  <div class="strip">
-    <figure>
-      <svg width="64" height="64" viewBox="28 24 200 208"><path fill="var(--ld-brand, #1F6F4A)" fill-rule="evenodd" d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"/></svg>
-      <figcaption>symbol</figcaption>
-    </figure>
-    <figure>
-      <svg width="64" height="64" viewBox="28 24 200 208" style="color:var(--ld-ink)"><path fill="currentColor" fill-rule="evenodd" d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"/></svg>
-      <figcaption>mono</figcaption>
-    </figure>
-    <figure>
-      <svg width="64" height="64" viewBox="0 0 64 64"><rect width="64" height="64" rx="14.4" fill="var(--ld-brand, #1F6F4A)"/><svg x="11.077" y="10.24" width="41.846" height="43.52" viewBox="28 24 200 208"><path fill="var(--ld-bg, #F6F4EC)" fill-rule="evenodd" d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM116 192L116 140C99 140 85 127 80 111C102 107 116 121 122 138C128 116 147 105 168 109C164 130 149 143 134 143L134 192Z"/></svg></svg>
-      <figcaption>favicon</figcaption>
-    </figure>
-    <figure>
-      <svg width="64" height="64" viewBox="0 0 512 512"><rect width="512" height="512" rx="115.2" fill="var(--ld-brand, #1F6F4A)"/><svg x="103.4" y="97.28" width="305.2" height="317.44" viewBox="28 24 200 208"><path fill="var(--ld-bg, #F6F4EC)" fill-rule="evenodd" d="M128 24C186 24 228 76 228 134C228 194 184 232 128 232C72 232 28 194 28 134C28 76 70 24 128 24ZM120 190L120 142C104 142 92 132 88 116C106 112 120 124 126 138C132 118 148 108 166 112C162 130 148 142 134 142L134 190Z"/></svg></svg>
-      <figcaption>app icon</figcaption>
-    </figure>
-    <figure>
-      <svg width="230" height="60" viewBox="0 12 334 88"><g fill="var(--ld-ink, #16241D)"><rect x="0" y="12" width="14" height="88" rx="7"/><rect x="0" y="86" width="58" height="14" rx="7"/><path fill-rule="evenodd" d="M104 44C119.464 44 132 56.536 132 72C132 87.464 119.464 100 104 100C88.536 100 76 87.464 76 72C76 56.536 88.536 44 104 44ZM104 58C111.732 58 118 64.268 118 72C118 79.732 111.732 86 104 86C96.268 86 90 79.732 90 72C90 64.268 96.268 58 104 58Z"/><path fill-rule="evenodd" d="M178 44C193.464 44 206 56.536 206 72C206 87.464 193.464 100 178 100C162.536 100 150 87.464 150 72C150 56.536 162.536 44 178 44ZM178 58C185.732 58 192 64.268 192 72C192 79.732 185.732 86 178 86C170.268 86 164 79.732 164 72C164 64.268 170.268 58 178 58Z"/><rect x="200" y="44" width="14" height="56" rx="7"/><rect x="232" y="44" width="14" height="56" rx="7"/><rect x="276" y="44" width="14" height="56" rx="7"/><rect x="320" y="44" width="14" height="56" rx="7"/><rect x="232" y="44" width="58" height="14" rx="7"/><rect x="276" y="44" width="58" height="14" rx="7"/></g></svg>
-      <figcaption>wordmark</figcaption>
-    </figure>
-  </div>
-
-  <footer>
-    <span>Loam is a fictional example. No third-party mark is used.</span>
+  <div class="note">
+    <span>All brands, drawings and names are fictional. No third-party mark, font or image is embedded.</span>
     <span>MIT · <a href="../../README.md">README</a></span>
-  </footer>
+  </div>
 </div>
 <script>
   const root = document.documentElement;
-  const keys = ["brand", "accent", "ink", "bg"];
-  const state = {
-    light: { brand: "#1F6F4A", accent: "#C2542D", ink: "#16241D", bg: "#F6F4EC" },
-    dark: { brand: "#64C79A", accent: "#F08A5D", ink: "#EAF2EC", bg: "#101A16" },
-  };
-  function activeMode() {
-    return root.dataset.theme === "dark" ? "dark" : "light";
-  }
-  function varName(key, mode) {
-    return mode === "dark" ? "--ld-" + key + "-dark" : "--ld-" + key;
-  }
-  function syncInputs() {
-    const mode = activeMode();
-    for (const key of keys) {
-      document.getElementById(key).value = state[mode][key];
-    }
-  }
-  for (const key of keys) {
-    document.getElementById(key).addEventListener("input", (event) => {
-      const mode = activeMode();
-      state[mode][key] = event.target.value;
-      root.style.setProperty(varName(key, mode), event.target.value);
-    });
-  }
   document.getElementById("theme").addEventListener("click", () => {
     root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
-    syncInputs();
   });
 </script>
 </body>

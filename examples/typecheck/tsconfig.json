@@ -12,5 +12,5 @@
     "forceConsistentCasingInFileNames": true,
     "types": ["react"]
   },
-  "include": ["../loam/dist/loam.tsx"]
+  "include": ["../*/dist/*.tsx", "../*/dist-alt/*.tsx"]
 }

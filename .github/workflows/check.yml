@@ -17,23 +17,27 @@ jobs:
         with:
           node-version: 22
 
-      - name: Repository checks, build and audit
+      - name: Repository checks, builds and audits
         run: npm run lint
 
       - name: Install the React typecheck toolchain
         run: npm install --no-package-lock --no-audit --no-fund --no-save typescript@5.6.3 react@19.0.0 react-dom@19.0.0 @types/react@19.0.0 @types/react-dom@19.0.0
 
-      - name: Typecheck the generated component
+      - name: Typecheck every generated component
         run: npm run typecheck
 
-      - name: Rebuild the example and prove reproducibility
-        run: npm run build:example
+      - name: Regenerate the masters, decks, boards and proof page
+        run: |
+          npm run masters
+          npm run build:examples
+          npm run boards
+          npm run proof
 
-      - name: The committed deck must not drift
-        run: git diff --exit-code -- examples/loam/dist
+      - name: The committed decks and boards must not drift
+        run: git diff --exit-code -- examples
 
-      - name: Audit the deck
-        run: npm run audit:example
+      - name: Audit every committed deck
+        run: npm run audit:examples
 
   capture:
     if: github.event_name == 'workflow_dispatch'
@@ -44,18 +48,24 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install Playwright
+      - name: Install Chromium and ffmpeg
         run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
           npm install --no-package-lock --no-audit --no-fund --no-save playwright
           npx playwright install --with-deps chromium
 
       - name: Build and capture
         run: |
-          npm run build:example
+          npm run build:examples
+          npm run boards
+          npm run proof
           npm run capture
 
       - uses: actions/upload-artifact@v4
         with:
           name: readme-captures
-          path: assets/readme/*.png
+          path: |
+            assets/readme/*.png
+            assets/demo.gif
           if-no-files-found: error
