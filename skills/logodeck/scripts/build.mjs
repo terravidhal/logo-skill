@@ -347,6 +347,10 @@ const DARK = {
   accent: "${dark.accent}",
 } as const;
 
+type ${component}Style = CSSProperties & {
+  [key: \`--ld-\${string}\`]: string | number | undefined;
+};
+
 const BOX = ${boxLiteral} as const;
 
 function subscribe(onChange: () => void) {
@@ -403,11 +407,12 @@ const MONO = {
   stacked: StackedMono,
 };
 
-export type ${component}Props = Omit<SVGProps<SVGSVGElement>, "type"> & {
+export type ${component}Props = Omit<SVGProps<SVGSVGElement>, "type" | "style"> & {
   variant?: "color" | "mono";
   type?: "icon" | "wordmark" | "horizontal" | "stacked";
   mode?: "auto" | "light" | "dark";
   title?: string;
+  style?: ${component}Style;
 };
 
 export function ${component}({
@@ -428,15 +433,15 @@ export function ${component}({
   const box = BOX[type];
   const ratio = box.w / box.h;
   const decorative = !title;
-  const theme =
+  const theme: ${component}Style | undefined =
     variant === "mono"
       ? undefined
-      : ({
+      : {
           "--ld-bg": palette.bg,
           "--ld-ink": palette.ink,
           "--ld-brand": palette.brand,
           "--ld-accent": palette.accent,
-        } as CSSProperties);
+        };
 
   return (
     <svg

@@ -21,6 +21,10 @@ const DARK = {
   accent: "#F08A5D",
 } as const;
 
+type LoamLogoStyle = CSSProperties & {
+  [key: `--ld-${string}`]: string | number | undefined;
+};
+
 const BOX = {
   icon: {
     x: 28,
@@ -279,11 +283,12 @@ const MONO = {
   stacked: StackedMono,
 };
 
-export type LoamLogoProps = Omit<SVGProps<SVGSVGElement>, "type"> & {
+export type LoamLogoProps = Omit<SVGProps<SVGSVGElement>, "type" | "style"> & {
   variant?: "color" | "mono";
   type?: "icon" | "wordmark" | "horizontal" | "stacked";
   mode?: "auto" | "light" | "dark";
   title?: string;
+  style?: LoamLogoStyle;
 };
 
 export function LoamLogo({
@@ -304,15 +309,15 @@ export function LoamLogo({
   const box = BOX[type];
   const ratio = box.w / box.h;
   const decorative = !title;
-  const theme =
+  const theme: LoamLogoStyle | undefined =
     variant === "mono"
       ? undefined
-      : ({
+      : {
           "--ld-bg": palette.bg,
           "--ld-ink": palette.ink,
           "--ld-brand": palette.brand,
           "--ld-accent": palette.accent,
-        } as CSSProperties);
+        };
 
   return (
     <svg
