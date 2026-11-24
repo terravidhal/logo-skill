@@ -15,10 +15,26 @@ masters as SVG paths, tests them small and in one colour, and builds the deck.
 
 ![Before and after: one guessed PNG versus the complete family](assets/readme/before-after.png)
 
-## Why this exists
+## What it does
+
+One run takes the name and the promise through seven steps:
+
+1. **Brief.** Name, promise, audience, constraints, and the assumptions the agent must not hide.
+2. **Category, then clichés.** What buyers expect, what everyone draws, and the specific angle
+   the category does not own.
+3. **Directions.** Eight to twelve shape ideas, reduced to three genuinely different marks, one
+   choice with a reason.
+4. **Two masters.** A symbol and a wordmark, drawn as filled SVG paths, black first.
+5. **Tests.** 16 px, one colour, inverted, mirrored, blurred, letter, junction, peer. Two passes.
+6. **Deck.** One manifest composes every variant, the tokens, the CSS, the preview and the React
+   component; the audit blocks a broken or low-contrast result.
+7. **Handover.** What exists, which palette was measured, which tests ran, and what remains a
+   limit: trademark, font licence, print proof.
+
+## What makes it different
 
 Most logo skills stop at a single SVG, a concept sheet or a very large reference library.
-Logodeck is built around three gaps that remain after the drawing:
+Logodeck closes the three gaps that remain after the drawing:
 
 ### 1. Every variant, in one run
 
@@ -83,14 +99,27 @@ pages with Chromium and ffmpeg.
 
 ![A short tour of the plates and palettes](assets/demo.gif)
 
-## Install
+## Install with your agent
 
 ```bash
 npx skills add terravidhal/logodeck
 ```
 
-The skill is plain Markdown plus Node scripts. It also works with a manual copy: put
-`skills/logodeck/` wherever your agent looks for skills. No runtime dependency.
+The CLI detects the coding agents on your machine. To target one, pass its flag:
+
+| Agent | Install |
+|---|---|
+| Claude Code | `npx skills add terravidhal/logodeck --agent claude-code` |
+| Codex | `npx skills add terravidhal/logodeck --agent codex` |
+| Cursor | `npx skills add terravidhal/logodeck --agent cursor` |
+| Gemini CLI | `npx skills add terravidhal/logodeck --agent gemini` |
+| GitHub Copilot | `npx skills add terravidhal/logodeck --agent copilot` |
+| OpenCode | `npx skills add terravidhal/logodeck --agent opencode` |
+
+Add `--global` to install once for every project. The skill is plain Markdown plus Node scripts;
+a manual copy works too: put `skills/logodeck/` in the folder your agent scans for skills
+(`~/.claude/skills/`, `~/.codex/skills/`, `~/.cursor/skills/`, or the equivalent). No runtime
+dependency, no build step to install.
 
 ## Run it locally
 
@@ -194,6 +223,27 @@ what the human tests in `skills/logodeck/references/testing.md` are for.
 - Generate a logo with an image model. The output is constructed SVG.
 - Clear a trademark, reserve a name, check a domain or invent a Pantone number.
 - Publish, push or deploy anything. Delivery is local unless you ask for a specific action.
+
+## FAQ
+
+**Does it need an API key, a model or an account?** No. The logo is constructed SVG drawn by the
+agent; the scripts run on Node 20+ with the standard library. A browser is only needed to look at
+the preview and capture PNGs.
+
+**Can I change the colours after delivery?** Yes. Change one token, or rebuild with another
+palette, and every themed variant follows. Mono and fixed dark files stay valid.
+
+**Is the React component usable as-is?** Yes. It needs only `react`, exposes `variant`, `type`,
+`mode` and `title`, and follows `.dark`, `[data-theme]` and the system preference.
+
+**Can I use the result for a real brand?** Yes, but the skill cannot clear a trademark, reserve a
+name, check a domain or license a typeface. Do those checks before launch.
+
+**Will it reproduce an existing logo?** No. A request to imitate becomes an original direction
+with a note about the trademark risk.
+
+**What if I only need a favicon or a dark version?** Use the assets mode. It builds the missing
+variants from the art you supply without redrawing the identity.
 
 ## Repository layout
 

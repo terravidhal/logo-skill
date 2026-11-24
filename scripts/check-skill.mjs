@@ -477,6 +477,19 @@ function main() {
     check(/eight/i.test(text), "README presents the eight examples");
     check(/MIT/.test(text), "README states the licence");
     check(/does not|won't|will not/i.test(text), "README states the limits");
+    check(/## What it does/.test(text), "README explains what the skill does");
+    for (const agent of [
+      "Claude Code",
+      "Codex",
+      "Cursor",
+      "Gemini CLI",
+      "Copilot",
+      "OpenCode",
+    ]) {
+      check(text.includes(agent), `README installs for ${agent}`);
+    }
+    check(/## FAQ/.test(text), "README has a short FAQ");
+    check(!/\]\(#/.test(text), "README has no in-page anchor links");
   }
 
   const pkg = parseJsonFile(join(ROOT, "package.json")) ?? {};
