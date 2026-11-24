@@ -15,6 +15,7 @@ Logodeck is a design system with a small, dependency-free engine. Keep it that w
 
 ```bash
 npm run lint          # structure, frontmatter, links, JSON, palettes, all builds, audits
+npm run regen         # rebuild decks, plates, gallery and proof page in one pass
 npm run build:examples # rebuild every deck, primary and alternate palette
 npm run boards        # regenerate the eight plates and the gallery
 npm run proof         # regenerate the before/after page
@@ -24,8 +25,10 @@ npm run capture       # requires Chromium; ffmpeg is optional for the GIF
 ```
 
 `npm run lint` rebuilds every example in a temporary directory and compares it with the
-committed decks. If you change a manifest or a master, run `npm run build:examples`,
-`npm run boards` and `npm run proof`, then commit the regenerated files.
+committed decks. If you change a manifest, a master or a page template, run `npm run regen`
+(or `npm run build:examples`, `npm run boards` and `npm run proof`), then commit the
+regenerated files. The preview, the plates and the gallery must keep the
+`prefers-reduced-motion` rule: the check fails without it.
 
 The seven added brands are drawn by `examples/make-masters.mjs`; run `npm run masters` before a
 build if you edit that generator. The script is deterministic and writes only the seven brand

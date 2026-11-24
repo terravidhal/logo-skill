@@ -10,6 +10,7 @@
   },
   "scripts": {
     "lint": "node scripts/check-skill.mjs",
+    "regen": "node scripts/check-skill.mjs --regen",
     "masters": "node examples/make-masters.mjs",
     "build:example": "node skills/logodeck/scripts/build.mjs examples/loam/logo.json",
     "build:examples": "node examples/build-examples.mjs",

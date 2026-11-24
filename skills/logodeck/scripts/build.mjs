@@ -528,6 +528,14 @@ ${Object.entries(paletteVars(palette))
     color: var(--ld-ink);
     transition: background 160ms ease, color 160ms ease;
   }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
   .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 40px 0 72px; }
   header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
   .brandline { min-height: 72px; }

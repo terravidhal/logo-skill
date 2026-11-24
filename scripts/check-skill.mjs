@@ -35,6 +35,7 @@ const checks = [];
 const argv = new Set(process.argv.slice(2));
 const skipBuild = argv.has("--no-build");
 const verbose = argv.has("--verbose");
+const regen = argv.has("--regen");
 
 function ok(message) {
   checks.push({ state: "ok", message });
@@ -224,6 +225,23 @@ function buildOne(manifestFile, outDir, palette) {
   return spawnSync(process.execPath, args, { encoding: "utf8" });
 }
 
+function regenerate() {
+  console.log("regenerate — decks, boards and proof page\n");
+  for (const script of [
+    "examples/build-examples.mjs",
+    "examples/make-boards.mjs",
+    "examples/make-proof.mjs",
+  ]) {
+    const run = spawnSync(process.execPath, [join(ROOT, script)], { encoding: "utf8" });
+    if (run.status !== 0) {
+      fail(`regeneration failed: ${script}: ${(run.stderr || run.stdout || "").trim()}`);
+      continue;
+    }
+    ok(`regenerated ${script}`);
+  }
+  console.log("");
+}
+
 function buildAndAudit() {
   for (const slug of EXAMPLES) {
     const dir = join(ROOT, "examples", slug);
@@ -271,6 +289,8 @@ function checkSizeBudget() {
 
 function main() {
   console.log("logodeck — repository check\n");
+
+  if (regen) regenerate();
 
   // Structure
   const required = [
@@ -328,6 +348,14 @@ function main() {
     check(board.includes(`data-brand="${slug}"`), `${slug} board is branded`);
     check(board.includes("Two palettes"), `${slug} board shows two palettes`);
     check((board.match(/<svg\b/g) ?? []).length >= 10, `${slug} board inlines the family`);
+    check(board.includes("prefers-reduced-motion"), `${slug} board respects reduced motion`);
+    for (const deck of ["dist", "dist-alt"]) {
+      const preview = read(join(ROOT, dir, deck, `${slug}-preview.html`));
+      check(
+        preview.includes("prefers-reduced-motion"),
+        `${dir}/${deck} preview respects reduced motion`,
+      );
+    }
     for (const viewport of ["1440", "390"]) {
       for (const theme of ["light", "dark"]) {
         requireFile(
@@ -344,6 +372,7 @@ function main() {
     check(gallery.includes(manifest.name), `gallery lists ${manifest.name}`);
   }
   check(gallery.includes("data-theme"), "gallery has a theme switch");
+  check(gallery.includes("prefers-reduced-motion"), "gallery respects reduced motion");
 
   const readmeDir = join(ROOT, "assets/readme");
   for (const name of readdirSync(readmeDir).filter((file) => file.endsWith(".png")).sort()) {

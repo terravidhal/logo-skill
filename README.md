@@ -128,6 +128,7 @@ dependency, no build step to install.
 npm run build:examples
 
 # the committed decks, boards and proof pages are reproducible
+npm run regen          # decks, plates, gallery and proof page in one pass
 npm run boards
 npm run proof
 
@@ -209,6 +210,8 @@ values.
   compared; a stale file fails the check.
 - **Boards and proof**: the eight plates, the gallery and the before/after page are regenerated
   from the committed decks and compared in CI.
+- **Motion**: the preview, the plates and the gallery disable their transitions under
+  `prefers-reduced-motion`.
 - **Secrets**: the check refuses keys, tokens and `.env` files.
 - **Size**: the skill stays under 320 KB; the proof captures are the only heavy files.
 
