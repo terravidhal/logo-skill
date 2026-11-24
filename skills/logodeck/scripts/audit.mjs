@@ -83,6 +83,10 @@ function number(value) {
 }
 
 function pathBounds(d) {
+  const commands = String(d).match(/[a-zA-Z]/g) ?? [];
+  // Relative commands and arcs cannot be bounded by pairing raw numbers; skip them so the
+  // tightness check never reports a false overflow on a valid drawing.
+  if (commands.some((command) => command === command.toLowerCase() || command === "A")) return null;
   const tokens = String(d).match(/[a-zA-Z]|-?\d*\.?\d+(?:e[-+]?\d+)?/gi);
   if (!tokens) return null;
   const numbers = tokens.map((token) => Number(token)).filter((value) => Number.isFinite(value));
